@@ -1,0 +1,59 @@
+package blazar
+
+import (
+	"github.com/maxence-charriere/go-app/v11/pkg/app"
+)
+
+func Item() *MyUIItem {
+	return &MyUIItem{}
+}
+
+type MyUIItem struct {
+	app.Compo
+	UseEvents
+	IIcon  string
+	ILabel string
+	ITo    string
+}
+
+var _ app.Composer = (*MyUIItem)(nil)
+
+func (c *MyUIItem) Icon(icon string) *MyUIItem {
+	c.IIcon = icon
+	return c
+}
+
+func (c *MyUIItem) Label(name string) *MyUIItem {
+	c.ILabel = name
+	return c
+}
+
+func (c *MyUIItem) To(to string) *MyUIItem {
+	c.ITo = to
+	return c
+}
+
+func (c *MyUIItem) On(event string, function func(ctx app.Context, e app.Event)) *MyUIItem {
+	c.UseEvents.On(event, function)
+	return c
+}
+
+func (c *MyUIItem) Render() app.UI {
+	return c.UseEvents.Wrap(
+		app.A().
+			Class("blazar-item").
+			Href(c.ITo).
+			Body(
+				app.Span().
+					Class("blazar-item__icon").
+					Body(
+						app.If(c.IIcon != "", func() app.UI {
+							return Icon().Icon(c.IIcon)
+						}),
+					),
+				app.Span().
+					Class("blazar-item__name").
+					Text(c.ILabel),
+			),
+	)
+}
