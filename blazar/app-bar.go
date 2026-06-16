@@ -12,7 +12,7 @@ type blazarAppBar struct {
 
 	INoIcon       bool
 	IIcon         string
-	IIconFunction func(ctx app.Context)
+	IIconFunction func(ctx app.Context, e app.Event)
 
 	IHeadline   string
 	IHeadlineUI app.UI
@@ -37,7 +37,7 @@ func (c *blazarAppBar) Icon(icon string) *blazarAppBar {
 	return c
 }
 
-func (c *blazarAppBar) IconFunction(function func(ctx app.Context)) *blazarAppBar {
+func (c *blazarAppBar) IconFunction(function func(ctx app.Context, e app.Event)) *blazarAppBar {
 	c.IIconFunction = function
 	return c
 }
@@ -47,7 +47,7 @@ func (c *blazarAppBar) HeadlineText(text string) *blazarAppBar {
 	return c
 }
 
-func (c *blazarAppBar) HeadlineUI(ui app.UI) *blazarAppBar {
+func (c *blazarAppBar) Headline(ui app.UI) *blazarAppBar {
 	c.IHeadlineUI = ui
 	return c
 }
@@ -57,7 +57,7 @@ func (c *blazarAppBar) SubtitleText(text string) *blazarAppBar {
 	return c
 }
 
-func (c *blazarAppBar) SubtitleUI(ui app.UI) *blazarAppBar {
+func (c *blazarAppBar) Subtitle(ui app.UI) *blazarAppBar {
 	c.ISubtitleUI = ui
 	return c
 }
@@ -82,7 +82,7 @@ func (c *blazarAppBar) Render() app.UI {
 							Icon(c.IIcon).
 							On("click", func(ctx app.Context, e app.Event) {
 								if c.IIconFunction != nil {
-									c.IIconFunction(ctx)
+									c.IIconFunction(ctx, e)
 								}
 							}),
 					)
