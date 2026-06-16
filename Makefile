@@ -9,17 +9,18 @@ else
 	GO_RACE :=
 endif
 
-ALL_GO_FILES := $(shell find ./ -name '*.go')
+SHELL := /bin/bash
+ALL_GO_FILES := $(shell find ./ -name '*.go') $(shell find ./ -type f -wholename '*/embedded/*')
 
 current_dir = $(shell pwd)
 
 .PHONY: build
-build:
-	go build ./...
+build: binaries
 
 .PHONY: clean
 clean:
 	go clean
+	rm -rf bin
 
 .PHONY: test
 test:
@@ -30,3 +31,42 @@ test:
 format:
 	go fmt ./...
 
+.PHONY: binaries
+binaries: binaries_demo
+
+.PHONY: binaries_demo
+binaries_demo: bin/demo/app bin/demo/web/app.wasm
+
+bin:
+	mkdir -p $@
+
+bin/demo: bin
+	mkdir -p $@
+
+bin/demo/app: bin/demo $(ALL_GO_FILES)
+	go build -o $@ ./cmd/demo/...
+
+bin/demo/web: bin/demo
+	mkdir -p $@
+
+bin/demo/web/app.wasm: bin/demo/web $(ALL_GO_FILES)
+	GOARCH=wasm GOOS=js go build -o $@ ./cmd/demo/...
+
+.PHONY: run-demo
+run-demo: binaries_demo
+	cd bin/demo && ./app
+
+.PHONY: watch-run-demo
+watch-run-demo:
+	@PID=; \
+	trap 'kill $$PID' TERM INT; \
+	while true; do \
+		$(MAKE) binaries_demo; \
+		ok=$$?; \
+		command=$$(if [ $$ok -eq 0 ]; then echo "./app"; else echo "sleep infinity"; fi); \
+		pushd bin/demo; \
+		$$command & PID=$$!; \
+		popd; \
+		inotifywait -qre close_write .; \
+		kill $$PID; \
+	done
