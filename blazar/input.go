@@ -9,11 +9,11 @@ import (
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
-func Input[T any]() *MyUIInput[T] {
-	return &MyUIInput[T]{}
+func Input[T any]() *blazarInput[T] {
+	return &blazarInput[T]{}
 }
 
-type MyUIInput[T any] struct {
+type blazarInput[T any] struct {
 	app.Compo
 	UseEvents
 	IAutoFocus   bool
@@ -26,39 +26,39 @@ type MyUIInput[T any] struct {
 	BindValue    *T
 }
 
-var _ app.Composer = (*MyUIInput[any])(nil)
+var _ app.Composer = (*blazarInput[any])(nil)
 
-func (c *MyUIInput[T]) AutoFocus(autoFocus bool) *MyUIInput[T] {
+func (c *blazarInput[T]) AutoFocus(autoFocus bool) *blazarInput[T] {
 	c.IAutoFocus = autoFocus
 	return c
 }
 
-func (c *MyUIInput[T]) Name(name string) *MyUIInput[T] {
+func (c *blazarInput[T]) Name(name string) *blazarInput[T] {
 	c.IName = name
 	return c
 }
 
-func (c *MyUIInput[T]) Placeholder(placeholder string) *MyUIInput[T] {
+func (c *blazarInput[T]) Placeholder(placeholder string) *blazarInput[T] {
 	c.IPlaceholder = placeholder
 	return c
 }
 
-func (c *MyUIInput[T]) Disabled(disabled bool) *MyUIInput[T] {
+func (c *blazarInput[T]) Disabled(disabled bool) *blazarInput[T] {
 	c.IDisabled = disabled
 	return c
 }
 
-func (c *MyUIInput[T]) Type(inputType string) *MyUIInput[T] {
+func (c *blazarInput[T]) Type(inputType string) *blazarInput[T] {
 	c.IType = inputType
 	return c
 }
 
-func (c *MyUIInput[T]) Label(label string) *MyUIInput[T] {
+func (c *blazarInput[T]) Label(label string) *blazarInput[T] {
 	c.ILabel = label
 	return c
 }
 
-func (c *MyUIInput[T]) Value(value T) *MyUIInput[T] {
+func (c *blazarInput[T]) Value(value T) *blazarInput[T] {
 	if c.BindValue == nil {
 		c.BindValue = new(T)
 	}
@@ -66,19 +66,19 @@ func (c *MyUIInput[T]) Value(value T) *MyUIInput[T] {
 	return c
 }
 
-func (c *MyUIInput[T]) Bind(valuePointer *T) *MyUIInput[T] {
+func (c *blazarInput[T]) Bind(valuePointer *T) *blazarInput[T] {
 	c.IValue = *valuePointer
 	c.BindValue = valuePointer
 	return c
 }
 
-func (c *MyUIInput[T]) On(event string, function func(ctx app.Context, e app.Event)) *MyUIInput[T] {
+func (c *blazarInput[T]) On(event string, function func(ctx app.Context, e app.Event)) *blazarInput[T] {
 	c.UseEvents.On(event, function)
 	return c
 }
 
-func (c *MyUIInput[T]) Render() app.UI {
-	slog.InfoContext(context.TODO(), "MyUIInput: Render", "label", c.ILabel, "type", c.IType, "value", c.BindValue, "placeholder", c.IPlaceholder, "disabled", c.IDisabled)
+func (c *blazarInput[T]) Render() app.UI {
+	slog.InfoContext(context.TODO(), "blazarInput: Render", "label", c.ILabel, "type", c.IType, "value", c.BindValue, "placeholder", c.IPlaceholder, "disabled", c.IDisabled)
 
 	kind := reflect.TypeOf(c.IValue).Kind()
 
@@ -135,8 +135,8 @@ func (c *MyUIInput[T]) Render() app.UI {
 					Min(minValue).
 					Placeholder(c.IPlaceholder),
 				WithOn("change", func(ctx app.Context, e app.Event) {
-					//slog.InfoContext(ctx.Context, "MyUIInput: Change", "value", value)
-					//slog.InfoContext(ctx.Context, "MyUIInput: Change", "e.target.checked", e.Get("target").Get("checked").String())
+					//slog.InfoContext(ctx.Context, "blazarInput: Change", "value", value)
+					//slog.InfoContext(ctx.Context, "blazarInput: Change", "e.target.checked", e.Get("target").Get("checked").String())
 
 					if c.BindValue != nil {
 						if kind == reflect.Bool {

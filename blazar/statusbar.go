@@ -4,42 +4,42 @@ import (
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
-func StatusBar() *MyUIStatusBar {
-	return &MyUIStatusBar{}
+func StatusBar() *blazarStatusBar {
+	return &blazarStatusBar{}
 }
 
-type MyUIStatusBar struct {
+type blazarStatusBar struct {
 	app.Compo
 
 	TextValue string
 	GoodValue *bool
 }
 
-var _ app.Composer = (*MyUIStatusBar)(nil)
+var _ app.Composer = (*blazarStatusBar)(nil)
 
-func (c *MyUIStatusBar) Text(text string) *MyUIStatusBar {
+func (c *blazarStatusBar) Text(text string) *blazarStatusBar {
 	c.TextValue = text
 	return c
 }
 
-func (c *MyUIStatusBar) Good() *MyUIStatusBar {
+func (c *blazarStatusBar) Good() *blazarStatusBar {
 	c.GoodValue = new(bool)
 	*c.GoodValue = true
 	return c
 }
 
-func (c *MyUIStatusBar) Bad() *MyUIStatusBar {
+func (c *blazarStatusBar) Bad() *blazarStatusBar {
 	c.GoodValue = new(bool)
 	*c.GoodValue = false
 	return c
 }
 
-func (c *MyUIStatusBar) Neutral() *MyUIStatusBar {
+func (c *blazarStatusBar) Neutral() *blazarStatusBar {
 	c.GoodValue = nil
 	return c
 }
 
-func (c *MyUIStatusBar) Render() app.UI {
+func (c *blazarStatusBar) Render() app.UI {
 	goodClass := ""
 	goodIcon := "circle-info"
 	if c.GoodValue != nil {

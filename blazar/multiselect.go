@@ -8,11 +8,11 @@ import (
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
-func Multiselect() *MyUIMultiselect {
-	return &MyUIMultiselect{}
+func Multiselect() *blazarMultiselect {
+	return &blazarMultiselect{}
 }
 
-type MyUIMultiselect struct {
+type blazarMultiselect struct {
 	app.Compo
 	UseEvents
 	IName              string
@@ -22,29 +22,29 @@ type MyUIMultiselect struct {
 	BindSelectedValues *[]string
 }
 
-var _ app.Composer = (*MyUIMultiselect)(nil)
-var _ app.Updater = (*MyUIMultiselect)(nil)
+var _ app.Composer = (*blazarMultiselect)(nil)
+var _ app.Updater = (*blazarMultiselect)(nil)
 
-func (c *MyUIMultiselect) OnUpdate(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "MyUIMultiselect: OnUpdate")
+func (c *blazarMultiselect) OnUpdate(ctx app.Context) {
+	slog.InfoContext(ctx.Context, "blazarMultiselect: OnUpdate")
 }
 
-func (c *MyUIMultiselect) Name(name string) *MyUIMultiselect {
+func (c *blazarMultiselect) Name(name string) *blazarMultiselect {
 	c.IName = name
 	return c
 }
 
-func (c *MyUIMultiselect) Label(label string) *MyUIMultiselect {
+func (c *blazarMultiselect) Label(label string) *blazarMultiselect {
 	c.ILabel = label
 	return c
 }
 
-func (c *MyUIMultiselect) AllowedValue(allowedValue ...SelectOption) *MyUIMultiselect {
+func (c *blazarMultiselect) AllowedValue(allowedValue ...SelectOption) *blazarMultiselect {
 	c.IAllowedValues = allowedValue
 	return c
 }
 
-func (c *MyUIMultiselect) SelectedValue(selectedValue ...string) *MyUIMultiselect {
+func (c *blazarMultiselect) SelectedValue(selectedValue ...string) *blazarMultiselect {
 	c.ISelectedValues = selectedValue
 	if c.BindSelectedValues != nil {
 		*c.BindSelectedValues = selectedValue
@@ -52,7 +52,7 @@ func (c *MyUIMultiselect) SelectedValue(selectedValue ...string) *MyUIMultiselec
 	return c
 }
 
-func (c *MyUIMultiselect) Bind(bindSelectedValues *[]string) *MyUIMultiselect {
+func (c *blazarMultiselect) Bind(bindSelectedValues *[]string) *blazarMultiselect {
 	c.BindSelectedValues = bindSelectedValues
 	if c.BindSelectedValues != nil {
 		c.ISelectedValues = make([]string, len(*c.BindSelectedValues))
@@ -61,13 +61,13 @@ func (c *MyUIMultiselect) Bind(bindSelectedValues *[]string) *MyUIMultiselect {
 	return c
 }
 
-func (c *MyUIMultiselect) On(event string, function func(ctx app.Context, e app.Event)) *MyUIMultiselect {
+func (c *blazarMultiselect) On(event string, function func(ctx app.Context, e app.Event)) *blazarMultiselect {
 	c.UseEvents.On(event, function)
 	return c
 }
 
-func (c *MyUIMultiselect) Render() app.UI {
-	slog.InfoContext(context.TODO(), "MyUIMultiselect: Render", "label", c.ILabel, "allowedValues", c.IAllowedValues, "selectedValues", c.ISelectedValues, "bindSelectedValues", c.BindSelectedValues)
+func (c *blazarMultiselect) Render() app.UI {
+	slog.InfoContext(context.TODO(), "blazarMultiselect: Render", "label", c.ILabel, "allowedValues", c.IAllowedValues, "selectedValues", c.ISelectedValues, "bindSelectedValues", c.BindSelectedValues)
 	return InputWrapper().
 		Class("blazar-multiselect").
 		Label(c.ILabel).

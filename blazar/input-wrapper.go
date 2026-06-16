@@ -7,11 +7,11 @@ import (
 // InputWrapper is a wrapper around an input element.
 //
 // Use this component to create custom input elements with a label and a body.
-func InputWrapper() *MyUIInputWrapper {
-	return &MyUIInputWrapper{}
+func InputWrapper() *blazarInputWrapper {
+	return &blazarInputWrapper{}
 }
 
-type MyUIInputWrapper struct {
+type blazarInputWrapper struct {
 	app.Compo
 	UseEvents
 	IClasses []string
@@ -19,24 +19,24 @@ type MyUIInputWrapper struct {
 	IBody    []app.UI
 }
 
-var _ app.Composer = (*MyUIInputWrapper)(nil)
+var _ app.Composer = (*blazarInputWrapper)(nil)
 
-func (c *MyUIInputWrapper) Class(class ...string) *MyUIInputWrapper {
+func (c *blazarInputWrapper) Class(class ...string) *blazarInputWrapper {
 	c.IClasses = class
 	return c
 }
 
-func (c *MyUIInputWrapper) Label(label string) *MyUIInputWrapper {
+func (c *blazarInputWrapper) Label(label string) *blazarInputWrapper {
 	c.ILabel = label
 	return c
 }
 
-func (c *MyUIInputWrapper) Body(body ...app.UI) *MyUIInputWrapper {
+func (c *blazarInputWrapper) Body(body ...app.UI) *blazarInputWrapper {
 	c.IBody = body
 	return c
 }
 
-func (c *MyUIInputWrapper) Render() app.UI {
+func (c *blazarInputWrapper) Render() app.UI {
 	var body []app.UI
 	if c.ILabel != "" {
 		body = append(body, app.Span().

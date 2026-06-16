@@ -5,13 +5,13 @@ import (
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
-func Page() *MyUIPage {
-	return &MyUIPage{
+func Page() *blazarPage {
+	return &blazarPage{
 		IStyles: map[string]string{},
 	}
 }
 
-type MyUIPage struct {
+type blazarPage struct {
 	app.Compo
 	slot.Slotted
 
@@ -19,19 +19,19 @@ type MyUIPage struct {
 	IStyles  map[string]string
 }
 
-var _ app.Composer = (*MyUIPage)(nil)
+var _ app.Composer = (*blazarPage)(nil)
 
-func (c *MyUIPage) Class(class ...string) *MyUIPage {
+func (c *blazarPage) Class(class ...string) *blazarPage {
 	c.IClasses = class
 	return c
 }
 
-func (c *MyUIPage) Style(name, value string) *MyUIPage {
+func (c *blazarPage) Style(name, value string) *blazarPage {
 	c.IStyles[name] = value
 	return c
 }
 
-func (c *MyUIPage) Render() app.UI {
+func (c *blazarPage) Render() app.UI {
 	element := app.Div().
 		Class(append([]string{"blazar-page"}, c.IClasses...)...)
 	for name, value := range c.IStyles {
@@ -41,7 +41,7 @@ func (c *MyUIPage) Render() app.UI {
 		Body(c.SlotContents()...)
 }
 
-func (c *MyUIPage) Body(components ...app.UI) *MyUIPage {
+func (c *blazarPage) Body(components ...app.UI) *blazarPage {
 	c.Slotted.AddSlotContents(components...)
 	return c
 }

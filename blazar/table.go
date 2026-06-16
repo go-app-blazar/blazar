@@ -10,7 +10,7 @@ import (
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
-type MyUITable[T any] struct {
+type blazarTable[T any] struct {
 	app.Compo
 
 	ITitle        string
@@ -49,29 +49,29 @@ type TableColumn[T any] struct {
 	Value func(row T) any
 }
 
-func Table[T any]() *MyUITable[T] {
-	table := MyUITable[T]{
+func Table[T any]() *blazarTable[T] {
+	table := blazarTable[T]{
 		IInteractive: true,
 	}
 	return &table
 }
 
-func (t *MyUITable[T]) Title(title string) *MyUITable[T] {
+func (t *blazarTable[T]) Title(title string) *blazarTable[T] {
 	t.ITitle = title
 	return t
 }
 
-func (t *MyUITable[T]) Interactive(interactive bool) *MyUITable[T] {
+func (t *blazarTable[T]) Interactive(interactive bool) *blazarTable[T] {
 	t.IInteractive = interactive
 	return t
 }
 
-func (t *MyUITable[T]) Rows(rows []T) *MyUITable[T] {
+func (t *blazarTable[T]) Rows(rows []T) *blazarTable[T] {
 	t.IRows = rows
 	return t
 }
 
-func (t *MyUITable[T]) Columns(columns []TableColumn[T]) *MyUITable[T] {
+func (t *blazarTable[T]) Columns(columns []TableColumn[T]) *blazarTable[T] {
 	t.IColumns = columns
 
 	if len(t.popoverSelectedColumnNames) == 0 {
@@ -80,47 +80,47 @@ func (t *MyUITable[T]) Columns(columns []TableColumn[T]) *MyUITable[T] {
 			t.popoverSelectedColumnNames = append(t.popoverSelectedColumnNames, column.Name)
 		}
 	}
-	slog.InfoContext(context.TODO(), "MyUITable: Columns", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+	slog.InfoContext(context.TODO(), "blazarTable: Columns", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
 	return t
 }
 
-func (t *MyUITable[T]) VisibleColumns(visibleColumnNames []string) *MyUITable[T] {
+func (t *blazarTable[T]) VisibleColumns(visibleColumnNames []string) *blazarTable[T] {
 	t.visibleColumnNames = visibleColumnNames
 
 	if len(t.visibleColumnNames) > 0 {
 		t.popoverSelectedColumnNames = make([]string, len(t.visibleColumnNames))
 		copy(t.popoverSelectedColumnNames, t.visibleColumnNames)
 	}
-	slog.InfoContext(context.TODO(), "MyUITable: VisibleColumns", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+	slog.InfoContext(context.TODO(), "blazarTable: VisibleColumns", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
 	return t
 }
 
-func (t *MyUITable[T]) EmptyMessage(emptyMessage string) *MyUITable[T] {
+func (t *blazarTable[T]) EmptyMessage(emptyMessage string) *blazarTable[T] {
 	t.IEmptyMessage = emptyMessage
 	return t
 }
 
-func (t *MyUITable[T]) PageIndex(pageIndex uint) *MyUITable[T] {
+func (t *blazarTable[T]) PageIndex(pageIndex uint) *blazarTable[T] {
 	t.setPageIndex(pageIndex)
 	return t
 }
 
-func (t *MyUITable[T]) PageSize(pageSize uint) *MyUITable[T] {
+func (t *blazarTable[T]) PageSize(pageSize uint) *blazarTable[T] {
 	t.setPageSize(pageSize)
 	return t
 }
 
-func (t *MyUITable[T]) Action(actions ...TableAction) *MyUITable[T] {
+func (t *blazarTable[T]) Action(actions ...TableAction) *blazarTable[T] {
 	t.IActions = actions
 	return t
 }
 
-func (t *MyUITable[T]) RowAction(rowActions ...RowAction[T]) *MyUITable[T] {
+func (t *blazarTable[T]) RowAction(rowActions ...RowAction[T]) *blazarTable[T] {
 	t.IRowActions = rowActions
 	return t
 }
 
-func (t *MyUITable[T]) totalPages() uint {
+func (t *blazarTable[T]) totalPages() uint {
 	totalPages := uint(1)
 	if t.pageSize > 0 {
 		totalPages = uint(uint(len(t.IRows)) / t.pageSize)
@@ -135,13 +135,13 @@ func (t *MyUITable[T]) totalPages() uint {
 	return totalPages
 }
 
-func (t *MyUITable[T]) previousPage() {
+func (t *blazarTable[T]) previousPage() {
 	if t.pageIndex > 0 {
 		t.pageIndex--
 	}
 }
 
-func (t *MyUITable[T]) nextPage() {
+func (t *blazarTable[T]) nextPage() {
 	t.pageIndex++
 
 	totalPages := t.totalPages()
@@ -150,7 +150,7 @@ func (t *MyUITable[T]) nextPage() {
 	}
 }
 
-func (t *MyUITable[T]) setPageIndex(pageIndex uint) {
+func (t *blazarTable[T]) setPageIndex(pageIndex uint) {
 	t.pageIndex = pageIndex
 
 	totalPages := t.totalPages()
@@ -159,7 +159,7 @@ func (t *MyUITable[T]) setPageIndex(pageIndex uint) {
 	}
 }
 
-func (t *MyUITable[T]) setPageSize(pageSize uint) {
+func (t *blazarTable[T]) setPageSize(pageSize uint) {
 	if pageSize > 0 {
 		t.pageSize = pageSize
 
@@ -170,9 +170,9 @@ func (t *MyUITable[T]) setPageSize(pageSize uint) {
 	}
 }
 
-func (t *MyUITable[T]) OnUpdate(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "MyUITable: OnUpdate", "self", fmt.Sprintf("%p", t), "pageIndex", t.pageIndex, "pageSize", t.pageSize, "rows", len(t.IRows))
-	slog.InfoContext(ctx.Context, "MyUITable: OnUpdate", "self", fmt.Sprintf("%p", t), "visibleColumnNames", len(t.visibleColumnNames), "popoverSelectedColumnNames", len(t.popoverSelectedColumnNames))
+func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
+	slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "pageIndex", t.pageIndex, "pageSize", t.pageSize, "rows", len(t.IRows))
+	slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "visibleColumnNames", len(t.visibleColumnNames), "popoverSelectedColumnNames", len(t.popoverSelectedColumnNames))
 
 	if len(t.popoverSelectedColumnNames) == 0 {
 		if len(t.visibleColumnNames) == 0 {
@@ -185,13 +185,13 @@ func (t *MyUITable[T]) OnUpdate(ctx app.Context) {
 			copy(t.popoverSelectedColumnNames, t.visibleColumnNames)
 		}
 	}
-	slog.InfoContext(ctx.Context, "MyUITable: OnUpdate", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+	slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
 }
 
-func (t *MyUITable[T]) Render() app.UI {
-	slog.InfoContext(context.TODO(), "MyUITable: Render", "self", fmt.Sprintf("%p", t), "pageIndex", t.pageIndex, "pageSize", t.pageSize, "rows", len(t.IRows))
-	slog.InfoContext(context.TODO(), "MyUITable: Render", "self", fmt.Sprintf("%p", t), "visibleColumnNames", t.visibleColumnNames)
-	slog.InfoContext(context.TODO(), "MyUITable: Render", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+func (t *blazarTable[T]) Render() app.UI {
+	slog.InfoContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "pageIndex", t.pageIndex, "pageSize", t.pageSize, "rows", len(t.IRows))
+	slog.InfoContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "visibleColumnNames", t.visibleColumnNames)
+	slog.InfoContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
 
 	visibleColumns := []TableColumn[T]{}
 	for _, column := range t.IColumns {
@@ -199,7 +199,7 @@ func (t *MyUITable[T]) Render() app.UI {
 			visibleColumns = append(visibleColumns, column)
 		}
 	}
-	slog.InfoContext(context.TODO(), "MyUITable: Render", "self", fmt.Sprintf("%p", t), "visibleColumns", visibleColumns)
+	slog.InfoContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "visibleColumns", visibleColumns)
 
 	rowsToRender := t.IRows
 	paginated := t.pageSize > 0
@@ -228,14 +228,14 @@ func (t *MyUITable[T]) Render() app.UI {
 				Icon("list").
 				Label("Select columns...").
 				On("click", func(ctx app.Context, e app.Event) {
-					slog.InfoContext(ctx.Context, "MyUITable: Render: item clicked")
+					slog.InfoContext(ctx.Context, "blazarTable: Render: item clicked")
 
 					ctx.PreventUpdate()
 
 					thisElement := ctx.JSSrc()
-					slog.InfoContext(ctx.Context, "MyUITable: Render", "thisElement", thisElement.Get("className").String())
+					slog.InfoContext(ctx.Context, "blazarTable: Render", "thisElement", thisElement.Get("className").String())
 					parentElement := ctx.JSSrc().Call("closest", ".blazar-table__header")
-					slog.InfoContext(ctx.Context, "MyUITable: Render", "parentElement", parentElement.Get("className").String())
+					slog.InfoContext(ctx.Context, "blazarTable: Render", "parentElement", parentElement.Get("className").String())
 					if parentElement.IsNull() {
 						return
 					}
@@ -244,7 +244,7 @@ func (t *MyUITable[T]) Render() app.UI {
 					if popoverElement.IsNull() {
 						return
 					}
-					slog.InfoContext(ctx.Context, "MyUITable: Render", "popoverElement", popoverElement)
+					slog.InfoContext(ctx.Context, "blazarTable: Render", "popoverElement", popoverElement)
 					options := app.ValueOf(map[string]any{})
 					options.Set("source", thisElement)
 
@@ -292,9 +292,9 @@ func (t *MyUITable[T]) Render() app.UI {
 								Icon("ellipsis-vertical").
 								On("click", func(ctx app.Context, e app.Event) {
 									thisElement := ctx.JSSrc()
-									slog.InfoContext(ctx.Context, "MyUITable: Render", "thisElement", thisElement.Get("className").String())
+									slog.InfoContext(ctx.Context, "blazarTable: Render", "thisElement", thisElement.Get("className").String())
 									parentElement := ctx.JSSrc().Call("closest", ".blazar-table__header")
-									slog.InfoContext(ctx.Context, "MyUITable: Render", "parentElement", parentElement.Get("className").String())
+									slog.InfoContext(ctx.Context, "blazarTable: Render", "parentElement", parentElement.Get("className").String())
 									if parentElement.IsNull() {
 										return
 									}
@@ -302,7 +302,7 @@ func (t *MyUITable[T]) Render() app.UI {
 									if popoverElement.IsNull() {
 										return
 									}
-									slog.InfoContext(ctx.Context, "MyUITable: Render", "popoverElement", popoverElement)
+									slog.InfoContext(ctx.Context, "blazarTable: Render", "popoverElement", popoverElement)
 									options := app.ValueOf(map[string]any{})
 									options.Set("source", thisElement)
 
@@ -337,10 +337,10 @@ func (t *MyUITable[T]) Render() app.UI {
 								Button().
 									Label("Apply").
 									On("click", func(ctx app.Context, e app.Event) {
-										slog.InfoContext(ctx.Context, "MyUITable: table-columns-menu: Apply", "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+										slog.InfoContext(ctx.Context, "blazarTable: table-columns-menu: Apply", "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
 
 										popoverElement := ctx.JSSrc().Call("closest", "[popover]")
-										slog.InfoContext(ctx.Context, "MyUITable: table-columns-menu", "popoverElement", popoverElement.Get("className").String())
+										slog.InfoContext(ctx.Context, "blazarTable: table-columns-menu", "popoverElement", popoverElement.Get("className").String())
 										if popoverElement.IsNull() {
 											return
 										}
@@ -349,19 +349,19 @@ func (t *MyUITable[T]) Render() app.UI {
 										t.visibleColumnNames = make([]string, len(t.popoverSelectedColumnNames))
 										copy(t.visibleColumnNames, t.popoverSelectedColumnNames)
 
-										slog.InfoContext(ctx.Context, "MyUITable: table-columns-menu: Apply", "visibleColumnNames", t.visibleColumnNames)
+										slog.InfoContext(ctx.Context, "blazarTable: table-columns-menu: Apply", "visibleColumnNames", t.visibleColumnNames)
 										ctx.Update()
 									}),
 							).
 							On("toggle", func(ctx app.Context, e app.Event) {
 								newState := e.Get("newState").String()
-								slog.InfoContext(ctx.Context, "MyUITable: table-columns-menu: on toggle", "newState", newState)
+								slog.InfoContext(ctx.Context, "blazarTable: table-columns-menu: on toggle", "newState", newState)
 								if newState != "closed" {
 									return
 								}
 
 								parentElement := ctx.JSSrc().Call("closest", ".blazar-table__header")
-								slog.InfoContext(ctx.Context, "MyUITable: Render", "parentElement", parentElement.Get("className").String())
+								slog.InfoContext(ctx.Context, "blazarTable: Render", "parentElement", parentElement.Get("className").String())
 								if parentElement.IsNull() {
 									return
 								}
@@ -555,7 +555,7 @@ func (t *MyUITable[T]) Render() app.UI {
 									return
 								}
 
-								slog.InfoContext(ctx.Context, "MyUITable: Setting pageSize via select.", "pageSize", pageSize)
+								slog.InfoContext(ctx.Context, "blazarTable: Setting pageSize via select.", "pageSize", pageSize)
 								t.setPageSize(uint(pageSize))
 								ctx.Update()
 							}),

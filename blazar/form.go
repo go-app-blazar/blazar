@@ -6,13 +6,13 @@ import (
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
-func Form() *MyUIForm {
-	return &MyUIForm{
+func Form() *blazarForm {
+	return &blazarForm{
 		ISpacer: true,
 	}
 }
 
-type MyUIForm struct {
+type blazarForm struct {
 	app.Compo
 	UseEvents
 
@@ -37,19 +37,19 @@ type FormAction struct {
 	Function func(ctx app.Context)
 }
 
-var _ app.Composer = (*MyUIForm)(nil)
+var _ app.Composer = (*blazarForm)(nil)
 
-func (c *MyUIForm) Class(class ...string) *MyUIForm {
+func (c *blazarForm) Class(class ...string) *blazarForm {
 	c.IClasses = class
 	return c
 }
 
-func (c *MyUIForm) Spacer(spacer bool) *MyUIForm {
+func (c *blazarForm) Spacer(spacer bool) *blazarForm {
 	c.ISpacer = spacer
 	return c
 }
 
-func (c *MyUIForm) Style(name, value string) *MyUIForm {
+func (c *blazarForm) Style(name, value string) *blazarForm {
 	if c.IStyles == nil {
 		c.IStyles = make(map[string]string)
 	}
@@ -57,52 +57,52 @@ func (c *MyUIForm) Style(name, value string) *MyUIForm {
 	return c
 }
 
-func (c *MyUIForm) Action(actions ...FormAction) *MyUIForm {
+func (c *blazarForm) Action(actions ...FormAction) *blazarForm {
 	c.IActions = actions
 	return c
 }
 
-func (c *MyUIForm) CancelFunction(function func(ctx app.Context)) *MyUIForm {
+func (c *blazarForm) CancelFunction(function func(ctx app.Context)) *blazarForm {
 	c.ICancelFunction = function
 	return c
 }
 
-func (c *MyUIForm) CancelLabel(label string) *MyUIForm {
+func (c *blazarForm) CancelLabel(label string) *blazarForm {
 	c.ICancelLabel = label
 	return c
 }
 
-func (c *MyUIForm) CancelIcon(icon string) *MyUIForm {
+func (c *blazarForm) CancelIcon(icon string) *blazarForm {
 	c.ICancelIcon = icon
 	return c
 }
 
-func (c *MyUIForm) SubmitFunction(function func(ctx app.Context)) *MyUIForm {
+func (c *blazarForm) SubmitFunction(function func(ctx app.Context)) *blazarForm {
 	c.ISubmitFunction = function
 	return c
 }
 
-func (c *MyUIForm) SubmitIcon(icon string) *MyUIForm {
+func (c *blazarForm) SubmitIcon(icon string) *blazarForm {
 	c.ISubmitIcon = icon
 	return c
 }
 
-func (c *MyUIForm) SubmitLabel(label string) *MyUIForm {
+func (c *blazarForm) SubmitLabel(label string) *blazarForm {
 	c.ISubmitLabel = label
 	return c
 }
 
-func (c *MyUIForm) Body(body ...app.UI) *MyUIForm {
+func (c *blazarForm) Body(body ...app.UI) *blazarForm {
 	c.IBody = body
 	return c
 }
 
-func (c *MyUIForm) On(event string, function func(ctx app.Context, e app.Event)) *MyUIForm {
+func (c *blazarForm) On(event string, function func(ctx app.Context, e app.Event)) *blazarForm {
 	c.UseEvents.On(event, function)
 	return c
 }
 
-func (c *MyUIForm) Render() app.UI {
+func (c *blazarForm) Render() app.UI {
 	element := app.Div().
 		Class(append([]string{"blazar-form"}, c.IClasses...)...).
 		Body(
@@ -112,7 +112,7 @@ func (c *MyUIForm) Render() app.UI {
 					On("keyup", func(ctx app.Context, e app.Event) {
 						ctx.PreventUpdate()
 
-						slog.InfoContext(ctx.Context, "MyUIForm: Keypress", "key", e.Get("key").String())
+						slog.InfoContext(ctx.Context, "blazarForm: Keypress", "key", e.Get("key").String())
 
 						// If the user pressed "Enter", then perform the default action.
 						//
