@@ -7,11 +7,11 @@ import (
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
-func Collapse() *MyUICollapse {
-	return &MyUICollapse{}
+func Collapse() *blazarCollapse {
+	return &blazarCollapse{}
 }
 
-type MyUICollapse struct {
+type blazarCollapse struct {
 	app.Compo
 	UseEvents
 	ILabel       string
@@ -22,24 +22,24 @@ type MyUICollapse struct {
 	BindOpen     *bool
 }
 
-var _ app.Composer = (*MyUICollapse)(nil)
-var _ app.Updater = (*MyUICollapse)(nil)
+var _ app.Composer = (*blazarCollapse)(nil)
+var _ app.Updater = (*blazarCollapse)(nil)
 
-func (c *MyUICollapse) OnUpdate(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "MyUICollapse: OnUpdate")
+func (c *blazarCollapse) OnUpdate(ctx app.Context) {
+	slog.InfoContext(ctx.Context, "blazarCollapse: OnUpdate")
 	if c.BindOpen != nil {
-		slog.InfoContext(ctx.Context, "MyUICollapse: OnUpdate", "*BindValue", *c.BindOpen)
+		slog.InfoContext(ctx.Context, "blazarCollapse: OnUpdate", "*BindValue", *c.BindOpen)
 	} else {
-		slog.InfoContext(ctx.Context, "MyUICollapse: OnUpdate: BindOpen is nil.")
+		slog.InfoContext(ctx.Context, "blazarCollapse: OnUpdate: BindOpen is nil.")
 	}
 }
 
-func (c *MyUICollapse) Disabled(disabled bool) *MyUICollapse {
+func (c *blazarCollapse) Disabled(disabled bool) *blazarCollapse {
 	c.IDisabled = disabled
 	return c
 }
 
-func (c *MyUICollapse) Open(open bool) *MyUICollapse {
+func (c *blazarCollapse) Open(open bool) *blazarCollapse {
 	if c.BindOpen == nil {
 		c.BindOpen = new(bool)
 	}
@@ -47,42 +47,42 @@ func (c *MyUICollapse) Open(open bool) *MyUICollapse {
 	return c
 }
 
-func (c *MyUICollapse) Label(label string) *MyUICollapse {
+func (c *blazarCollapse) Label(label string) *blazarCollapse {
 	c.ILabel = label
 	return c
 }
 
-func (c *MyUICollapse) SummaryText(summaryText string) *MyUICollapse {
+func (c *blazarCollapse) SummaryText(summaryText string) *blazarCollapse {
 	c.ISummaryText = summaryText
 	return c
 }
 
-func (c *MyUICollapse) Summary(summary ...app.UI) *MyUICollapse {
+func (c *blazarCollapse) Summary(summary ...app.UI) *blazarCollapse {
 	c.ISummary = summary
 	return c
 }
 
-func (c *MyUICollapse) Body(body ...app.UI) *MyUICollapse {
+func (c *blazarCollapse) Body(body ...app.UI) *blazarCollapse {
 	c.IBody = body
 	return c
 }
 
-func (c *MyUICollapse) On(event string, function func(ctx app.Context, e app.Event)) *MyUICollapse {
+func (c *blazarCollapse) On(event string, function func(ctx app.Context, e app.Event)) *blazarCollapse {
 	c.UseEvents.On(event, function)
 	return c
 }
 
-func (c *MyUICollapse) Bind(variable *bool) *MyUICollapse {
+func (c *blazarCollapse) Bind(variable *bool) *blazarCollapse {
 	c.BindOpen = variable
 	return c
 }
 
-func (c *MyUICollapse) Render() app.UI {
+func (c *blazarCollapse) Render() app.UI {
 	open := false
 	if c.BindOpen != nil {
 		open = *c.BindOpen
 	}
-	slog.InfoContext(context.TODO(), "MyUICollapse: Render", "BindOpen", c.BindOpen, "open", open)
+	slog.InfoContext(context.TODO(), "blazarCollapse: Render", "BindOpen", c.BindOpen, "open", open)
 
 	var element app.UI
 

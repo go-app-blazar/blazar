@@ -7,11 +7,11 @@ import (
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
-func Select() *MyUISelect {
-	return &MyUISelect{}
+func Select() *blazarSelect {
+	return &blazarSelect{}
 }
 
-type MyUISelect struct {
+type blazarSelect struct {
 	app.Compo
 	UseEvents
 	IName             string
@@ -21,29 +21,29 @@ type MyUISelect struct {
 	BindSelectedValue *string
 }
 
-var _ app.Composer = (*MyUISelect)(nil)
-var _ app.Updater = (*MyUISelect)(nil)
+var _ app.Composer = (*blazarSelect)(nil)
+var _ app.Updater = (*blazarSelect)(nil)
 
-func (c *MyUISelect) OnUpdate(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "MyUISelect: OnUpdate")
+func (c *blazarSelect) OnUpdate(ctx app.Context) {
+	slog.InfoContext(ctx.Context, "blazarSelect: OnUpdate")
 }
 
-func (c *MyUISelect) Name(name string) *MyUISelect {
+func (c *blazarSelect) Name(name string) *blazarSelect {
 	c.IName = name
 	return c
 }
 
-func (c *MyUISelect) Label(label string) *MyUISelect {
+func (c *blazarSelect) Label(label string) *blazarSelect {
 	c.ILabel = label
 	return c
 }
 
-func (c *MyUISelect) AllowedValue(allowedValue ...SelectOption) *MyUISelect {
+func (c *blazarSelect) AllowedValue(allowedValue ...SelectOption) *blazarSelect {
 	c.IAllowedValues = allowedValue
 	return c
 }
 
-func (c *MyUISelect) SelectedValue(selectedValue string) *MyUISelect {
+func (c *blazarSelect) SelectedValue(selectedValue string) *blazarSelect {
 	c.ISelectedValue = selectedValue
 	if c.BindSelectedValue != nil {
 		*c.BindSelectedValue = selectedValue
@@ -51,7 +51,7 @@ func (c *MyUISelect) SelectedValue(selectedValue string) *MyUISelect {
 	return c
 }
 
-func (c *MyUISelect) Bind(bindSelectedValue *string) *MyUISelect {
+func (c *blazarSelect) Bind(bindSelectedValue *string) *blazarSelect {
 	c.BindSelectedValue = bindSelectedValue
 	if c.BindSelectedValue != nil {
 		c.ISelectedValue = *c.BindSelectedValue
@@ -59,13 +59,13 @@ func (c *MyUISelect) Bind(bindSelectedValue *string) *MyUISelect {
 	return c
 }
 
-func (c *MyUISelect) On(event string, function func(ctx app.Context, e app.Event)) *MyUISelect {
+func (c *blazarSelect) On(event string, function func(ctx app.Context, e app.Event)) *blazarSelect {
 	c.UseEvents.On(event, function)
 	return c
 }
 
-func (c *MyUISelect) Render() app.UI {
-	slog.InfoContext(context.TODO(), "MyUISelect: Render", "label", c.ILabel, "allowedValues", c.IAllowedValues, "selectedValue", c.ISelectedValue, "bindSelectedValue", c.BindSelectedValue)
+func (c *blazarSelect) Render() app.UI {
+	slog.InfoContext(context.TODO(), "blazarSelect: Render", "label", c.ILabel, "allowedValues", c.IAllowedValues, "selectedValue", c.ISelectedValue, "bindSelectedValue", c.BindSelectedValue)
 	return InputWrapper().
 		Class("blazar-select").
 		Label(c.ILabel).

@@ -4,35 +4,35 @@ import (
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
-func Icon() *MyUIIcon {
-	return &MyUIIcon{}
+func Icon() *blazarIcon {
+	return &blazarIcon{}
 }
 
-type MyUIIcon struct {
+type blazarIcon struct {
 	app.Compo
 	UseEvents
 	ClassValue string
 	IconValue  string
 }
 
-var _ app.Composer = (*MyUIIcon)(nil)
+var _ app.Composer = (*blazarIcon)(nil)
 
-func (c *MyUIIcon) Class(class string) *MyUIIcon {
+func (c *blazarIcon) Class(class string) *blazarIcon {
 	c.ClassValue = class
 	return c
 }
 
-func (c *MyUIIcon) Icon(icon string) *MyUIIcon {
+func (c *blazarIcon) Icon(icon string) *blazarIcon {
 	c.IconValue = icon
 	return c
 }
 
-func (c *MyUIIcon) On(event string, function func(ctx app.Context, e app.Event)) *MyUIIcon {
+func (c *blazarIcon) On(event string, function func(ctx app.Context, e app.Event)) *blazarIcon {
 	c.UseEvents.On(event, function)
 	return c
 }
 
-func (c *MyUIIcon) Render() app.UI {
+func (c *blazarIcon) Render() app.UI {
 	return c.UseEvents.Wrap(
 		app.Span().
 			Class("blazar-icon", c.ClassValue).

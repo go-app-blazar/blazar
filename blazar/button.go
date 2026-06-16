@@ -4,11 +4,11 @@ import (
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
-func Button() *MyUIButton {
-	return &MyUIButton{}
+func Button() *blazarButton {
+	return &blazarButton{}
 }
 
-type MyUIButton struct {
+type blazarButton struct {
 	app.Compo
 	UseEvents
 	IFlat     bool
@@ -19,44 +19,44 @@ type MyUIButton struct {
 	IDisabled bool
 }
 
-var _ app.Composer = (*MyUIButton)(nil)
+var _ app.Composer = (*blazarButton)(nil)
 
-func (c *MyUIButton) Disabled(disabled bool) *MyUIButton {
+func (c *blazarButton) Disabled(disabled bool) *blazarButton {
 	c.IDisabled = disabled
 	return c
 }
 
-func (c *MyUIButton) Flat(flat bool) *MyUIButton {
+func (c *blazarButton) Flat(flat bool) *blazarButton {
 	c.IFlat = flat
 	return c
 }
 
-func (c *MyUIButton) Icon(icon string) *MyUIButton {
+func (c *blazarButton) Icon(icon string) *blazarButton {
 	c.IIcon = icon
 	return c
 }
 
-func (c *MyUIButton) Label(label string) *MyUIButton {
+func (c *blazarButton) Label(label string) *blazarButton {
 	c.ILabel = label
 	return c
 }
 
-func (c *MyUIButton) Round(round bool) *MyUIButton {
+func (c *blazarButton) Round(round bool) *blazarButton {
 	c.IRound = round
 	return c
 }
 
-func (c *MyUIButton) To(to string) *MyUIButton {
+func (c *blazarButton) To(to string) *blazarButton {
 	c.ITo = to
 	return c
 }
 
-func (c *MyUIButton) On(event string, function func(ctx app.Context, e app.Event)) *MyUIButton {
+func (c *blazarButton) On(event string, function func(ctx app.Context, e app.Event)) *blazarButton {
 	c.UseEvents.On(event, function)
 	return c
 }
 
-func (c *MyUIButton) Render() app.UI {
+func (c *blazarButton) Render() app.UI {
 	disabledClass := ""
 	if c.IDisabled {
 		disabledClass = "disabled"
