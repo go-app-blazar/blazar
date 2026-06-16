@@ -1,9 +1,72 @@
+html {
+    font-family: sans-serif;
+
+    --blazar-theme-primary: #20a4f3;
+    --blazar-theme-secondary: #2ec4b6;
+    --blazar-theme-background: #ffffff;
+    --blazar-theme-on-primary: #ffffff;
+    --blazar-theme-on-secondary: #000000;
+    --blazar-theme-on-background: #000000;
+    --blazar-theme-success: #4caf50;
+    --blazar-theme-warning: #ff9800;
+    --blazar-theme-info: #2196f3;
+    --blazar-theme-error: #f44336;
+    --blazar-theme-on-success: #ffffff;
+    --blazar-theme-on-warning: #ffffff;
+    --blazar-theme-on-info: #ffffff;
+    --blazar-theme-on-error: #ffffff;
+}
+
+.blazar-app-bar {
+    display: flex;
+    gap: 0.5em;
+    justify-content: space-between;
+    align-items: left;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5em;
+    background-color: var(--blazar-theme-primary);
+    color: var(--blazar-theme-on-primary);
+    font-size: 1.5em;
+}
+
+.blazar-app-bar__icon {
+    display: flex;
+    justify-content: center;
+}
+
+.blazar-app-bar__icon .blazar-icon {
+    cursor: pointer;
+}
+
+.blazar-app-bar__content {
+    flex: 1;
+}
+
+.blazar-app-bar__headline {
+    font-weight: bold;
+}
+
+.blazar-app-bar__headline-text {
+}
+
+.blazar-app-bar__subtitle {
+    font-size: 0.8em;
+}
+
+.blazar-app-bar__subtitle-text {
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.blazar-app-bar__trailer {
+}
 
 .blazar-button {
     display: inline-block;
     border-radius: 0.5em;
-    background-color: var(--material-theme-primary);
-    color: var(--material-theme-on-primary);
+    background-color: var(--blazar-theme-primary);
+    color: var(--blazar-theme-on-primary);
     cursor: pointer;
 
     margin-top: 0.2em;
@@ -25,7 +88,7 @@
 
 .blazar-button.flat {
     background-color: transparent;
-    color: var(--material-theme-primary);
+    color: var(--blazar-theme-primary);
 }
 
 .blazar-button.round {
@@ -127,15 +190,15 @@
 
 .blazar-input__input:focus {
     outline: none;
-    border-color: var(--material-theme-primary);
+    border-color: var(--blazar-theme-primary);
 }
 
 .blazar-input__input:hover {
-    border-color: var(--material-theme-primary);
+    border-color: var(--blazar-theme-primary);
 }
 
 .blazar-input__input:active {
-    border-color: var(--material-theme-primary);
+    border-color: var(--blazar-theme-primary);
 }
 
 .blazar-item {
@@ -170,8 +233,8 @@ a.blazar-item {
 
 .blazar-page {
     padding: 1em;
-    background-color: var(--material-theme-background);
-    color: var(--material-theme-on-background);
+    background-color: var(--blazar-theme-background);
+    color: var(--blazar-theme-on-background);
 
     display: flex;
     flex-direction: column;
@@ -186,18 +249,18 @@ a.blazar-item {
     padding: 0.6em;
     border-radius: 0.5em;
 
-    background-color: var(--material-theme-info);
-    color: var(--material-theme-on-info);
+    background-color: var(--blazar-theme-info);
+    color: var(--blazar-theme-on-info);
 }
 
 .blazar-statusbar.good {
-    background-color: var(--material-theme-success);
-    color: var(--material-theme-on-success);
+    background-color: var(--blazar-theme-success);
+    color: var(--blazar-theme-on-success);
 }
 
 .blazar-statusbar.bad {
-    background-color: var(--material-theme-error);
-    color: var(--material-theme-on-error);
+    background-color: var(--blazar-theme-error);
+    color: var(--blazar-theme-on-error);
 }
 
 .blazar-table {
@@ -228,8 +291,8 @@ a.blazar-item {
 }
 
 .blazar-table table thead tr {
-    background-color: var(--material-theme-secondary);
-    color: var(--material-theme-on-secondary); 
+    background-color: var(--blazar-theme-secondary);
+    color: var(--blazar-theme-on-secondary); 
     text-align: left;
 }
 
