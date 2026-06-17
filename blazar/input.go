@@ -16,6 +16,7 @@ func Input[T any]() *blazarInput[T] {
 type blazarInput[T any] struct {
 	app.Compo
 	UseEvents
+	UseData
 	IAutoFocus   bool
 	IType        string
 	IName        string
@@ -69,6 +70,11 @@ func (c *blazarInput[T]) Value(value T) *blazarInput[T] {
 func (c *blazarInput[T]) Bind(valuePointer *T) *blazarInput[T] {
 	c.IValue = *valuePointer
 	c.BindValue = valuePointer
+	return c
+}
+
+func (c *blazarInput[T]) DataSet(name string, value any) *blazarInput[T] {
+	c.UseData.DataSet(name, value)
 	return c
 }
 
@@ -128,18 +134,20 @@ func (c *blazarInput[T]) Render() app.UI {
 		Label(c.ILabel).
 		Body(
 			c.UseEvents.Wrap(
-				app.Input().
-					Class("blazar-input__input").
-					Disabled(c.IDisabled).
-					ReadOnly(c.IDisabled).
-					AutoComplete(false).
-					AutoFocus(c.IAutoFocus).
-					Name(c.IName).
-					Type(inputType).
-					Checked(checked).
-					Value(value).
-					Min(minValue).
-					Placeholder(c.IPlaceholder),
+				c.UseData.Wrap(
+					app.Input().
+						Class("blazar-input__input").
+						Disabled(c.IDisabled).
+						ReadOnly(c.IDisabled).
+						AutoComplete(false).
+						AutoFocus(c.IAutoFocus).
+						Name(c.IName).
+						Type(inputType).
+						Checked(checked).
+						Value(value).
+						Min(minValue).
+						Placeholder(c.IPlaceholder),
+				),
 				WithOn("change", func(ctx app.Context, e app.Event) {
 					//slog.InfoContext(ctx.Context, "blazarInput: Change", "value", value)
 					//slog.InfoContext(ctx.Context, "blazarInput: Change", "e.target.checked", e.Get("target").Get("checked").String())
