@@ -60,14 +60,19 @@ func (c *blazarCheckbox) OnChange(function func(ctx app.Context, checked bool)) 
 func (c *blazarCheckbox) Render() app.UI {
 	slog.InfoContext(context.TODO(), "blazarCheckbox: Render", "label", c.ILabel, "value", c.IValue, "bindValue", c.bindValue, "disabled", c.IDisabled)
 
-	disabledClass := ""
-	if c.IDisabled {
-		disabledClass = "disabled"
-	}
-
 	checked := c.IValue
 	if c.bindValue != nil {
 		checked = *c.bindValue
+	}
+
+	checkedClass := ""
+	if checked {
+		checkedClass = "checked"
+	}
+
+	disabledClass := ""
+	if c.IDisabled {
+		disabledClass = "disabled"
 	}
 
 	iconName := "square"
@@ -110,7 +115,7 @@ func (c *blazarCheckbox) Render() app.UI {
 	}
 
 	return InputWrapper().
-		Class("blazar-checkbox", disabledClass).
+		Class("blazar-checkbox", checkedClass, disabledClass).
 		Label(c.ILabel).
 		Body(
 			icon,

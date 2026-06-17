@@ -122,6 +122,10 @@ html {
     gap: 0.5em;
 }
 
+.blazar-checkbox.checked .blazar-checkbox__icon {
+    color: var(--blazar-theme-primary);
+}
+
 .blazar-collapse {
 }
 
