@@ -538,7 +538,8 @@ func (t *blazarTable[T]) Render() app.UI {
 							multiRowAction := visibleMultiRowActions[i]
 
 							button := Button().
-								Label(multiRowAction.Name)
+								Label(multiRowAction.Name).
+								Icon(multiRowAction.Icon)
 							if len(t.selectedRows) == 0 {
 								button = button.Disabled(true)
 							}

@@ -167,6 +167,7 @@ func (c *TablePage) Render() app.UI {
 							Columns(c.columns).
 							Action(blazar.TableAction{
 								Name:     "Add character",
+								Icon:     "plus",
 								Function: addCharacterFunction,
 							}).
 							RowAction(blazar.RowAction[characterRow]{
@@ -175,6 +176,7 @@ func (c *TablePage) Render() app.UI {
 							}).
 							MultiRowAction(blazar.MultiRowAction[characterRow]{
 								Name:     "Remove Selected",
+								Icon:     "trash",
 								Function: removeCharactersFunction,
 							}),
 					),
@@ -192,6 +194,7 @@ func (c *TablePage) Render() app.UI {
 						Columns(c.columns).
 						MultiRowAction(blazar.MultiRowAction[characterRow]{
 							Name:     "Remove Selected",
+							Icon:     "trash",
 							Function: removeCharactersFunction,
 						}),
 				),
