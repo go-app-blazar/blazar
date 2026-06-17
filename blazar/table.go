@@ -13,18 +13,22 @@ import (
 type blazarTable[T any] struct {
 	app.Compo
 
-	ITitle        string
-	IColumns      []TableColumn[T]
-	IRows         []T
-	IActions      []TableAction
-	IRowActions   []RowAction[T]
-	IEmptyMessage string
-	IInteractive  bool
+	ITitle           string
+	IColumns         []TableColumn[T]
+	IRowIDFunction   func(row T) string
+	IRows            []T
+	IActions         []TableAction
+	IRowActions      []RowAction[T]
+	IMultiRowActions []MultiRowAction[T]
+	IEmptyMessage    string
+	IInteractive     bool
 
 	visibleColumnNames         []string // This is the list of columns that are currently visible in the table.
 	popoverSelectedColumnNames []string // This is the list of columns that are currently selected in the popover.
 	pageSize                   uint     // This is the number of rows to display per page.
 	pageIndex                  uint     // This is the index of the current page.
+	selectedRowIDs             []string // This is the list of the IDs of the rows that are currently selected.
+	selectedRows               []T      // This is the list of the rows that are currently selected.
 }
 
 type TableAction struct {
@@ -40,6 +44,14 @@ type RowAction[T any] struct {
 	Icon     string
 	To       func(row T) string
 	Function func(ctx app.Context, row T)
+	Disabled bool
+}
+
+type MultiRowAction[T any] struct {
+	Name     string
+	Icon     string
+	To       func(rows []T) string
+	Function func(ctx app.Context, rows []T)
 	Disabled bool
 }
 
@@ -68,6 +80,11 @@ func (t *blazarTable[T]) Interactive(interactive bool) *blazarTable[T] {
 
 func (t *blazarTable[T]) Rows(rows []T) *blazarTable[T] {
 	t.IRows = rows
+	return t
+}
+
+func (t *blazarTable[T]) RowIDFunction(rowIDFunction func(row T) string) *blazarTable[T] {
+	t.IRowIDFunction = rowIDFunction
 	return t
 }
 
@@ -117,6 +134,11 @@ func (t *blazarTable[T]) Action(actions ...TableAction) *blazarTable[T] {
 
 func (t *blazarTable[T]) RowAction(rowActions ...RowAction[T]) *blazarTable[T] {
 	t.IRowActions = rowActions
+	return t
+}
+
+func (t *blazarTable[T]) MultiRowAction(multiRowActions ...MultiRowAction[T]) *blazarTable[T] {
+	t.IMultiRowActions = multiRowActions
 	return t
 }
 
@@ -170,6 +192,59 @@ func (t *blazarTable[T]) setPageSize(pageSize uint) {
 	}
 }
 
+func (t *blazarTable[T]) selectRowIndex(index int, checked bool) {
+	if index < 0 || index >= len(t.IRows) {
+		return
+	}
+
+	rowID := fmt.Sprintf("%d", index)
+	if t.IRowIDFunction != nil {
+		rowID = t.IRowIDFunction(t.IRows[index])
+	}
+
+	if checked {
+		t.selectedRowIDs = append(t.selectedRowIDs, rowID)
+	} else {
+		selectedRowIDIndex := slices.Index(t.selectedRowIDs, rowID)
+		if selectedRowIDIndex >= 0 {
+			t.selectedRowIDs = slices.Delete(t.selectedRowIDs, selectedRowIDIndex, selectedRowIDIndex+1)
+		}
+	}
+
+	t.recalculateSelectedRows()
+}
+
+func (t *blazarTable[T]) recalculateSelectedRows() {
+	rowIDs := make([]string, len(t.IRows))
+	rowIDToIndexMap := map[string]int{}
+	for i, row := range t.IRows {
+		if t.IRowIDFunction != nil {
+			rowIDs[i] = t.IRowIDFunction(row)
+		} else {
+			rowIDs[i] = fmt.Sprintf("%d", i)
+		}
+		rowIDToIndexMap[rowIDs[i]] = i
+	}
+
+	selectedRows := make([]T, 0, len(rowIDs))
+	selectedRowIDs := make([]string, 0, len(rowIDs))
+	for _, rowID := range t.selectedRowIDs {
+		index, ok := rowIDToIndexMap[rowID]
+		if !ok {
+			continue
+		}
+
+		selectedRows = append(selectedRows, t.IRows[index])
+		selectedRowIDs = append(selectedRowIDs, rowID)
+	}
+
+	t.selectedRowIDs = selectedRowIDs
+	t.selectedRows = selectedRows
+
+	slices.Sort(t.selectedRowIDs)
+	t.selectedRowIDs = slices.Compact(t.selectedRowIDs)
+}
+
 func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
 	slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "pageIndex", t.pageIndex, "pageSize", t.pageSize, "rows", len(t.IRows))
 	slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "visibleColumnNames", len(t.visibleColumnNames), "popoverSelectedColumnNames", len(t.popoverSelectedColumnNames))
@@ -186,6 +261,43 @@ func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
 		}
 	}
 	slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+
+	// Fix the checkboxes.
+	ctx.Defer(func(ctx app.Context) {
+		checkboxes := ctx.JSSrc().Call("querySelectorAll", "input[name='blazar-table-row-checkbox']")
+		if !checkboxes.IsNull() {
+			length := checkboxes.Get("length").Int()
+			slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "checkboxes", checkboxes, "length", length)
+
+			changesMade := false
+			for index := range length {
+				checkbox := checkboxes.Index(index)
+				checked := checkbox.Get("checked").Bool()
+
+				rowID := fmt.Sprintf("%d", index)
+				if t.IRowIDFunction != nil {
+					rowID = t.IRowIDFunction(t.IRows[index])
+				}
+
+				if slices.Contains(t.selectedRowIDs, rowID) {
+					if !checked {
+						checkbox.Set("checked", true)
+						changesMade = true
+					}
+				} else {
+					if checked {
+						checkbox.Set("checked", false)
+						changesMade = true
+					}
+				}
+			}
+
+			if changesMade {
+				t.recalculateSelectedRows()
+				ctx.Update()
+			}
+		}
+	})
 }
 
 func (t *blazarTable[T]) Render() app.UI {
@@ -272,6 +384,14 @@ func (t *blazarTable[T]) Render() app.UI {
 			continue
 		}
 		visibleRowActions = append(visibleRowActions, rowAction)
+	}
+
+	var visibleMultiRowActions []MultiRowAction[T]
+	for _, multiRowAction := range t.IMultiRowActions {
+		if multiRowAction.Disabled {
+			continue
+		}
+		visibleMultiRowActions = append(visibleMultiRowActions, multiRowAction)
 	}
 
 	return app.Div().
@@ -397,12 +517,46 @@ func (t *blazarTable[T]) Render() app.UI {
 						}),
 					)
 			}),
+			app.If(len(visibleMultiRowActions) > 0, func() app.UI {
+				return app.Div().
+					Class("blazar-table__multi-row-actions").
+					Body(
+						app.Span().
+							Text(fmt.Sprintf("Selected: %d", len(t.selectedRows))),
+						app.Range(visibleMultiRowActions).Slice(func(i int) app.UI {
+							multiRowAction := visibleMultiRowActions[i]
+
+							button := Button().
+								Label(multiRowAction.Name)
+							if len(t.selectedRows) == 0 {
+								button = button.Disabled(true)
+							}
+							if multiRowAction.To != nil {
+								button = button.To(multiRowAction.To(t.selectedRows))
+							}
+							if multiRowAction.Function != nil {
+								button = button.On("click", func(ctx app.Context, e app.Event) {
+									//slog.InfoContext(ctx.Context, "blazarTable: multi-row-actions: click", "selectedRows", t.selectedRows)
+									multiRowAction.Function(ctx, t.selectedRows)
+								})
+							}
+							return button
+						}),
+					)
+			}),
 			app.Table().
 				Body(
 					app.THead().
 						Body(
 							app.Tr().
 								Body(
+									app.If(len(visibleMultiRowActions) > 0, func() app.UI {
+										return app.Th().
+											Body(
+												Input[bool]().
+													Disabled(true),
+											)
+									}),
 									app.Range(visibleColumns).Slice(func(i int) app.UI {
 										column := visibleColumns[i]
 										return app.Th().
@@ -432,6 +586,29 @@ func (t *blazarTable[T]) Render() app.UI {
 								row := rowsToRender[i]
 								return app.Tr().
 									Body(
+										app.If(len(visibleMultiRowActions) > 0, func() app.UI {
+											rowID := fmt.Sprintf("%d", i)
+											if t.IRowIDFunction != nil {
+												rowID = t.IRowIDFunction(row)
+											}
+
+											return app.Td().
+												Body(
+													Input[bool]().
+														Name("blazar-table-row-checkbox").
+														Value(slices.Contains(t.selectedRowIDs, rowID)).
+														On("change", func(ctx app.Context, e app.Event) {
+															slog.InfoContext(ctx.Context, "blazarTable: row: change", "e", e, "i", i)
+
+															checked := e.Get("target").Get("checked").Bool()
+															t.selectRowIndex(i, checked)
+
+															slog.InfoContext(ctx.Context, "blazarTable: row: change", "selectedRowIDs", t.selectedRowIDs)
+
+															ctx.Update()
+														}),
+												)
+										}),
 										app.Range(visibleColumns).Slice(func(i int) app.UI {
 											column := visibleColumns[i]
 											return app.Td().

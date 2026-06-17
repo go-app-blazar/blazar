@@ -78,7 +78,13 @@ func (c *blazarInput[T]) On(event string, function func(ctx app.Context, e app.E
 }
 
 func (c *blazarInput[T]) Render() app.UI {
-	slog.InfoContext(context.TODO(), "blazarInput: Render", "label", c.ILabel, "type", c.IType, "value", c.BindValue, "placeholder", c.IPlaceholder, "disabled", c.IDisabled)
+	derefOrNil := func(value *T) string {
+		if value == nil {
+			return "nil"
+		}
+		return fmt.Sprintf("%v", *value)
+	}
+	slog.InfoContext(context.TODO(), "blazarInput: Render", "label", c.ILabel, "type", c.IType, "value", c.IValue, "bindValue", derefOrNil(c.BindValue), "placeholder", c.IPlaceholder, "disabled", c.IDisabled)
 
 	kind := reflect.TypeOf(c.IValue).Kind()
 

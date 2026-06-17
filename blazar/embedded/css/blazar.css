@@ -284,6 +284,10 @@ a.blazar-item {
     padding: 0.5em;
 }
 
+.blazar-table__multi-row-actions {
+    padding: 0.5em;
+}
+
 .blazar-table table {
     border-collapse: collapse; /* Removes space between cell borders */
     font-size: 0.9em;
