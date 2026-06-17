@@ -17,6 +17,7 @@ type blazarTable[T any] struct {
 	IColumns         []TableColumn[T]
 	IRowIDFunction   func(row T) string
 	IRows            []T
+	IRowIDs          []string // This is the list of the IDs of the rows.  This is recomputed whenever the rows change.
 	IActions         []TableAction
 	IRowActions      []RowAction[T]
 	IMultiRowActions []MultiRowAction[T]
@@ -80,11 +81,13 @@ func (t *blazarTable[T]) Interactive(interactive bool) *blazarTable[T] {
 
 func (t *blazarTable[T]) Rows(rows []T) *blazarTable[T] {
 	t.IRows = rows
+	t.recalculateRowIDs()
 	return t
 }
 
 func (t *blazarTable[T]) RowIDFunction(rowIDFunction func(row T) string) *blazarTable[T] {
 	t.IRowIDFunction = rowIDFunction
+	t.recalculateRowIDs()
 	return t
 }
 
@@ -192,19 +195,13 @@ func (t *blazarTable[T]) setPageSize(pageSize uint) {
 	}
 }
 
-func (t *blazarTable[T]) selectRowIndex(index int, checked bool) {
-	if index < 0 || index >= len(t.IRows) {
-		return
-	}
-
-	rowID := fmt.Sprintf("%d", index)
-	if t.IRowIDFunction != nil {
-		rowID = t.IRowIDFunction(t.IRows[index])
-	}
-
+func (t *blazarTable[T]) selectRowID(rowID string, checked bool) {
 	if checked {
 		t.selectedRowIDs = append(t.selectedRowIDs, rowID)
 	} else {
+		slices.Sort(t.selectedRowIDs)
+		t.selectedRowIDs = slices.Compact(t.selectedRowIDs)
+
 		selectedRowIDIndex := slices.Index(t.selectedRowIDs, rowID)
 		if selectedRowIDIndex >= 0 {
 			t.selectedRowIDs = slices.Delete(t.selectedRowIDs, selectedRowIDIndex, selectedRowIDIndex+1)
@@ -214,20 +211,26 @@ func (t *blazarTable[T]) selectRowIndex(index int, checked bool) {
 	t.recalculateSelectedRows()
 }
 
-func (t *blazarTable[T]) recalculateSelectedRows() {
+func (t *blazarTable[T]) recalculateRowIDs() {
 	rowIDs := make([]string, len(t.IRows))
-	rowIDToIndexMap := map[string]int{}
 	for i, row := range t.IRows {
 		if t.IRowIDFunction != nil {
 			rowIDs[i] = t.IRowIDFunction(row)
 		} else {
 			rowIDs[i] = fmt.Sprintf("%d", i)
 		}
-		rowIDToIndexMap[rowIDs[i]] = i
+	}
+	t.IRowIDs = rowIDs
+}
+
+func (t *blazarTable[T]) recalculateSelectedRows() {
+	rowIDToIndexMap := map[string]int{}
+	for i, rowID := range t.IRowIDs {
+		rowIDToIndexMap[rowID] = i
 	}
 
-	selectedRows := make([]T, 0, len(rowIDs))
-	selectedRowIDs := make([]string, 0, len(rowIDs))
+	selectedRows := make([]T, 0, len(t.IRowIDs))
+	selectedRowIDs := make([]string, 0, len(t.IRowIDs))
 	for _, rowID := range t.selectedRowIDs {
 		index, ok := rowIDToIndexMap[rowID]
 		if !ok {
@@ -267,19 +270,23 @@ func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
 		checkboxes := ctx.JSSrc().Call("querySelectorAll", "input[name='blazar-table-row-checkbox']")
 		if !checkboxes.IsNull() {
 			length := checkboxes.Get("length").Int()
-			slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "checkboxes", checkboxes, "length", length)
+			slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "checkboxes", checkboxes, "length", length, "selectedRowIDs", t.selectedRowIDs)
 
 			changesMade := false
 			for index := range length {
 				checkbox := checkboxes.Index(index)
 				checked := checkbox.Get("checked").Bool()
 
-				rowID := fmt.Sprintf("%d", index)
-				if t.IRowIDFunction != nil {
-					rowID = t.IRowIDFunction(t.IRows[index])
+				rowID := checkbox.Get("dataset").Get("rowid").String()
+				if rowID == "" {
+					continue
 				}
 
-				if slices.Contains(t.selectedRowIDs, rowID) {
+				shouldBeChecked := slices.Contains(t.selectedRowIDs, rowID)
+
+				slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "rowID", rowID, "checked", checked, "shouldBeChecked", shouldBeChecked)
+
+				if shouldBeChecked {
 					if !checked {
 						checkbox.Set("checked", true)
 						changesMade = true
@@ -314,14 +321,18 @@ func (t *blazarTable[T]) Render() app.UI {
 	slog.InfoContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "visibleColumns", visibleColumns)
 
 	rowsToRender := t.IRows
+	rowIDsToRender := t.IRowIDs
 	paginated := t.pageSize > 0
 	totalPages := t.totalPages()
 	if t.pageSize > 0 && uint(len(t.IRows)) > t.pageSize {
 		pages := slices.Collect(slices.Chunk(t.IRows, int(t.pageSize)))
+		rowIDPages := slices.Collect(slices.Chunk(t.IRowIDs, int(t.pageSize)))
 		if t.pageIndex >= uint(len(pages)) {
 			t.pageIndex = uint(len(pages)) - 1
 		}
 		rowsToRender = pages[t.pageIndex]
+		rowIDsToRender = rowIDPages[t.pageIndex]
+		slog.InfoContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "rowIDsToRender", rowIDsToRender)
 	}
 
 	// Build the list of page indexes (so we can render a dropdown).
@@ -554,7 +565,19 @@ func (t *blazarTable[T]) Render() app.UI {
 										return app.Th().
 											Body(
 												Input[bool]().
-													Disabled(true),
+													Name("blazar-table-checkbox").
+													On("change", func(ctx app.Context, e app.Event) {
+														e.Get("target").Set("indeterminate", true)
+
+														if len(t.selectedRows) == 0 || (len(t.selectedRows) > 0 && len(t.selectedRows) < len(t.IRows)) {
+															t.selectedRowIDs = make([]string, len(t.IRowIDs))
+															copy(t.selectedRowIDs, t.IRowIDs)
+														} else {
+															t.selectedRowIDs = []string{}
+														}
+
+														t.recalculateSelectedRows()
+													}),
 											)
 									}),
 									app.Range(visibleColumns).Slice(func(i int) app.UI {
@@ -584,24 +607,30 @@ func (t *blazarTable[T]) Render() app.UI {
 							}),
 							app.Range(rowsToRender).Slice(func(i int) app.UI {
 								row := rowsToRender[i]
+								rowID := rowIDsToRender[i]
+
 								return app.Tr().
 									Body(
 										app.If(len(visibleMultiRowActions) > 0, func() app.UI {
-											rowID := fmt.Sprintf("%d", i)
-											if t.IRowIDFunction != nil {
-												rowID = t.IRowIDFunction(row)
-											}
-
 											return app.Td().
 												Body(
 													Input[bool]().
 														Name("blazar-table-row-checkbox").
+														DataSet("rowid", rowID).
 														Value(slices.Contains(t.selectedRowIDs, rowID)).
 														On("change", func(ctx app.Context, e app.Event) {
-															slog.InfoContext(ctx.Context, "blazarTable: row: change", "e", e, "i", i)
+															slog.InfoContext(ctx.Context, "blazarTable: row: change", "e", e, "i", i, "e.target.dataset.rowid", e.Get("target").Get("dataset").Get("rowid").String())
+
+															// For whatever reason, the actual `rowID` is incorrect in this handler function.
+															// Because of that, we need to extract it from the checkbox itself.
+															rowID := e.Get("target").Get("dataset").Get("rowid").String()
+															if rowID == "" {
+																return
+															}
 
 															checked := e.Get("target").Get("checked").Bool()
-															t.selectRowIndex(i, checked)
+
+															t.selectRowID(rowID, checked)
 
 															slog.InfoContext(ctx.Context, "blazarTable: row: change", "selectedRowIDs", t.selectedRowIDs)
 

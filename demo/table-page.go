@@ -186,7 +186,14 @@ func (c *TablePage) Render() app.UI {
 						Title("One Piece Characters").
 						PageSize(10).
 						Rows(c.rows).
-						Columns(c.columns),
+						RowIDFunction(func(row characterRow) string {
+							return row.Name
+						}).
+						Columns(c.columns).
+						MultiRowAction(blazar.MultiRowAction[characterRow]{
+							Name:     "Remove Selected",
+							Function: removeCharactersFunction,
+						}),
 				),
 			app.FieldSet().
 				Body(
