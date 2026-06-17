@@ -122,6 +122,10 @@ html {
     gap: 0.5em;
 }
 
+.blazar-checkbox.checked .blazar-checkbox__icon {
+    color: var(--blazar-theme-primary);
+}
+
 .blazar-collapse {
 }
 
@@ -281,6 +285,10 @@ a.blazar-item {
 }
 
 .blazar-table__actions {
+    padding: 0.5em;
+}
+
+.blazar-table__multi-row-actions {
     padding: 0.5em;
 }
 

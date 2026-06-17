@@ -3,6 +3,7 @@ package demo
 import (
 	"fmt"
 	"log/slog"
+	"slices"
 
 	"github.com/go-app-blazar/blazar/blazar"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
@@ -133,6 +134,16 @@ func (c *TablePage) Render() app.UI {
 		ctx.Update()
 	}
 
+	removeCharactersFunction := func(ctx app.Context, rows []characterRow) {
+		app.Window().Call("alert", fmt.Sprintf("Removing %d characters", len(rows)))
+		for _, row := range rows {
+			c.rows = slices.DeleteFunc(c.rows, func(r characterRow) bool {
+				return r.Name == row.Name
+			})
+		}
+		ctx.Update()
+	}
+
 	return blazar.Page().
 		Body(
 			app.FieldSet().
@@ -150,6 +161,9 @@ func (c *TablePage) Render() app.UI {
 						blazar.Table[characterRow]().
 							Title("One Piece Characters").
 							Rows(c.rows).
+							RowIDFunction(func(row characterRow) string {
+								return row.Name
+							}).
 							Columns(c.columns).
 							Action(blazar.TableAction{
 								Name:     "Add character",
@@ -158,6 +172,10 @@ func (c *TablePage) Render() app.UI {
 							RowAction(blazar.RowAction[characterRow]{
 								Name:     "Click",
 								Function: clickFunction,
+							}).
+							MultiRowAction(blazar.MultiRowAction[characterRow]{
+								Name:     "Remove Selected",
+								Function: removeCharactersFunction,
 							}),
 					),
 				),

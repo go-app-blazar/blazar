@@ -11,11 +11,12 @@ import (
 type InputPage struct {
 	app.Compo
 
-	stringValue string
-	intValue    int
-	floatValue  float64
-	uintValue   uint
-	boolValue   bool
+	stringValue   string
+	intValue      int
+	floatValue    float64
+	uintValue     uint
+	boolValue     bool
+	checkboxValue bool
 }
 
 func (c *InputPage) OnMount(ctx app.Context) {
@@ -24,6 +25,7 @@ func (c *InputPage) OnMount(ctx app.Context) {
 	c.floatValue = 123.456
 	c.uintValue = 123
 	c.boolValue = true
+	c.checkboxValue = true
 }
 
 func (c *InputPage) OnNav(ctx app.Context) {
@@ -51,6 +53,9 @@ func (c *InputPage) Render() app.UI {
 					blazar.Input[bool]().
 						Label("bool").
 						Bind(&c.boolValue),
+					blazar.Checkbox().
+						Label("checkbox").
+						Bind(&c.checkboxValue),
 				),
 			app.FieldSet().
 				Body(
@@ -65,6 +70,8 @@ func (c *InputPage) Render() app.UI {
 					app.Pre().Text(fmt.Sprintf("%d", c.uintValue)),
 					app.Div().Text("bool"),
 					app.Pre().Text(fmt.Sprintf("%t", c.boolValue)),
+					app.Div().Text("checkbox"),
+					app.Pre().Text(fmt.Sprintf("%t", c.checkboxValue)),
 				),
 		)
 }
