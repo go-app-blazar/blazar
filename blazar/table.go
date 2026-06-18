@@ -417,28 +417,32 @@ func (t *blazarTable[T]) Render() app.UI {
 							Text(t.ITitle),
 						app.Span().Style("flex", "1"),
 						app.If(len(tableMenuItems) > 0, func() app.UI {
-							return Button().
-								Round(true).
-								Flat(true).
-								Icon("ellipsis-vertical").
-								On("click", func(ctx app.Context, e app.Event) {
-									thisElement := ctx.JSSrc()
-									slog.InfoContext(ctx.Context, "blazarTable: Render", "thisElement", thisElement.Get("className").String())
-									parentElement := ctx.JSSrc().Call("closest", ".blazar-table__header")
-									slog.InfoContext(ctx.Context, "blazarTable: Render", "parentElement", parentElement.Get("className").String())
-									if parentElement.IsNull() {
-										return
-									}
-									popoverElement := parentElement.Call("querySelector", "[popover][data-popover-name='table-menu']")
-									if popoverElement.IsNull() {
-										return
-									}
-									slog.InfoContext(ctx.Context, "blazarTable: Render", "popoverElement", popoverElement)
-									options := app.ValueOf(map[string]any{})
-									options.Set("source", thisElement)
+							return app.Span().
+								Class("blazar-table__header-menu").
+								Body(
+									Button().
+										Round(true).
+										Flat(true).
+										Icon("ellipsis-vertical").
+										On("click", func(ctx app.Context, e app.Event) {
+											thisElement := ctx.JSSrc()
+											slog.InfoContext(ctx.Context, "blazarTable: Render", "thisElement", thisElement.Get("className").String())
+											parentElement := ctx.JSSrc().Call("closest", ".blazar-table__header")
+											slog.InfoContext(ctx.Context, "blazarTable: Render", "parentElement", parentElement.Get("className").String())
+											if parentElement.IsNull() {
+												return
+											}
+											popoverElement := parentElement.Call("querySelector", "[popover][data-popover-name='table-menu']")
+											if popoverElement.IsNull() {
+												return
+											}
+											slog.InfoContext(ctx.Context, "blazarTable: Render", "popoverElement", popoverElement)
+											options := app.ValueOf(map[string]any{})
+											options.Set("source", thisElement)
 
-									popoverElement.Call("togglePopover", options)
-								})
+											popoverElement.Call("togglePopover", options)
+										}),
+								)
 						}),
 						app.If(len(tableMenuItems) > 0, func() app.UI {
 							return app.Div().

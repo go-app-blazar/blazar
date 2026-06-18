@@ -347,8 +347,28 @@ a.blazar-item {
 }
 
 @media print {
+    .blazar-no-print {
+        display: none;
+    }
+
+    .blazar-form__actions {
+        display: none;
+    }
+
     .blazar-table {
         box-shadow: none;
+    }
+
+    .blazar-table__header-menu {
+        display: none;
+    }
+
+    .blazar-table__actions {
+        display: none;
+    }
+
+    .blazar-table__multi-row-actions {
+        display: none;
     }
 
     .blazar-table__pagination {
