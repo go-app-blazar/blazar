@@ -30,13 +30,13 @@ jobs:
 
       - name: Make
         run: |
-          make clean all
+          make clean build
 
       - name: Upload static files
         id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          path: bin/demo/
+          path: bin/blazar/
 
   deploy:
     environment:
