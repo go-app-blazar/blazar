@@ -5,4 +5,4 @@
 Quasar-like components for go-app
 
 # Demo
-Check out the component demo here: https://go-app-blazar.github.io/blazar/
+Check out the component demo here: https://blazar.go-app-blazar.com/

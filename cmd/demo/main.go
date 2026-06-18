@@ -165,16 +165,10 @@ func main() {
 	// instructions.
 	app.RunWhenOnBrowser()
 
-	var resourceResolver app.ResourceResolver
-	if generateStaticFiles {
-		resourceResolver = app.GitHubPages("blazar")
-	}
-
 	blazarApp := blazarapp.NewApp(blazarapp.Config{
 		Name:        "UI Demo",
 		Description: "UI Demo",
 		Title:       "UI Demo",
-		Resources:   resourceResolver,
 	})
 	blazarApp.AddPlugin(fontawesome.NewPlugin(fontawesome.Config{
 		Location: "/web/fontawesome/",
