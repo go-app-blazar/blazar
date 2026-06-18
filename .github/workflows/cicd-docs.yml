@@ -36,7 +36,7 @@ jobs:
         id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          path: bin/demo/
+          path: bin/blazar/
 
   deploy:
     environment:
