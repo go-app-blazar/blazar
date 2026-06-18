@@ -55,7 +55,9 @@ bin/demo/web/app.wasm: bin/demo/web $(ALL_GO_FILES)
 .PHONY: build-static-demo
 build-static-demo: binaries_demo
 	mkdir -p bin/blazar
-	cp -a bin/demo/app bin/blazar/
+	go build -o bin/blazar/app ./cmd/demo/...
+	mkdir -p bin/blazar/web
+	GOARCH=wasm GOOS=js go build -o bin/blazar/web/app.wasm ./cmd/demo/...
 	cd bin/blazar && GENERATE_STATIC_FILES=true ./app
 	rm -f bin/blazar/app
 	# This should not be required, but I can't get it to work with the normal registration mechanism.
