@@ -1,7 +1,9 @@
 package fontawesome
 
 import (
+	"context"
 	"io/fs"
+	"log/slog"
 	"net/http"
 	"path/filepath"
 	"slices"
@@ -32,8 +34,20 @@ func NewPlugin(config Config) blazarapp.Plugin {
 
 // Register registers the plugin against the go-app handler and the HTTP mux.
 func (p *plugin) Register(handler *app.Handler, mux *http.ServeMux) {
-	mux.Handle(p.config.Location, http.StripPrefix(p.config.Location, p.httpHandler()))
+	location := p.config.Location
+	if handler.Resources != nil {
+		location = handler.Resources.Resolve(location)
+	}
+	slog.InfoContext(context.TODO(), "Registering FontAwesome plugin", "location", location)
+	mux.Handle(location, http.StripPrefix(location, p.httpHandler()))
+
 	handler.Styles = append(handler.Styles, p.cssFilenames(p.config.Location)...)
+	handler.CacheableResources = append(handler.CacheableResources,
+		filepath.Join(p.config.Location, "webfonts/fa-brands-400.woff2"),
+		filepath.Join(p.config.Location, "webfonts/fa-regular-400.woff2"),
+		filepath.Join(p.config.Location, "webfonts/fa-solid-900.woff2"),
+		filepath.Join(p.config.Location, "webfonts/fa-v4compatibility.woff2"),
+	)
 }
 
 // cssFilenames returns the CSS filenames for the plugin.

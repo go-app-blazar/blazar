@@ -184,16 +184,6 @@ func main() {
 		Location: "/web/blazar/",
 	}))
 
-	if generateStaticFiles {
-		err := blazarApp.GenerateStaticFiles()
-		if err != nil {
-			slog.ErrorContext(ctx, "Could not generate static files", "err", err)
-			os.Exit(1)
-		}
-		slog.InfoContext(ctx, "Static files generated successfully.")
-		os.Exit(0)
-	}
-
 	slog.InfoContext(ctx, "Disable service worker?", "disableServiceWorker", disableServiceWorker)
 	if disableServiceWorker {
 		blazarApp.DisableServiceWorker()
@@ -209,6 +199,16 @@ func main() {
 		blazarApp.ServeHTTP(wrappedResponseWriter, r)
 		slog.InfoContext(r.Context(), "[out] Request", "method", r.Method, "url", r.URL.String(), "code", wrappedResponseWriter.Info.StatusCode)
 	})
+
+	if generateStaticFiles {
+		err := blazarApp.GenerateStaticFiles()
+		if err != nil {
+			slog.ErrorContext(ctx, "Could not generate static files", "err", err)
+			os.Exit(1)
+		}
+		slog.InfoContext(ctx, "Static files generated successfully.")
+		os.Exit(0)
+	}
 
 	port := os.Getenv("PORT")
 	if port == "" {

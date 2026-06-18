@@ -1,7 +1,9 @@
 package blazar
 
 import (
+	"context"
 	"io/fs"
+	"log/slog"
 	"net/http"
 	"path/filepath"
 	"slices"
@@ -31,7 +33,13 @@ func NewPlugin(config Config) blazarapp.Plugin {
 
 // Register registers the plugin against the go-app handler and the HTTP mux.
 func (p *plugin) Register(handler *app.Handler, mux *http.ServeMux) {
-	mux.Handle(p.config.Location, http.StripPrefix(p.config.Location, p.httpHandler()))
+	location := p.config.Location
+	if handler.Resources != nil {
+		location = handler.Resources.Resolve(location)
+	}
+	slog.InfoContext(context.TODO(), "Registering Blazar plugin", "location", location)
+	mux.Handle(location, http.StripPrefix(location, p.httpHandler()))
+
 	handler.Styles = append(handler.Styles, p.cssFilenames(p.config.Location)...)
 }
 
