@@ -199,5 +199,18 @@ func (a *App) DisableServiceWorker() {
 
 // GenerateStaticFiles generates the static files for the app.
 func (a *App) GenerateStaticFiles() error {
-	return app.GenerateStaticWebsite(".", a.appHandler)
+	var pages []string
+	// TODO: I don't know why this doesn't work, but if I set these, then the static file generation crashes.
+	/*
+		for _, page := range a.appHandler.Styles {
+			pages = append(pages, page)
+		}
+		for _, page := range a.appHandler.Scripts {
+			pages = append(pages, page)
+		}
+		for _, page := range a.appHandler.CacheableResources {
+			pages = append(pages, page)
+		}
+	*/
+	return app.GenerateStaticWebsite(".", a.appHandler, pages...)
 }
