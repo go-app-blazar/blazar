@@ -85,6 +85,16 @@ func main() {
 		}
 	}
 
+	generateStaticFiles := false
+	if value := os.Getenv("GENERATE_STATIC_FILES"); value != "" {
+		v, err := strconv.ParseBool(value)
+		if err != nil {
+			slog.ErrorContext(ctx, "Could not parse GENERATE_STATIC_FILES", "err", err)
+		} else {
+			generateStaticFiles = v
+		}
+	}
+
 	router.Register(ctx,
 		router.Route{
 			Path:      "/",
@@ -155,10 +165,16 @@ func main() {
 	// instructions.
 	app.RunWhenOnBrowser()
 
+	var resourceResolver app.ResourceResolver
+	if generateStaticFiles {
+		resourceResolver = app.GitHubPages("blazar")
+	}
+
 	blazarApp := blazarapp.NewApp(blazarapp.Config{
 		Name:        "UI Demo",
 		Description: "UI Demo",
 		Title:       "UI Demo",
+		Resources:   resourceResolver,
 	})
 	blazarApp.AddPlugin(fontawesome.NewPlugin(fontawesome.Config{
 		Location: "/web/fontawesome/",
@@ -167,6 +183,16 @@ func main() {
 	blazarApp.AddPlugin(blazar.NewPlugin(blazar.Config{
 		Location: "/web/blazar/",
 	}))
+
+	if generateStaticFiles {
+		err := blazarApp.GenerateStaticFiles()
+		if err != nil {
+			slog.ErrorContext(ctx, "Could not generate static files", "err", err)
+			os.Exit(1)
+		}
+		slog.InfoContext(ctx, "Static files generated successfully.")
+		os.Exit(0)
+	}
 
 	slog.InfoContext(ctx, "Disable service worker?", "disableServiceWorker", disableServiceWorker)
 	if disableServiceWorker {
