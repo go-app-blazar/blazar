@@ -166,7 +166,7 @@ func main() {
 	app.RunWhenOnBrowser()
 
 	var resourceResolver app.ResourceResolver
-	if generateStaticFiles {
+	{
 		resourceResolver = app.GitHubPages("blazar")
 	}
 

@@ -30,7 +30,7 @@ jobs:
 
       - name: Make
         run: |
-          make clean all
+          make clean build
 
       - name: Upload static files
         id: deployment
