@@ -15,7 +15,7 @@ ALL_GO_FILES := $(shell find ./ -name '*.go') $(shell find ./ -type f -wholename
 current_dir = $(shell pwd)
 
 .PHONY: build
-build: binaries
+build: binaries build-static-demo
 
 .PHONY: clean
 clean:
@@ -51,6 +51,10 @@ bin/demo/web: bin/demo
 
 bin/demo/web/app.wasm: bin/demo/web $(ALL_GO_FILES)
 	GOARCH=wasm GOOS=js go build -o $@ ./cmd/demo/...
+
+.PHONY: build-static-demo
+build-static-demo: binaries_demo
+	cd bin/demo && GENERATE_STATIC_FILES=true ./app
 
 .PHONY: run-demo
 run-demo: binaries_demo

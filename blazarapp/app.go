@@ -196,3 +196,8 @@ func (a *App) DisableServiceWorker() {
 		w.Write([]byte(""))
 	})
 }
+
+// GenerateStaticFiles generates the static files for the app.
+func (a *App) GenerateStaticFiles() error {
+	return app.GenerateStaticWebsite(".", a.appHandler)
+}
