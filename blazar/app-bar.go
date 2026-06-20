@@ -10,6 +10,7 @@ import (
 type blazarAppBar struct {
 	app.Compo
 
+	IClasses      []string
 	INoIcon       bool
 	IIcon         string
 	IIconFunction func(ctx app.Context, e app.Event)
@@ -25,6 +26,11 @@ func AppBar() *blazarAppBar {
 	return &blazarAppBar{
 		IIcon: "bars",
 	}
+}
+
+func (c *blazarAppBar) Class(class ...string) *blazarAppBar {
+	c.IClasses = class
+	return c
 }
 
 func (c *blazarAppBar) NoIcon(noIcon bool) *blazarAppBar {
@@ -71,7 +77,7 @@ func (c *blazarAppBar) Render() app.UI {
 	slog.InfoContext(context.TODO(), "AppBar: Render")
 
 	return app.Div().
-		Class("blazar-app-bar").
+		Class(append([]string{"blazar-app-bar"}, c.IClasses...)...).
 		Style("width", "100%").
 		Body(
 			app.If(!c.INoIcon && c.IIcon != "" && c.IIconFunction != nil, func() app.UI {

@@ -14,6 +14,8 @@ type FormPage struct {
 }
 
 func (c *FormPage) OnMount(ctx app.Context) {
+	slog.InfoContext(ctx.Context, "FormPage: OnMount")
+
 	c.name = "Monkey D. Luffy"
 }
 

@@ -22,6 +22,7 @@ var _ app.Navigator = (*SelectPage)(nil)
 
 func (c *SelectPage) OnMount(ctx app.Context) {
 	slog.InfoContext(ctx.Context, "SelectPage: OnMount")
+
 	c.single = "option2"
 	c.multiple = []string{"option2", "option3"}
 }

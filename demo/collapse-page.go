@@ -16,6 +16,8 @@ type CollapsePage struct {
 }
 
 func (c *CollapsePage) OnMount(ctx app.Context) {
+	slog.InfoContext(ctx.Context, "CollapsePage: OnMount")
+
 	c.defaultOpen = true
 	c.defaultClosed = false
 }

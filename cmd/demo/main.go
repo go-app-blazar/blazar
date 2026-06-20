@@ -97,8 +97,40 @@ func main() {
 
 	router.Register(ctx,
 		router.Route{
-			Path:      "/",
-			Component: nil,
+			Path: "/",
+			Component: func() app.Composer {
+				return blazar.MainLayout().
+					HeadlineText("Blazar Demo").
+					Drawer(
+						app.Div().
+							Body(
+								blazar.Item().
+									Label("App Bar").
+									To("/app-bar"),
+								blazar.Item().
+									Label("Button").
+									To("/button"),
+								blazar.Item().
+									Label("Collapse").
+									To("/collapse"),
+								blazar.Item().
+									Label("Form").
+									To("/form"),
+								blazar.Item().
+									Label("Input").
+									To("/input"),
+								blazar.Item().
+									Label("Media").
+									To("/media"),
+								blazar.Item().
+									Label("Select").
+									To("/select"),
+								blazar.Item().
+									Label("Table").
+									To("/table"),
+							),
+					)
+			},
 			Children: []router.Route{
 				{
 					Path: "/",
@@ -134,6 +166,12 @@ func main() {
 					Path: "/input",
 					Component: func() app.Composer {
 						return &demo.InputPage{}
+					},
+				},
+				{
+					Path: "/media",
+					Component: func() app.Composer {
+						return &demo.MediaPage{}
 					},
 				},
 				{

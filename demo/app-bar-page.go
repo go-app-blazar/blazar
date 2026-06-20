@@ -15,6 +15,8 @@ type AppBarPage struct {
 }
 
 func (c *AppBarPage) OnMount(ctx app.Context) {
+	slog.InfoContext(ctx.Context, "AppBarPage: OnMount")
+
 	c.defaultOpen = true
 	c.defaultClosed = false
 }
