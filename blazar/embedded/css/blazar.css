@@ -1,4 +1,8 @@
 html {
+    border: 0;
+    padding: 0;
+    margin: 0;
+
     font-family: sans-serif;
 
     --blazar-theme-primary: #20a4f3;
@@ -15,6 +19,12 @@ html {
     --blazar-theme-on-warning: #ffffff;
     --blazar-theme-on-info: #ffffff;
     --blazar-theme-on-error: #ffffff;
+}
+
+body {
+    border: 0;
+    padding: 0;
+    margin: 0;
 }
 
 .blazar-app-bar {
@@ -227,6 +237,47 @@ a.blazar-item {
 }
 
 .blazar-item__name {
+}
+
+.blazar-main-layout {
+    height: 100vh;
+    min-width: 100%;
+    width: max-content;
+}
+
+.blazar-main-layout__drawer {
+    display: none;
+}
+
+.blazar-main-layout__drawer.visible {
+    display: block;
+}
+
+.blazar-main-layout__header {
+}
+
+.blazar-main-layout__body {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.blazar-main-layout__drawer {
+    padding: 1em;
+    min-width: 150px;
+}
+
+.blazar-main-layout__content {
+    flex: 1;
+}
+
+@media print {
+    .blazar-main-layout__header {
+        display: none !important;
+    }
+
+    .blazar-main-layout__drawer {
+        display: none !important;
+    }
 }
 
 .blazar-multiselect {

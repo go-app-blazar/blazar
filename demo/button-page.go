@@ -12,6 +12,7 @@ type ButtonPage struct {
 }
 
 func (c *ButtonPage) OnMount(ctx app.Context) {
+	slog.InfoContext(ctx.Context, "ButtonPage: OnMount")
 }
 
 func (c *ButtonPage) OnNav(ctx app.Context) {

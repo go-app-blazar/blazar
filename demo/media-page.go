@@ -20,10 +20,14 @@ type MediaPage struct {
 
 func (c *MediaPage) OnMount(ctx app.Context) {
 	slog.InfoContext(ctx.Context, "MediaPage: OnMount")
+
 	c.mediaQuery1 = "screen and (max-width: 900px)"
-	c.matchMedia = matchmedia.New(c.mediaQuery1)
-	c.matchMedia.OnChange(func(ctx app.Context, value bool) {
+
+	c.matchMedia = matchmedia.New(ctx, c.mediaQuery1)
+	c.matchMedia.SetOnChange(func(ctx app.Context, value bool) {
 		slog.InfoContext(ctx.Context, "MediaPage: MatchMedia: OnChange", "value", value)
+		c.result1 = value
+		ctx.Update()
 	})
 }
 
@@ -33,7 +37,6 @@ func (c *MediaPage) OnNav(ctx app.Context) {
 
 func (c *MediaPage) OnUpdate(ctx app.Context) {
 	slog.InfoContext(ctx.Context, "MediaPage: OnUpdate", "mediaQuery1", c.mediaQuery1, "result1", c.result1)
-	c.matchMedia.SetQuery(c.mediaQuery1)
 }
 
 func (c *MediaPage) Render() app.UI {
@@ -49,6 +52,7 @@ func (c *MediaPage) Render() app.UI {
 						Bind(&c.mediaQuery1).
 						On("change", func(ctx app.Context, e app.Event) {
 							slog.InfoContext(ctx.Context, "MediaPage: OnChange", "mediaQuery1", c.mediaQuery1)
+							c.matchMedia.SetQuery(c.mediaQuery1)
 						}),
 				),
 			app.FieldSet().
