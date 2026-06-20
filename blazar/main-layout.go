@@ -95,12 +95,16 @@ func (c *blazarMainLayout) Render() app.UI {
 	slog.InfoContext(context.TODO(), "MainLayout: Render")
 
 	iconVisible := false
-	drawerVisibleClass := "visible"
-	if c.narrow {
-		iconVisible = true
-		drawerVisibleClass = ""
-		if c.drawerVisible {
-			drawerVisibleClass = "visible"
+	drawerVisibleClass := ""
+	if c.IDrawer != nil {
+		drawerVisibleClass = "visible"
+
+		if c.narrow {
+			iconVisible = true
+			drawerVisibleClass = ""
+			if c.drawerVisible {
+				drawerVisibleClass = "visible"
+			}
 		}
 	}
 
