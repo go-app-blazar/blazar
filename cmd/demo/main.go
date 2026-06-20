@@ -137,6 +137,12 @@ func main() {
 					},
 				},
 				{
+					Path: "/media",
+					Component: func() app.Composer {
+						return &demo.MediaPage{}
+					},
+				},
+				{
 					Path: "/select",
 					Component: func() app.Composer {
 						return &demo.SelectPage{}

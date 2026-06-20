@@ -37,6 +37,9 @@ func (c *IndexPage) Render() app.UI {
 				Label("Input").
 				To("/input"),
 			blazar.Item().
+				Label("Media").
+				To("/media"),
+			blazar.Item().
 				Label("Select").
 				To("/select"),
 			blazar.Item().
