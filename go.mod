@@ -14,3 +14,7 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
 )
+
+replace github.com/maxence-charriere/go-app/v11 => github.com/tekkamanendless/fork-of-maxence-charriere-go-app/v11 v11.0.0-20260624062618-c2f3e531f36d
+
+//replace github.com/maxence-charriere/go-app/v11 => ../../tekkamanendless/fork-of-maxence-charriere-go-app
