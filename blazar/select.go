@@ -18,6 +18,7 @@ type blazarSelect struct {
 	ILabel            string
 	IAllowedValues    []SelectOption
 	ISelectedValue    string
+	IDisabled         bool
 	BindSelectedValue *string
 }
 
@@ -26,6 +27,11 @@ var _ app.Updater = (*blazarSelect)(nil)
 
 func (c *blazarSelect) OnUpdate(ctx app.Context) {
 	slog.InfoContext(ctx.Context, "blazarSelect: OnUpdate")
+}
+
+func (c *blazarSelect) Disabled(disabled bool) *blazarSelect {
+	c.IDisabled = disabled
+	return c
 }
 
 func (c *blazarSelect) Name(name string) *blazarSelect {
@@ -74,6 +80,7 @@ func (c *blazarSelect) Render() app.UI {
 				app.Select().
 					Name(c.IName).
 					Class("blazar-select__select").
+					Disabled(c.IDisabled).
 					Multiple(false).
 					Body(
 						app.Range(c.IAllowedValues).Slice(func(i int) app.UI {
