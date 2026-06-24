@@ -17,6 +17,7 @@ type blazarMultiselect struct {
 	UseEvents
 	IName              string
 	ILabel             string
+	IDisabled          bool
 	IAllowedValues     []SelectOption
 	ISelectedValues    []string
 	BindSelectedValues *[]string
@@ -27,6 +28,11 @@ var _ app.Updater = (*blazarMultiselect)(nil)
 
 func (c *blazarMultiselect) OnUpdate(ctx app.Context) {
 	slog.InfoContext(ctx.Context, "blazarMultiselect: OnUpdate")
+}
+
+func (c *blazarMultiselect) Disabled(disabled bool) *blazarMultiselect {
+	c.IDisabled = disabled
+	return c
 }
 
 func (c *blazarMultiselect) Name(name string) *blazarMultiselect {
@@ -76,6 +82,7 @@ func (c *blazarMultiselect) Render() app.UI {
 				app.Select().
 					Name(c.IName).
 					Class("blazar-multiselect__select").
+					Disabled(c.IDisabled).
 					Multiple(true).
 					Body(
 						app.Range(c.IAllowedValues).Slice(func(i int) app.UI {
