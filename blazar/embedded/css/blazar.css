@@ -425,9 +425,4 @@ a.blazar-item {
     .blazar-table__pagination {
         display: none;
     }
-
-    .blazar-table table tbody td {
-        padding-top: 2em;
-        padding-bottom: 2em;
-    }
 }
