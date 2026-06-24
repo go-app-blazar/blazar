@@ -200,7 +200,6 @@ func (a *App) DisableServiceWorker() {
 // GenerateStaticFiles generates the static files for the app.
 func (a *App) GenerateStaticFiles() error {
 	var pages []string
-	// TODO: I don't know why this doesn't work, but if I set these, then the static file generation crashes.
 	for _, page := range a.appHandler.Styles {
 		pages = append(pages, page)
 	}
@@ -210,5 +209,5 @@ func (a *App) GenerateStaticFiles() error {
 	for _, page := range a.appHandler.CacheableResources {
 		pages = append(pages, page)
 	}
-	return app.GenerateStaticWebsite(".", a.appHandler, pages...)
+	return app.GenerateStaticWebsiteFromMux(".", a.mux, pages...)
 }
