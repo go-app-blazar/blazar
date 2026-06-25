@@ -26,7 +26,9 @@ var _ app.Composer = (*blazarSelect)(nil)
 var _ app.Updater = (*blazarSelect)(nil)
 
 func (c *blazarSelect) OnUpdate(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "blazarSelect: OnUpdate")
+	if debugSelect {
+		slog.DebugContext(ctx.Context, "blazarSelect: OnUpdate")
+	}
 }
 
 func (c *blazarSelect) Disabled(disabled bool) *blazarSelect {
@@ -71,7 +73,9 @@ func (c *blazarSelect) On(event string, function func(ctx app.Context, e app.Eve
 }
 
 func (c *blazarSelect) Render() app.UI {
-	slog.InfoContext(context.TODO(), "blazarSelect: Render", "label", c.ILabel, "allowedValues", c.IAllowedValues, "selectedValue", c.ISelectedValue, "bindSelectedValue", c.BindSelectedValue)
+	if debugSelect {
+		slog.DebugContext(context.TODO(), "blazarSelect: Render", "label", c.ILabel, "allowedValues", c.IAllowedValues, "selectedValue", c.ISelectedValue, "bindSelectedValue", c.BindSelectedValue)
+	}
 	return InputWrapper().
 		Class("blazar-select").
 		Label(c.ILabel).

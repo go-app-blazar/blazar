@@ -100,7 +100,9 @@ func (t *blazarTable[T]) Columns(columns []TableColumn[T]) *blazarTable[T] {
 			t.popoverSelectedColumnNames = append(t.popoverSelectedColumnNames, column.Name)
 		}
 	}
-	slog.InfoContext(context.TODO(), "blazarTable: Columns", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+	if debugTable {
+		slog.DebugContext(context.TODO(), "blazarTable: Columns", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+	}
 	return t
 }
 
@@ -111,7 +113,9 @@ func (t *blazarTable[T]) VisibleColumns(visibleColumnNames []string) *blazarTabl
 		t.popoverSelectedColumnNames = make([]string, len(t.visibleColumnNames))
 		copy(t.popoverSelectedColumnNames, t.visibleColumnNames)
 	}
-	slog.InfoContext(context.TODO(), "blazarTable: VisibleColumns", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+	if debugTable {
+		slog.DebugContext(context.TODO(), "blazarTable: VisibleColumns", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+	}
 	return t
 }
 
@@ -249,8 +253,10 @@ func (t *blazarTable[T]) recalculateSelectedRows() {
 }
 
 func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "pageIndex", t.pageIndex, "pageSize", t.pageSize, "rows", len(t.IRows))
-	slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "visibleColumnNames", len(t.visibleColumnNames), "popoverSelectedColumnNames", len(t.popoverSelectedColumnNames))
+	if debugTable {
+		slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "pageIndex", t.pageIndex, "pageSize", t.pageSize, "rows", len(t.IRows))
+		slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "visibleColumnNames", len(t.visibleColumnNames), "popoverSelectedColumnNames", len(t.popoverSelectedColumnNames))
+	}
 
 	if len(t.popoverSelectedColumnNames) == 0 {
 		if len(t.visibleColumnNames) == 0 {
@@ -263,14 +269,18 @@ func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
 			copy(t.popoverSelectedColumnNames, t.visibleColumnNames)
 		}
 	}
-	slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+	if debugTable {
+		slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+	}
 
 	// Fix the checkboxes.
 	ctx.Defer(func(ctx app.Context) {
 		checkboxes := ctx.JSSrc().Call("querySelectorAll", "input[name='blazar-table-row-checkbox']")
 		if !checkboxes.IsNull() {
 			length := checkboxes.Get("length").Int()
-			slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "checkboxes", checkboxes, "length", length, "selectedRowIDs", t.selectedRowIDs)
+			if debugTable {
+				slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "checkboxes", checkboxes, "length", length, "selectedRowIDs", t.selectedRowIDs)
+			}
 
 			changesMade := false
 			for index := range length {
@@ -284,7 +294,9 @@ func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
 
 				shouldBeChecked := slices.Contains(t.selectedRowIDs, rowID)
 
-				slog.InfoContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "rowID", rowID, "checked", checked, "shouldBeChecked", shouldBeChecked)
+				if debugTable {
+					slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "rowID", rowID, "checked", checked, "shouldBeChecked", shouldBeChecked)
+				}
 
 				if shouldBeChecked {
 					if !checked {
@@ -308,9 +320,11 @@ func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
 }
 
 func (t *blazarTable[T]) Render() app.UI {
-	slog.InfoContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "pageIndex", t.pageIndex, "pageSize", t.pageSize, "rows", len(t.IRows))
-	slog.InfoContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "visibleColumnNames", t.visibleColumnNames)
-	slog.InfoContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+	if debugTable {
+		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "pageIndex", t.pageIndex, "pageSize", t.pageSize, "rows", len(t.IRows))
+		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "visibleColumnNames", t.visibleColumnNames)
+		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+	}
 
 	visibleColumns := []TableColumn[T]{}
 	for _, column := range t.IColumns {
@@ -318,7 +332,9 @@ func (t *blazarTable[T]) Render() app.UI {
 			visibleColumns = append(visibleColumns, column)
 		}
 	}
-	slog.InfoContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "visibleColumns", visibleColumns)
+	if debugTable {
+		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "visibleColumns", visibleColumns)
+	}
 
 	rowsToRender := t.IRows
 	rowIDsToRender := t.IRowIDs
@@ -332,7 +348,9 @@ func (t *blazarTable[T]) Render() app.UI {
 		}
 		rowsToRender = pages[t.pageIndex]
 		rowIDsToRender = rowIDPages[t.pageIndex]
-		slog.InfoContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "rowIDsToRender", rowIDsToRender)
+		if debugTable {
+			slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "rowIDsToRender", rowIDsToRender)
+		}
 	}
 
 	// Build the list of page indexes (so we can render a dropdown).
@@ -351,14 +369,20 @@ func (t *blazarTable[T]) Render() app.UI {
 				Icon("list").
 				Label("Select columns...").
 				On("click", func(ctx app.Context, e app.Event) {
-					slog.InfoContext(ctx.Context, "blazarTable: Render: item clicked")
+					if debugTable {
+						slog.DebugContext(ctx.Context, "blazarTable: Render: item clicked")
+					}
 
 					ctx.PreventUpdate()
 
 					thisElement := ctx.JSSrc()
-					slog.InfoContext(ctx.Context, "blazarTable: Render", "thisElement", thisElement.Get("className").String())
+					if debugTable {
+						slog.DebugContext(ctx.Context, "blazarTable: Render", "thisElement", thisElement.Get("className").String())
+					}
 					parentElement := ctx.JSSrc().Call("closest", ".blazar-table__header")
-					slog.InfoContext(ctx.Context, "blazarTable: Render", "parentElement", parentElement.Get("className").String())
+					if debugTable {
+						slog.DebugContext(ctx.Context, "blazarTable: Render", "parentElement", parentElement.Get("className").String())
+					}
 					if parentElement.IsNull() {
 						return
 					}
@@ -367,7 +391,9 @@ func (t *blazarTable[T]) Render() app.UI {
 					if popoverElement.IsNull() {
 						return
 					}
-					slog.InfoContext(ctx.Context, "blazarTable: Render", "popoverElement", popoverElement)
+					if debugTable {
+						slog.DebugContext(ctx.Context, "blazarTable: Render", "popoverElement", popoverElement)
+					}
 					options := app.ValueOf(map[string]any{})
 					options.Set("source", thisElement)
 
@@ -426,9 +452,13 @@ func (t *blazarTable[T]) Render() app.UI {
 										Icon("ellipsis-vertical").
 										On("click", func(ctx app.Context, e app.Event) {
 											thisElement := ctx.JSSrc()
-											slog.InfoContext(ctx.Context, "blazarTable: Render", "thisElement", thisElement.Get("className").String())
+											if debugTable {
+												slog.DebugContext(ctx.Context, "blazarTable: Render", "thisElement", thisElement.Get("className").String())
+											}
 											parentElement := ctx.JSSrc().Call("closest", ".blazar-table__header")
-											slog.InfoContext(ctx.Context, "blazarTable: Render", "parentElement", parentElement.Get("className").String())
+											if debugTable {
+												slog.DebugContext(ctx.Context, "blazarTable: Render", "parentElement", parentElement.Get("className").String())
+											}
 											if parentElement.IsNull() {
 												return
 											}
@@ -436,7 +466,9 @@ func (t *blazarTable[T]) Render() app.UI {
 											if popoverElement.IsNull() {
 												return
 											}
-											slog.InfoContext(ctx.Context, "blazarTable: Render", "popoverElement", popoverElement)
+											if debugTable {
+												slog.DebugContext(ctx.Context, "blazarTable: Render", "popoverElement", popoverElement)
+											}
 											options := app.ValueOf(map[string]any{})
 											options.Set("source", thisElement)
 
@@ -472,10 +504,14 @@ func (t *blazarTable[T]) Render() app.UI {
 								Button().
 									Label("Apply").
 									On("click", func(ctx app.Context, e app.Event) {
-										slog.InfoContext(ctx.Context, "blazarTable: table-columns-menu: Apply", "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+										if debugTable {
+											slog.DebugContext(ctx.Context, "blazarTable: table-columns-menu: Apply", "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+										}
 
 										popoverElement := ctx.JSSrc().Call("closest", "[popover]")
-										slog.InfoContext(ctx.Context, "blazarTable: table-columns-menu", "popoverElement", popoverElement.Get("className").String())
+										if debugTable {
+											slog.DebugContext(ctx.Context, "blazarTable: table-columns-menu", "popoverElement", popoverElement.Get("className").String())
+										}
 										if popoverElement.IsNull() {
 											return
 										}
@@ -484,19 +520,25 @@ func (t *blazarTable[T]) Render() app.UI {
 										t.visibleColumnNames = make([]string, len(t.popoverSelectedColumnNames))
 										copy(t.visibleColumnNames, t.popoverSelectedColumnNames)
 
-										slog.InfoContext(ctx.Context, "blazarTable: table-columns-menu: Apply", "visibleColumnNames", t.visibleColumnNames)
+										if debugTable {
+											slog.DebugContext(ctx.Context, "blazarTable: table-columns-menu: Apply", "visibleColumnNames", t.visibleColumnNames)
+										}
 										ctx.Update()
 									}),
 							).
 							On("toggle", func(ctx app.Context, e app.Event) {
 								newState := e.Get("newState").String()
-								slog.InfoContext(ctx.Context, "blazarTable: table-columns-menu: on toggle", "newState", newState)
+								if debugTable {
+									slog.DebugContext(ctx.Context, "blazarTable: table-columns-menu: on toggle", "newState", newState)
+								}
 								if newState != "closed" {
 									return
 								}
 
 								parentElement := ctx.JSSrc().Call("closest", ".blazar-table__header")
-								slog.InfoContext(ctx.Context, "blazarTable: Render", "parentElement", parentElement.Get("className").String())
+								if debugTable {
+									slog.DebugContext(ctx.Context, "blazarTable: Render", "parentElement", parentElement.Get("className").String())
+								}
 								if parentElement.IsNull() {
 									return
 								}
@@ -552,7 +594,7 @@ func (t *blazarTable[T]) Render() app.UI {
 							}
 							if multiRowAction.Function != nil {
 								button = button.On("click", func(ctx app.Context, e app.Event) {
-									//slog.InfoContext(ctx.Context, "blazarTable: multi-row-actions: click", "selectedRows", t.selectedRows)
+									//slog.DebugContext(ctx.Context, "blazarTable: multi-row-actions: click", "selectedRows", t.selectedRows)
 									multiRowAction.Function(ctx, t.selectedRows)
 								})
 							}
@@ -624,7 +666,9 @@ func (t *blazarTable[T]) Render() app.UI {
 														DataSet("rowid", rowID).
 														Value(slices.Contains(t.selectedRowIDs, rowID)).
 														On("change", func(ctx app.Context, e app.Event) {
-															slog.InfoContext(ctx.Context, "blazarTable: row: change", "e", e, "i", i, "e.target.dataset.rowid", e.Get("target").Get("dataset").Get("rowid").String())
+															if debugTable {
+																slog.DebugContext(ctx.Context, "blazarTable: row: change", "e", e, "i", i, "e.target.dataset.rowid", e.Get("target").Get("dataset").Get("rowid").String())
+															}
 
 															// For whatever reason, the actual `rowID` is incorrect in this handler function.
 															// Because of that, we need to extract it from the checkbox itself.
@@ -637,7 +681,9 @@ func (t *blazarTable[T]) Render() app.UI {
 
 															t.selectRowID(rowID, checked)
 
-															slog.InfoContext(ctx.Context, "blazarTable: row: change", "selectedRowIDs", t.selectedRowIDs)
+															if debugTable {
+																slog.DebugContext(ctx.Context, "blazarTable: row: change", "selectedRowIDs", t.selectedRowIDs)
+															}
 
 															ctx.Update()
 														}),
@@ -766,7 +812,9 @@ func (t *blazarTable[T]) Render() app.UI {
 									return
 								}
 
-								slog.InfoContext(ctx.Context, "blazarTable: Setting pageSize via select.", "pageSize", pageSize)
+								if debugTable {
+									slog.DebugContext(ctx.Context, "blazarTable: Setting pageSize via select.", "pageSize", pageSize)
+								}
 								t.setPageSize(uint(pageSize))
 								ctx.Update()
 							}),

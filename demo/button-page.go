@@ -12,16 +12,16 @@ type ButtonPage struct {
 }
 
 func (c *ButtonPage) OnMount(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "ButtonPage: OnMount")
+	slog.DebugContext(ctx.Context, "ButtonPage: OnMount")
 }
 
 func (c *ButtonPage) OnNav(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "ButtonPage: OnNav")
+	slog.DebugContext(ctx.Context, "ButtonPage: OnNav")
 }
 
 func (c *ButtonPage) Render() app.UI {
 	clickFunction := func(ctx app.Context, e app.Event) {
-		slog.InfoContext(ctx.Context, "ButtonPage: Click", "event", e)
+		slog.DebugContext(ctx.Context, "ButtonPage: Click", "event", e)
 		app.Window().Call("alert", "Button clicked")
 	}
 

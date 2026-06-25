@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"slices"
 
-	"github.com/go-app-blazar/blazar/blazarapp"
+	"github.com/go-app-blazar/blazar/blazarplugin"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -23,10 +23,10 @@ type plugin struct {
 	config Config
 }
 
-var _ blazarapp.Plugin = (*plugin)(nil)
+var _ blazarplugin.Plugin = (*plugin)(nil)
 
 // NewPlugin creates a new FontAwesome plugin.
-func NewPlugin(config Config) blazarapp.Plugin {
+func NewPlugin(config Config) blazarplugin.Plugin {
 	return &plugin{
 		config: config,
 	}

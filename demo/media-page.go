@@ -19,28 +19,28 @@ type MediaPage struct {
 }
 
 func (c *MediaPage) OnMount(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "MediaPage: OnMount")
+	slog.DebugContext(ctx.Context, "MediaPage: OnMount")
 
 	c.mediaQuery1 = "screen and (max-width: 900px)"
 
 	c.matchMedia = matchmedia.New(ctx, c.mediaQuery1)
 	c.matchMedia.SetOnChange(func(ctx app.Context, value bool) {
-		slog.InfoContext(ctx.Context, "MediaPage: MatchMedia: OnChange", "value", value)
+		slog.DebugContext(ctx.Context, "MediaPage: MatchMedia: OnChange", "value", value)
 		c.result1 = value
 		ctx.Update()
 	})
 }
 
 func (c *MediaPage) OnNav(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "MediaPage: OnNav")
+	slog.DebugContext(ctx.Context, "MediaPage: OnNav")
 }
 
 func (c *MediaPage) OnUpdate(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "MediaPage: OnUpdate", "mediaQuery1", c.mediaQuery1, "result1", c.result1)
+	slog.DebugContext(ctx.Context, "MediaPage: OnUpdate", "mediaQuery1", c.mediaQuery1, "result1", c.result1)
 }
 
 func (c *MediaPage) Render() app.UI {
-	slog.InfoContext(context.TODO(), "MediaPage: Render", "mediaQuery1", c.mediaQuery1, "result1", c.result1)
+	slog.DebugContext(context.TODO(), "MediaPage: Render", "mediaQuery1", c.mediaQuery1, "result1", c.result1)
 
 	return blazar.Page().
 		Body(
@@ -51,7 +51,7 @@ func (c *MediaPage) Render() app.UI {
 						Label("string").
 						Bind(&c.mediaQuery1).
 						On("change", func(ctx app.Context, e app.Event) {
-							slog.InfoContext(ctx.Context, "MediaPage: OnChange", "mediaQuery1", c.mediaQuery1)
+							slog.DebugContext(ctx.Context, "MediaPage: OnChange", "mediaQuery1", c.mediaQuery1)
 							c.matchMedia.SetQuery(c.mediaQuery1)
 						}),
 				),

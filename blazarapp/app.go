@@ -3,6 +3,7 @@ package blazarapp
 import (
 	"net/http"
 
+	"github.com/go-app-blazar/blazar/blazarplugin"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -10,7 +11,7 @@ import (
 type App struct {
 	appHandler *app.Handler
 	mux        *http.ServeMux
-	plugins    []Plugin
+	plugins    []blazarplugin.Plugin
 }
 
 var _ http.Handler = (*App)(nil)
@@ -182,10 +183,12 @@ func (a *App) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 // AddPlugin adds a new plugin to the app.
-func (a *App) AddPlugin(plugin Plugin) {
-	plugin.Register(a.appHandler, a.mux)
+func (a *App) AddPlugin(plugins ...blazarplugin.Plugin) {
+	for _, plugin := range plugins {
+		plugin.Register(a.appHandler, a.mux)
 
-	a.plugins = append(a.plugins, plugin)
+		a.plugins = append(a.plugins, plugin)
+	}
 }
 
 // DisableServiceWorker disables the service worker.

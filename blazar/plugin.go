@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"slices"
 
-	"github.com/go-app-blazar/blazar/blazarapp"
+	"github.com/go-app-blazar/blazar/blazarplugin"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -22,10 +22,10 @@ type plugin struct {
 	config Config
 }
 
-var _ blazarapp.Plugin = (*plugin)(nil)
+var _ blazarplugin.Plugin = (*plugin)(nil)
 
 // NewPlugin creates a new Blazar plugin.
-func NewPlugin(config Config) blazarapp.Plugin {
+func NewPlugin(config Config) blazarplugin.Plugin {
 	return &plugin{
 		config: config,
 	}
@@ -37,7 +37,7 @@ func (p *plugin) Register(handler *app.Handler, mux *http.ServeMux) {
 	if handler.Resources != nil {
 		location = handler.Resources.Resolve(location)
 	}
-	slog.InfoContext(context.TODO(), "Registering Blazar plugin", "location", location)
+	slog.DebugContext(context.TODO(), "Registering Blazar plugin", "location", location)
 	mux.Handle(location, http.StripPrefix(location, p.httpHandler()))
 
 	handler.Styles = append(handler.Styles, p.cssFilenames(p.config.Location)...)

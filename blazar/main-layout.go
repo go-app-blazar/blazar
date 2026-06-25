@@ -74,11 +74,15 @@ func (c *blazarMainLayout) Drawer(drawer app.UI) *blazarMainLayout {
 }
 
 func (c *blazarMainLayout) OnMount(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "MainLayout: OnMount", "responsiveWidth", c.IResponsiveWidth)
+	if debugMainLayout {
+		slog.DebugContext(ctx.Context, "MainLayout: OnMount", "responsiveWidth", c.IResponsiveWidth)
+	}
 
 	c.matchMedia = matchmedia.New(ctx, "screen and (max-width: "+c.IResponsiveWidth+")")
 	c.matchMedia.SetOnChange(func(ctx app.Context, value bool) {
-		slog.InfoContext(ctx.Context, "MediaPage: MatchMedia: OnChange", "value", value)
+		if debugMainLayout {
+			slog.DebugContext(ctx.Context, "MediaPage: MatchMedia: OnChange", "value", value)
+		}
 		c.narrow = value
 
 		ctx.Update()
@@ -86,13 +90,17 @@ func (c *blazarMainLayout) OnMount(ctx app.Context) {
 }
 
 func (c *blazarMainLayout) toggleDrawer() {
-	slog.InfoContext(context.TODO(), "MainLayout: toggleDrawer")
+	if debugMainLayout {
+		slog.DebugContext(context.TODO(), "MainLayout: toggleDrawer")
+	}
 
 	c.drawerVisible = !c.drawerVisible
 }
 
 func (c *blazarMainLayout) Render() app.UI {
-	slog.InfoContext(context.TODO(), "MainLayout: Render")
+	if debugMainLayout {
+		slog.DebugContext(context.TODO(), "MainLayout: Render")
+	}
 
 	iconVisible := false
 	drawerVisibleClass := ""

@@ -12,7 +12,6 @@ import (
 	"github.com/go-app-blazar/blazar/blazar"
 	"github.com/go-app-blazar/blazar/blazarapp"
 	"github.com/go-app-blazar/blazar/demo"
-	"github.com/go-app-blazar/blazar/fontawesome"
 	"github.com/go-app-blazar/router"
 	"github.com/joho/godotenv"
 	"github.com/lmittmann/tint"
@@ -102,7 +101,11 @@ func main() {
 			Path: "/",
 			Component: func() app.Composer {
 				return blazar.MainLayout().
-					HeadlineText("Blazar Demo").
+					Headline(
+						app.A().
+							Href("/").
+							Text("Blazar Demo"),
+					).
 					Drawer(
 						app.Div().
 							Body(
@@ -210,13 +213,7 @@ func main() {
 		Description: "UI Demo",
 		Title:       "UI Demo",
 	})
-	blazarApp.AddPlugin(fontawesome.NewPlugin(fontawesome.Config{
-		Location: "/web/fontawesome/",
-		Minify:   false,
-	}))
-	blazarApp.AddPlugin(blazar.NewPlugin(blazar.Config{
-		Location: "/web/blazar/",
-	}))
+	blazarApp.AddPlugin(blazarapp.DefaultPlugins()...)
 
 	slog.InfoContext(ctx, "Disable service worker?", "disableServiceWorker", disableServiceWorker)
 	if disableServiceWorker {

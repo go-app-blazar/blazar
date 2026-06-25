@@ -74,7 +74,9 @@ func (c *blazarAppBar) Trailer(ui app.UI) *blazarAppBar {
 }
 
 func (c *blazarAppBar) Render() app.UI {
-	slog.InfoContext(context.TODO(), "AppBar: Render", "INoIcon", c.INoIcon)
+	if debugAppBar {
+		slog.DebugContext(context.TODO(), "AppBar: Render", "INoIcon", c.INoIcon)
+	}
 
 	return app.Div().
 		Class(append([]string{"blazar-app-bar"}, c.IClasses...)...).

@@ -12,42 +12,17 @@ type IndexPage struct {
 }
 
 func (c *IndexPage) OnMount(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "IndexPage: OnMount")
+	slog.DebugContext(ctx.Context, "IndexPage: OnMount")
 }
 
 func (c *IndexPage) OnNav(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "IndexPage: OnNav")
+	slog.DebugContext(ctx.Context, "IndexPage: OnNav")
 }
 
 func (c *IndexPage) Render() app.UI {
 	return blazar.Page().
 		Body(
 			app.Div().
-				Body(
-					blazar.Item().
-						Label("App Bar").
-						To("/app-bar"),
-					blazar.Item().
-						Label("Button").
-						To("/button"),
-					blazar.Item().
-						Label("Collapse").
-						To("/collapse"),
-					blazar.Item().
-						Label("Form").
-						To("/form"),
-					blazar.Item().
-						Label("Input").
-						To("/input"),
-					blazar.Item().
-						Label("Media").
-						To("/media"),
-					blazar.Item().
-						Label("Select").
-						To("/select"),
-					blazar.Item().
-						Label("Table").
-						To("/table"),
-				),
+				Text("This is a demo of the Blazar package for Go-App."),
 		)
 }

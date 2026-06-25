@@ -1,4 +1,4 @@
-package blazarapp
+package blazarplugin
 
 import (
 	"net/http"

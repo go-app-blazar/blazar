@@ -58,7 +58,9 @@ func (c *blazarCheckbox) OnChange(function func(ctx app.Context, checked bool)) 
 }
 
 func (c *blazarCheckbox) Render() app.UI {
-	slog.InfoContext(context.TODO(), "blazarCheckbox: Render", "label", c.ILabel, "value", c.IValue, "bindValue", c.bindValue, "disabled", c.IDisabled)
+	if debugCheckbox {
+		slog.DebugContext(context.TODO(), "blazarCheckbox: Render", "label", c.ILabel, "value", c.IValue, "bindValue", c.bindValue, "disabled", c.IDisabled)
+	}
 
 	checked := c.IValue
 	if c.bindValue != nil {
@@ -91,7 +93,9 @@ func (c *blazarCheckbox) Render() app.UI {
 		icon = icon.On("click", func(ctx app.Context, e app.Event) {
 			if c.bindValue != nil {
 				*c.bindValue = !*c.bindValue
-				slog.InfoContext(ctx.Context, "blazarCheckbox: Click", "old bindValue", *c.bindValue)
+				if debugCheckbox {
+					slog.DebugContext(ctx.Context, "blazarCheckbox: Click", "old bindValue", *c.bindValue)
+				}
 
 				if c.IOnChange != nil {
 					c.IOnChange(ctx, *c.bindValue)
@@ -104,7 +108,9 @@ func (c *blazarCheckbox) Render() app.UI {
 			if e.Get("key").String() == "Enter" {
 				if c.bindValue != nil {
 					*c.bindValue = !*c.bindValue
-					slog.InfoContext(ctx.Context, "blazarCheckbox: Keyup", "old bindValue", *c.bindValue)
+					if debugCheckbox {
+						slog.DebugContext(ctx.Context, "blazarCheckbox: Keyup", "old bindValue", *c.bindValue)
+					}
 
 					if c.IOnChange != nil {
 						c.IOnChange(ctx, *c.bindValue)
