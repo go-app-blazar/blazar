@@ -2,7 +2,20 @@ package blazar
 
 // Debug toggles debug logging for this package.
 func Debug(debug bool) {
+	debugAppBar = debug
+	debugButton = debug
+	debugCheckbox = debug
+	debugCollapse = debug
+	debugForm = debug
+	debugInput = debug
+	debugInputWrapper = debug
+	debugItem = debug
+	debugMainLayout = debug
+	debugMultiselect = debug
+	debugPage = debug
 	debugSelect = debug
+	debugStatusBar = debug
+	debugTable = debug
 }
 
 // debugAppBar toggles debug logging for AppBar.
