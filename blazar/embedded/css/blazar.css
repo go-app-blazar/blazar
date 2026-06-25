@@ -397,6 +397,10 @@ a.blazar-item {
     border: 0;
 }
 
+.blazar-table__column__number {
+    text-align: right;
+}
+
 @media print {
     .blazar-no-print {
         display: none;

@@ -18,9 +18,10 @@ type TablePage struct {
 }
 
 type characterRow struct {
-	Name string
-	Role string
-	Crew string
+	Name   string
+	Role   string
+	Crew   string
+	Bounty uint
 }
 
 func (c *TablePage) OnMount(ctx app.Context) {
@@ -49,62 +50,80 @@ func (c *TablePage) OnMount(ctx app.Context) {
 				return row.Crew
 			},
 		},
+		{
+			Name: "Bounty",
+			Value: func(row characterRow) any {
+				return row.Bounty
+			},
+			Type: blazar.TableColumnTypeNumber,
+		},
 	}
 	c.rows = []characterRow{
 		{
-			Name: "Monkey D. Luffy",
-			Role: "Captain",
-			Crew: "Straw Hat Pirates",
+			Name:   "Monkey D. Luffy",
+			Role:   "Captain",
+			Crew:   "Straw Hat Pirates",
+			Bounty: 3_000_000_000,
 		},
 		{
-			Name: "Roronoa Zoro",
-			Role: "Swordsman",
-			Crew: "Straw Hat Pirates",
+			Name:   "Roronoa Zoro",
+			Role:   "Swordsman",
+			Crew:   "Straw Hat Pirates",
+			Bounty: 1_111_000_000,
 		},
 		{
-			Name: "Nami",
-			Role: "Navigator",
-			Crew: "Straw Hat Pirates",
+			Name:   "Nami",
+			Role:   "Navigator",
+			Crew:   "Straw Hat Pirates",
+			Bounty: 366_000_000,
 		},
 		{
-			Name: "Usopp",
-			Role: "Sniper",
-			Crew: "Straw Hat Pirates",
+			Name:   "Usopp",
+			Role:   "Sniper",
+			Crew:   "Straw Hat Pirates",
+			Bounty: 500_000_000,
 		},
 		{
-			Name: "Sanji",
-			Role: "Cook",
-			Crew: "Straw Hat Pirates",
+			Name:   "Sanji",
+			Role:   "Cook",
+			Crew:   "Straw Hat Pirates",
+			Bounty: 1_032_000_000,
 		},
 		{
-			Name: "Chopper",
-			Role: "Doctor",
-			Crew: "Straw Hat Pirates",
+			Name:   "Chopper",
+			Role:   "Doctor",
+			Crew:   "Straw Hat Pirates",
+			Bounty: 1_000,
 		},
 		{
-			Name: "Nico Robin",
-			Role: "Archaeologist",
-			Crew: "Straw Hat Pirates",
+			Name:   "Nico Robin",
+			Role:   "Archaeologist",
+			Crew:   "Straw Hat Pirates",
+			Bounty: 930_000_000,
 		},
 		{
-			Name: "Franky",
-			Role: "Shipwright",
-			Crew: "Straw Hat Pirates",
+			Name:   "Franky",
+			Role:   "Shipwright",
+			Crew:   "Straw Hat Pirates",
+			Bounty: 394_000_000,
 		},
 		{
-			Name: "Brook",
-			Role: "Musician",
-			Crew: "Straw Hat Pirates",
+			Name:   "Brook",
+			Role:   "Musician",
+			Crew:   "Straw Hat Pirates",
+			Bounty: 383_000_000,
 		},
 		{
-			Name: "Jinbe",
-			Role: "Helmsman",
-			Crew: "Straw Hat Pirates",
+			Name:   "Jinbe",
+			Role:   "Helmsman",
+			Crew:   "Straw Hat Pirates",
+			Bounty: 1_100_000_000,
 		},
 		{
-			Name: "Trafalgar D. Water Law",
-			Role: "Captain",
-			Crew: "Heart Pirates",
+			Name:   "Trafalgar D. Water Law",
+			Role:   "Captain",
+			Crew:   "Heart Pirates",
+			Bounty: 3_000_000_000,
 		},
 		{
 			Name: "Monkey D. Garp",

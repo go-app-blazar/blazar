@@ -8,6 +8,8 @@ import (
 	"strconv"
 
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 )
 
 type blazarTable[T any] struct {
@@ -56,10 +58,32 @@ type MultiRowAction[T any] struct {
 	Disabled bool
 }
 
+type TableColumnType string
+
+const (
+	TableColumnTypeString   TableColumnType = "string"
+	TableColumnTypeNumber   TableColumnType = "number"
+	TableColumnTypeDate     TableColumnType = "date"
+	TableColumnTypeTime     TableColumnType = "time"
+	TableColumnTypeDateTime TableColumnType = "datetime"
+	TableColumnTypeBoolean  TableColumnType = "boolean"
+)
+
+var printer *message.Printer = message.NewPrinter(language.English)
+
+const TableColumnClassNumber = "blazar-table__column__number"
+
+func TableColumnFormatNumber(value any) any {
+	return printer.Sprintf("%d", value)
+}
+
 type TableColumn[T any] struct {
-	Name  string
-	To    func(row T) string
-	Value func(row T) any
+	Name   string              // The name of the column.
+	To     func(row T) string  // If set, and if this returns a non-empty string, then this column will be a link.
+	Value  func(row T) any     // The value of the column.
+	Type   TableColumnType     // The type of the column.
+	Format func(value any) any // If set, this function will be used to format the value of the column.
+	Class  string              // The class of the column.
 }
 
 func Table[T any]() *blazarTable[T] {
@@ -330,6 +354,16 @@ func (t *blazarTable[T]) Render() app.UI {
 	for _, column := range t.IColumns {
 		if len(t.visibleColumnNames) == 0 || slices.Contains(t.visibleColumnNames, column.Name) {
 			visibleColumns = append(visibleColumns, column)
+		}
+	}
+	for i, column := range visibleColumns {
+		if column.Type == TableColumnTypeNumber {
+			if column.Class == "" {
+				visibleColumns[i].Class = TableColumnClassNumber
+			}
+			if column.Format == nil {
+				visibleColumns[i].Format = TableColumnFormatNumber
+			}
 		}
 	}
 	if debugTable {
@@ -630,6 +664,7 @@ func (t *blazarTable[T]) Render() app.UI {
 									app.Range(visibleColumns).Slice(func(i int) app.UI {
 										column := visibleColumns[i]
 										return app.Th().
+											Class(column.Class).
 											Text(column.Name)
 									}),
 									app.If(len(visibleRowActions) > 0, func() app.UI {
@@ -692,9 +727,13 @@ func (t *blazarTable[T]) Render() app.UI {
 										app.Range(visibleColumns).Slice(func(i int) app.UI {
 											column := visibleColumns[i]
 											return app.Td().
+												Class(column.Class).
 												Body(
 													app.If(column.Value != nil, func() app.UI {
 														value := column.Value(row)
+														if column.Format != nil {
+															value = column.Format(value)
+														}
 														valueAsUI, valueIsUI := value.(app.UI)
 
 														return app.If(column.To != nil, func() app.UI {
