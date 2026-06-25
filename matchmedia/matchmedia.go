@@ -7,9 +7,6 @@ import (
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
-// Debug toggles debug logging for this package.
-var Debug bool = false
-
 // MatchMedia is a wrapper around the matchMedia API.
 //
 // This is used to watch for changes in a given media query.
@@ -26,8 +23,8 @@ type MatchMedia struct {
 //
 // The ctx given is the context of the component that is using this MatchMedia.
 func New(ctx app.Context, mediaQuery string) *MatchMedia {
-	if Debug {
-		slog.InfoContext(context.TODO(), "MatchMedia: New", "mediaQuery", mediaQuery)
+	if debugMatchMedia {
+		slog.DebugContext(context.TODO(), "MatchMedia: New", "mediaQuery", mediaQuery)
 	}
 	m := &MatchMedia{
 		ctx: ctx,
@@ -38,8 +35,8 @@ func New(ctx app.Context, mediaQuery string) *MatchMedia {
 
 // SetQuery sets the media query to watch for changes.
 func (m *MatchMedia) SetQuery(mediaQuery string) {
-	if Debug {
-		slog.InfoContext(context.TODO(), "MatchMedia: Query", "mediaQuery", mediaQuery)
+	if debugMatchMedia {
+		slog.DebugContext(context.TODO(), "MatchMedia: Query", "mediaQuery", mediaQuery)
 	}
 
 	// If the query is the same, then don't do anything.
@@ -59,14 +56,14 @@ func (m *MatchMedia) SetQuery(mediaQuery string) {
 		slog.ErrorContext(context.TODO(), "MatchMedia: Query: jsMediaQuery is null")
 		return
 	}
-	//slog.InfoContext(context.TODO(), "MatchMedia: jsMediaQuery", "jsMediaQuery", m.jsMediaQuery)
+	//slog.DebugContext(context.TODO(), "MatchMedia: jsMediaQuery", "jsMediaQuery", m.jsMediaQuery)
 
 	m.jsMediaQueryListener = app.FuncOf(func(this app.Value, args []app.Value) any {
-		//slog.InfoContext(context.TODO(), "MatchMedia: OnChange", "args", args)
+		//slog.DebugContext(context.TODO(), "MatchMedia: OnChange", "args", args)
 
 		m.value = args[0].Get("matches").Bool()
-		if Debug {
-			slog.InfoContext(context.TODO(), "MatchMedia: OnChange", "value", m.value)
+		if debugMatchMedia {
+			slog.DebugContext(context.TODO(), "MatchMedia: OnChange", "value", m.value)
 		}
 
 		if m.onChangeCallback != nil {
@@ -79,8 +76,8 @@ func (m *MatchMedia) SetQuery(mediaQuery string) {
 
 	m.jsMediaQuery.Call("addEventListener", "change", m.jsMediaQueryListener)
 
-	if Debug {
-		slog.InfoContext(context.TODO(), "MatchMedia: SetQuery: Invoking event listener manually")
+	if debugMatchMedia {
+		slog.DebugContext(context.TODO(), "MatchMedia: SetQuery: Invoking event listener manually")
 	}
 	m.jsMediaQueryListener.Invoke(m.jsMediaQuery)
 }

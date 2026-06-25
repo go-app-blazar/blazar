@@ -90,7 +90,9 @@ func (c *blazarInput[T]) Render() app.UI {
 		}
 		return fmt.Sprintf("%v", *value)
 	}
-	slog.InfoContext(context.TODO(), "blazarInput: Render", "label", c.ILabel, "type", c.IType, "value", c.IValue, "bindValue", derefOrNil(c.BindValue), "placeholder", c.IPlaceholder, "disabled", c.IDisabled)
+	if debugInput {
+		slog.DebugContext(context.TODO(), "blazarInput: Render", "label", c.ILabel, "type", c.IType, "value", c.IValue, "bindValue", derefOrNil(c.BindValue), "placeholder", c.IPlaceholder, "disabled", c.IDisabled)
+	}
 
 	kind := reflect.TypeOf(c.IValue).Kind()
 
@@ -149,8 +151,12 @@ func (c *blazarInput[T]) Render() app.UI {
 						Placeholder(c.IPlaceholder),
 				),
 				WithOn("change", func(ctx app.Context, e app.Event) {
-					//slog.InfoContext(ctx.Context, "blazarInput: Change", "value", value)
-					//slog.InfoContext(ctx.Context, "blazarInput: Change", "e.target.checked", e.Get("target").Get("checked").String())
+					/*
+						if debugInput {
+							slog.DebugContext(ctx.Context, "blazarInput: Change", "value", value)
+							slog.DebugContext(ctx.Context, "blazarInput: Change", "e.target.checked", e.Get("target").Get("checked").String())
+						}
+					*/
 
 					if c.BindValue != nil {
 						if kind == reflect.Bool {

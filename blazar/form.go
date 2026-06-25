@@ -112,7 +112,9 @@ func (c *blazarForm) Render() app.UI {
 					On("keyup", func(ctx app.Context, e app.Event) {
 						ctx.PreventUpdate()
 
-						slog.InfoContext(ctx.Context, "blazarForm: Keypress", "key", e.Get("key").String())
+						if debugForm {
+							slog.DebugContext(ctx.Context, "blazarForm: Keypress", "key", e.Get("key").String())
+						}
 
 						// If the user pressed "Enter", then perform the default action.
 						//

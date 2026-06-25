@@ -14,13 +14,13 @@ type FormPage struct {
 }
 
 func (c *FormPage) OnMount(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "FormPage: OnMount")
+	slog.DebugContext(ctx.Context, "FormPage: OnMount")
 
 	c.name = "Monkey D. Luffy"
 }
 
 func (c *FormPage) OnNav(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "FormPage: OnNav")
+	slog.DebugContext(ctx.Context, "FormPage: OnNav")
 }
 
 func (c *FormPage) Render() app.UI {

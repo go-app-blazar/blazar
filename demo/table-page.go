@@ -24,7 +24,7 @@ type characterRow struct {
 }
 
 func (c *TablePage) OnMount(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "TablePage: OnMount")
+	slog.DebugContext(ctx.Context, "TablePage: OnMount")
 
 	c.columns = []blazar.TableColumn[characterRow]{
 		{
@@ -115,7 +115,7 @@ func (c *TablePage) OnMount(ctx app.Context) {
 }
 
 func (c *TablePage) OnNav(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "TablePage: OnNav")
+	slog.DebugContext(ctx.Context, "TablePage: OnNav")
 }
 
 func (c *TablePage) Render() app.UI {

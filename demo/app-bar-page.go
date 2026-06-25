@@ -15,14 +15,14 @@ type AppBarPage struct {
 }
 
 func (c *AppBarPage) OnMount(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "AppBarPage: OnMount")
+	slog.DebugContext(ctx.Context, "AppBarPage: OnMount")
 
 	c.defaultOpen = true
 	c.defaultClosed = false
 }
 
 func (c *AppBarPage) OnNav(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "AppBarPage: OnNav")
+	slog.DebugContext(ctx.Context, "AppBarPage: OnNav")
 }
 
 func (c *AppBarPage) Render() app.UI {

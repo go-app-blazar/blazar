@@ -20,7 +20,7 @@ type InputPage struct {
 }
 
 func (c *InputPage) OnMount(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "InputPage: OnMount")
+	slog.DebugContext(ctx.Context, "InputPage: OnMount")
 
 	c.stringValue = "Hello, World!"
 	c.intValue = 123
@@ -31,7 +31,7 @@ func (c *InputPage) OnMount(ctx app.Context) {
 }
 
 func (c *InputPage) OnNav(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "InputPage: OnNav")
+	slog.DebugContext(ctx.Context, "InputPage: OnNav")
 }
 
 func (c *InputPage) Render() app.UI {

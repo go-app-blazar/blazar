@@ -27,7 +27,9 @@ var _ app.Composer = (*blazarMultiselect)(nil)
 var _ app.Updater = (*blazarMultiselect)(nil)
 
 func (c *blazarMultiselect) OnUpdate(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "blazarMultiselect: OnUpdate")
+	if debugMultiselect {
+		slog.DebugContext(ctx.Context, "blazarMultiselect: OnUpdate")
+	}
 }
 
 func (c *blazarMultiselect) Disabled(disabled bool) *blazarMultiselect {
@@ -73,7 +75,9 @@ func (c *blazarMultiselect) On(event string, function func(ctx app.Context, e ap
 }
 
 func (c *blazarMultiselect) Render() app.UI {
-	slog.InfoContext(context.TODO(), "blazarMultiselect: Render", "label", c.ILabel, "allowedValues", c.IAllowedValues, "selectedValues", c.ISelectedValues, "bindSelectedValues", c.BindSelectedValues)
+	if debugMultiselect {
+		slog.DebugContext(context.TODO(), "blazarMultiselect: Render", "label", c.ILabel, "allowedValues", c.IAllowedValues, "selectedValues", c.ISelectedValues, "bindSelectedValues", c.BindSelectedValues)
+	}
 	return InputWrapper().
 		Class("blazar-multiselect").
 		Label(c.ILabel).
@@ -128,6 +132,8 @@ func SelectedValuesTo(selectedValues *[]string) func(ctx app.Context, e app.Even
 			selectedOptionValue := selectedOption.Get("value").String()
 			*selectedValues = append(*selectedValues, selectedOptionValue)
 		}
-		slog.InfoContext(ctx.Context, "SelectedValuesTo: Selected values", "selectedValues", *selectedValues)
+		if debugMultiselect {
+			slog.DebugContext(ctx.Context, "SelectedValuesTo: Selected values", "selectedValues", *selectedValues)
+		}
 	}
 }

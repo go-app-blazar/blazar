@@ -26,11 +26,17 @@ var _ app.Composer = (*blazarCollapse)(nil)
 var _ app.Updater = (*blazarCollapse)(nil)
 
 func (c *blazarCollapse) OnUpdate(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "blazarCollapse: OnUpdate")
+	if debugCollapse {
+		slog.DebugContext(ctx.Context, "blazarCollapse: OnUpdate")
+	}
 	if c.BindOpen != nil {
-		slog.InfoContext(ctx.Context, "blazarCollapse: OnUpdate", "*BindValue", *c.BindOpen)
+		if debugCollapse {
+			slog.DebugContext(ctx.Context, "blazarCollapse: OnUpdate", "*BindValue", *c.BindOpen)
+		}
 	} else {
-		slog.InfoContext(ctx.Context, "blazarCollapse: OnUpdate: BindOpen is nil.")
+		if debugCollapse {
+			slog.DebugContext(ctx.Context, "blazarCollapse: OnUpdate: BindOpen is nil.")
+		}
 	}
 }
 
@@ -82,7 +88,9 @@ func (c *blazarCollapse) Render() app.UI {
 	if c.BindOpen != nil {
 		open = *c.BindOpen
 	}
-	slog.InfoContext(context.TODO(), "blazarCollapse: Render", "BindOpen", c.BindOpen, "open", open)
+	if debugCollapse {
+		slog.DebugContext(context.TODO(), "blazarCollapse: Render", "BindOpen", c.BindOpen, "open", open)
+	}
 
 	var element app.UI
 
@@ -133,7 +141,9 @@ func (c *blazarCollapse) Render() app.UI {
 					if c.BindOpen != nil {
 						*c.BindOpen = open
 					}
-					slog.InfoContext(ctx.Context, "Collapse: OnClick", "BindOpen", c.BindOpen, "open", open)
+					if debugCollapse {
+						slog.DebugContext(ctx.Context, "Collapse: OnClick", "BindOpen", c.BindOpen, "open", open)
+					}
 					ctx.Update()
 				}),
 			app.If(open, func() app.UI {

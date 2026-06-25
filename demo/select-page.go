@@ -21,18 +21,18 @@ var _ app.Mounter = (*SelectPage)(nil)
 var _ app.Navigator = (*SelectPage)(nil)
 
 func (c *SelectPage) OnMount(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "SelectPage: OnMount")
+	slog.DebugContext(ctx.Context, "SelectPage: OnMount")
 
 	c.single = "option2"
 	c.multiple = []string{"option2", "option3"}
 }
 
 func (c *SelectPage) OnNav(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "SelectPage: OnNav")
+	slog.DebugContext(ctx.Context, "SelectPage: OnNav")
 }
 
 func (c *SelectPage) Render() app.UI {
-	slog.InfoContext(context.TODO(), "SelectPage: Render", "multiple", c.multiple)
+	slog.DebugContext(context.TODO(), "SelectPage: Render", "multiple", c.multiple)
 	return blazar.Page().
 		Body(
 			app.FieldSet().

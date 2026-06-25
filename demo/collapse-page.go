@@ -16,14 +16,14 @@ type CollapsePage struct {
 }
 
 func (c *CollapsePage) OnMount(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "CollapsePage: OnMount")
+	slog.DebugContext(ctx.Context, "CollapsePage: OnMount")
 
 	c.defaultOpen = true
 	c.defaultClosed = false
 }
 
 func (c *CollapsePage) OnNav(ctx app.Context) {
-	slog.InfoContext(ctx.Context, "CollapsePage: OnNav")
+	slog.DebugContext(ctx.Context, "CollapsePage: OnNav")
 }
 
 func (c *CollapsePage) Render() app.UI {
