@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"reflect"
 	"slices"
 	"strconv"
 
@@ -74,7 +75,14 @@ var printer *message.Printer = message.NewPrinter(language.English)
 const TableColumnClassNumber = "blazar-table__column__number"
 
 func TableColumnFormatNumber(value any) any {
-	return printer.Sprintf("%d", value)
+	reflectValue := reflect.ValueOf(value)
+	if reflectValue.Kind() >= reflect.Int && reflectValue.Kind() <= reflect.Uint64 {
+		return printer.Sprintf("%d", value)
+	}
+	if reflectValue.Kind() == reflect.Float32 || reflectValue.Kind() == reflect.Float64 {
+		return printer.Sprintf("%.0f", value)
+	}
+	return value
 }
 
 type TableColumn[T any] struct {
