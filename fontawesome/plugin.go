@@ -81,5 +81,5 @@ func (p *plugin) httpHandler() http.Handler {
 	if err != nil {
 		return http.NotFoundHandler()
 	}
-	return http.FileServer(http.FS(newFS))
+	return blazarplugin.MimeTypeHandler(http.FileServerFS(newFS), blazarplugin.DefaultMimeTypeExtensions())
 }
