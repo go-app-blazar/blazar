@@ -242,7 +242,7 @@ a.blazar-item {
 .blazar-main-layout {
     height: 100vh;
     min-width: 100%;
-    width: max-content;
+    width: 100%;
 }
 
 .blazar-main-layout__drawer {
