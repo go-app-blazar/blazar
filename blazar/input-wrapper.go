@@ -43,7 +43,11 @@ func (c *blazarInputWrapper) Render() app.UI {
 			Class("blazar-input-wrapper__label").
 			Text(c.ILabel))
 	}
-	body = append(body, c.IBody...)
+	body = append(body, app.Div().
+		Class("blazar-input-wrapper__body").
+		Body(
+			c.IBody...,
+		))
 
 	return app.Span().
 		Class(append([]string{"blazar-input-wrapper"}, c.IClasses...)...).

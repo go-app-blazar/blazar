@@ -205,10 +205,17 @@ body {
     font-weight: bold;
 }
 
+.blazar-input-wrapper__body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .blazar-input__input {
     padding: 0.5em;
     border-radius: 0.25em;
     border: 1px solid #dddddd;
+    flex: 1;
 }
 
 .blazar-input__input:focus {
@@ -222,6 +229,18 @@ body {
 
 .blazar-input__input:active {
     border-color: var(--blazar-theme-primary);
+}
+
+.blazar-input__clear-icon {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.blazar-input__clear-icon .blazar-button {
+}
+
+.blazar-input__clear-icon .blazar-button__content {
+    padding: 0;
 }
 
 .blazar-item {

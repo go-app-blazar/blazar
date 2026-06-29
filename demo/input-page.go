@@ -11,6 +11,9 @@ import (
 type InputPage struct {
 	app.Compo
 
+	disabled  bool
+	clearable bool
+
 	stringValue   string
 	intValue      int
 	floatValue    float64
@@ -21,6 +24,9 @@ type InputPage struct {
 
 func (c *InputPage) OnMount(ctx app.Context) {
 	slog.DebugContext(ctx.Context, "InputPage: OnMount")
+
+	c.disabled = false
+	c.clearable = false
 
 	c.stringValue = "Hello, World!"
 	c.intValue = 123
@@ -39,24 +45,45 @@ func (c *InputPage) Render() app.UI {
 		Body(
 			app.FieldSet().
 				Body(
+					app.Legend().Text("Config"),
+					blazar.Input[bool]().
+						Label("Disabled").
+						Bind(&c.disabled),
+					blazar.Input[bool]().
+						Label("Clearable").
+						Bind(&c.clearable),
+				),
+			app.FieldSet().
+				Body(
 					app.Legend().Text("Input"),
 					blazar.Input[string]().
 						Label("string").
+						Disabled(c.disabled).
+						Clearable(c.clearable).
 						Bind(&c.stringValue),
 					blazar.Input[int]().
 						Label("int").
+						Disabled(c.disabled).
+						Clearable(c.clearable).
 						Bind(&c.intValue),
 					blazar.Input[float64]().
 						Label("float").
+						Disabled(c.disabled).
+						Clearable(c.clearable).
 						Bind(&c.floatValue),
 					blazar.Input[uint]().
 						Label("uint").
+						Disabled(c.disabled).
+						Clearable(c.clearable).
 						Bind(&c.uintValue),
 					blazar.Input[bool]().
 						Label("bool").
+						Disabled(c.disabled).
+						Clearable(c.clearable).
 						Bind(&c.boolValue),
 					blazar.Checkbox().
 						Label("checkbox").
+						Disabled(c.disabled).
 						Bind(&c.checkboxValue),
 				),
 			app.FieldSet().
