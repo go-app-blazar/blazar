@@ -18,6 +18,7 @@ type blazarInput[T any] struct {
 	UseEvents
 	UseData
 	IAutoFocus   bool
+	IClearable   bool
 	IType        string
 	IName        string
 	IDisabled    bool
@@ -31,6 +32,11 @@ var _ app.Composer = (*blazarInput[any])(nil)
 
 func (c *blazarInput[T]) AutoFocus(autoFocus bool) *blazarInput[T] {
 	c.IAutoFocus = autoFocus
+	return c
+}
+
+func (c *blazarInput[T]) Clearable(clearable bool) *blazarInput[T] {
+	c.IClearable = clearable
 	return c
 }
 
@@ -182,5 +188,17 @@ func (c *blazarInput[T]) Render() app.UI {
 					}
 				}),
 			),
+			app.If(c.IClearable, func() app.UI {
+				return Button().
+					Class("blazar-input__clear-icon").
+					Icon("circle-xmark").
+					Flat(true).
+					Disabled(c.IDisabled).
+					On("click", func(ctx app.Context, e app.Event) {
+						if c.BindValue != nil {
+							*c.BindValue = reflect.Zero(reflect.TypeOf(*c.BindValue)).Interface().(T)
+						}
+					})
+			}),
 		)
 }

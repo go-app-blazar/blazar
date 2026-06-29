@@ -11,6 +11,7 @@ func Button() *blazarButton {
 type blazarButton struct {
 	app.Compo
 	UseEvents
+	IClasses  []string
 	IFlat     bool
 	IIcon     string
 	ILabel    string
@@ -20,6 +21,11 @@ type blazarButton struct {
 }
 
 var _ app.Composer = (*blazarButton)(nil)
+
+func (c *blazarButton) Class(class ...string) *blazarButton {
+	c.IClasses = class
+	return c
+}
 
 func (c *blazarButton) Disabled(disabled bool) *blazarButton {
 	c.IDisabled = disabled
@@ -101,9 +107,11 @@ func (c *blazarButton) Render() app.UI {
 			Body(body...)
 	}
 
+	classes := append([]string{"blazar-button", disabledClass, roundClass, flatClass}, c.IClasses...)
+
 	var element app.UI
 	element = app.Span().
-		Class("blazar-button", disabledClass, roundClass, flatClass).
+		Class(classes...).
 		TabIndex(0).
 		Role("button").
 		Body(innerElement).
