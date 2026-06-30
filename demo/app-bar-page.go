@@ -44,7 +44,9 @@ func (c *AppBarPage) Render() app.UI {
 					app.Window().Call("alert", "Icon clicked")
 				}).
 				HeadlineText("App Bar with default icon and trailer").
-				Trailer(app.Div().Text("Trailer")),
+				TrailerFunction(func() app.UI {
+					return app.Div().Text("Trailer")
+				}),
 			blazar.AppBar().
 				Icon("bars").
 				IconFunction(func(ctx app.Context, e app.Event) {
@@ -52,6 +54,8 @@ func (c *AppBarPage) Render() app.UI {
 				}).
 				HeadlineText("App Bar with default icon, subtitle, and trailer").
 				SubtitleText("Subtitle text").
-				Trailer(app.Div().Text("Trailer")),
+				TrailerFunction(func() app.UI {
+					return app.Div().Text("Trailer")
+				}),
 		)
 }

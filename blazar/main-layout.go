@@ -13,13 +13,13 @@ type blazarMainLayout struct {
 	app.Compo
 	router.RouterViewComponent
 
-	IHeadline        string
-	IHeadlineUI      app.UI
-	ISubtitle        string
-	ISubtitleUI      app.UI
-	ITrailer         app.UI
-	IDrawer          app.UI
-	IResponsiveWidth string
+	IHeadline         string
+	IHeadlineFunction func() app.UI
+	ISubtitle         string
+	ISubtitleFunction func() app.UI
+	ITrailerFunction  func() app.UI
+	IDrawerFunction   func() app.UI
+	IResponsiveWidth  string
 
 	matchMedia    *matchmedia.MatchMedia
 	narrow        bool
@@ -48,8 +48,8 @@ func (c *blazarMainLayout) HeadlineText(text string) *blazarMainLayout {
 	return c
 }
 
-func (c *blazarMainLayout) Headline(ui app.UI) *blazarMainLayout {
-	c.IHeadlineUI = ui
+func (c *blazarMainLayout) HeadlineFunction(function func() app.UI) *blazarMainLayout {
+	c.IHeadlineFunction = function
 	return c
 }
 
@@ -58,18 +58,18 @@ func (c *blazarMainLayout) SubtitleText(text string) *blazarMainLayout {
 	return c
 }
 
-func (c *blazarMainLayout) Subtitle(ui app.UI) *blazarMainLayout {
-	c.ISubtitleUI = ui
+func (c *blazarMainLayout) SubtitleFunction(function func() app.UI) *blazarMainLayout {
+	c.ISubtitleFunction = function
 	return c
 }
 
-func (c *blazarMainLayout) Trailer(ui app.UI) *blazarMainLayout {
-	c.ITrailer = ui
+func (c *blazarMainLayout) TrailerFunction(function func() app.UI) *blazarMainLayout {
+	c.ITrailerFunction = function
 	return c
 }
 
-func (c *blazarMainLayout) Drawer(drawer app.UI) *blazarMainLayout {
-	c.IDrawer = drawer
+func (c *blazarMainLayout) DrawerFunction(function func() app.UI) *blazarMainLayout {
+	c.IDrawerFunction = function
 	return c
 }
 
@@ -104,7 +104,7 @@ func (c *blazarMainLayout) Render() app.UI {
 
 	iconVisible := false
 	drawerVisibleClass := ""
-	if c.IDrawer != nil {
+	if c.IDrawerFunction != nil {
 		drawerVisibleClass = "visible"
 
 		if c.narrow {
@@ -127,17 +127,17 @@ func (c *blazarMainLayout) Render() app.UI {
 					c.toggleDrawer()
 				}).
 				HeadlineText(c.IHeadline).
-				Headline(c.IHeadlineUI).
+				HeadlineFunction(c.IHeadlineFunction).
 				SubtitleText(c.ISubtitle).
-				Subtitle(c.ISubtitleUI).
-				Trailer(c.ITrailer),
+				SubtitleFunction(c.ISubtitleFunction).
+				TrailerFunction(c.ITrailerFunction),
 			app.Div().
 				Class("blazar-main-layout__body").
 				Body(
-					app.If(c.IDrawer != nil, func() app.UI {
+					app.If(c.IDrawerFunction != nil, func() app.UI {
 						return app.Div().
 							Class("blazar-main-layout__drawer", drawerVisibleClass).
-							Body(c.IDrawer)
+							Body(c.IDrawerFunction())
 					}),
 					app.Div().
 						Class("blazar-main-layout__content").
