@@ -344,6 +344,10 @@ a.blazar-item {
     gap: 0.5em;
 }
 
+.blazar-multiselect__select {
+    flex: 1;
+}
+
 .blazar-page {
     padding: 1em;
     background-color: var(--blazar-theme-background);
@@ -356,6 +360,10 @@ a.blazar-item {
     box-sizing: border-box;
     width: fit-content;
     min-width: 100%;
+}
+
+.blazar-select__select {
+    flex: 1;
 }
 
 .blazar-statusbar {
