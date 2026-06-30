@@ -34,6 +34,21 @@ body {
     width: 100vw;
     min-width: 100vw;
     max-width: 100vw;
+
+    @media print {
+        height: auto;
+        min-height: auto;
+        max-height: auto;
+        width: auto;
+        min-width: auto;
+        max-width: auto;
+    }
+}
+
+.blazar-no-print {
+    @media print {
+        display: none !important;
+    }
 }
 
 .blazar-app-bar {
@@ -146,6 +161,11 @@ body {
 }
 
 .blazar-collapse {
+    &.closed {
+        @media print {
+            display: none !important;
+        }
+    }
 }
 
 .blazar-collapse__top {
@@ -166,12 +186,6 @@ body {
     margin-right: 1em;
 }
 
-@media print {
-    .blazar-collapse.closed {
-        display: none;
-    }
-}
-
 .blazar-form {
     display: flex;
     flex-direction: column;
@@ -181,6 +195,10 @@ body {
 .blazar-form__actions {
     display: flex;
     flex-direction: row;
+
+    @media print {
+        display: none !important;
+    }
 }
 
 .blazar-icon {
@@ -273,6 +291,16 @@ a.blazar-item {
     min-width: 100%;
     max-width: 100%;
     overflow-y: auto;
+
+    @media print {
+        height: auto;
+        min-height: auto;
+        max-height: auto;
+        width: auto;
+        min-width: auto;
+        max-width: auto;
+        overflow-y: initial;
+    }
 }
 
 .blazar-main-layout__drawer {
@@ -284,6 +312,9 @@ a.blazar-item {
 }
 
 .blazar-main-layout__header {
+    @media print {
+        display: none !important;
+    }
 }
 
 .blazar-main-layout__body {
@@ -296,21 +327,15 @@ a.blazar-item {
 .blazar-main-layout__drawer {
     padding: 1em;
     min-width: 150px;
+
+    @media print {
+        display: none !important;
+    }
 }
 
 .blazar-main-layout__content {
     flex: 1;
     max-width: 100%;
-}
-
-@media print {
-    .blazar-main-layout__header {
-        display: none !important;
-    }
-
-    .blazar-main-layout__drawer {
-        display: none !important;
-    }
 }
 
 .blazar-multiselect {
@@ -358,12 +383,22 @@ a.blazar-item {
 .blazar-table {
     font-family: sans-serif;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); /* Adds a modern elevation effect */
+
+    @media print {
+        box-shadow: none;
+    }
 }
 
 .blazar-table__header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.blazar-table__header-menu {
+    @media print {
+        display: none !important;
+    }
 }
 
 .blazar-table__title {
@@ -374,10 +409,18 @@ a.blazar-item {
 
 .blazar-table__actions {
     padding: 0.5em;
+
+    @media print {
+        display: none !important;
+    }
 }
 
 .blazar-table__multi-row-actions {
     padding: 0.5em;
+
+    @media print {
+        display: none !important;
+    }
 }
 
 .blazar-table table {
@@ -423,6 +466,10 @@ a.blazar-item {
 .blazar-table__pagination {
     padding: 0.5em;
     display: flex;
+
+    @media print {
+        display: none !important;
+    }
 }
 
 .blazar-table [popover] {
@@ -436,34 +483,4 @@ a.blazar-item {
 
 .blazar-table__column__number {
     text-align: right;
-}
-
-@media print {
-    .blazar-no-print {
-        display: none;
-    }
-
-    .blazar-form__actions {
-        display: none;
-    }
-
-    .blazar-table {
-        box-shadow: none;
-    }
-
-    .blazar-table__header-menu {
-        display: none;
-    }
-
-    .blazar-table__actions {
-        display: none;
-    }
-
-    .blazar-table__multi-row-actions {
-        display: none;
-    }
-
-    .blazar-table__pagination {
-        display: none;
-    }
 }
