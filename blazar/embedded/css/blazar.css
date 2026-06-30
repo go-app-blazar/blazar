@@ -327,6 +327,8 @@ a.blazar-item {
     display: flex;
     flex-direction: column;
     gap: 1em;
+
+    width: fit-content;
 }
 
 .blazar-statusbar {
