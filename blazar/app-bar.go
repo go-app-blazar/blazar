@@ -15,11 +15,11 @@ type blazarAppBar struct {
 	IIcon         string
 	IIconFunction func(ctx app.Context, e app.Event)
 
-	IHeadline   string
-	IHeadlineUI app.UI
-	ISubtitle   string
-	ISubtitleUI app.UI
-	ITrailer    app.UI
+	IHeadline         string
+	IHeadlineFunction func() app.UI
+	ISubtitle         string
+	ISubtitleFunction func() app.UI
+	ITrailerFunction  func() app.UI
 }
 
 func AppBar() *blazarAppBar {
@@ -53,8 +53,8 @@ func (c *blazarAppBar) HeadlineText(text string) *blazarAppBar {
 	return c
 }
 
-func (c *blazarAppBar) Headline(ui app.UI) *blazarAppBar {
-	c.IHeadlineUI = ui
+func (c *blazarAppBar) HeadlineFunction(function func() app.UI) *blazarAppBar {
+	c.IHeadlineFunction = function
 	return c
 }
 
@@ -63,13 +63,13 @@ func (c *blazarAppBar) SubtitleText(text string) *blazarAppBar {
 	return c
 }
 
-func (c *blazarAppBar) Subtitle(ui app.UI) *blazarAppBar {
-	c.ISubtitleUI = ui
+func (c *blazarAppBar) SubtitleFunction(function func() app.UI) *blazarAppBar {
+	c.ISubtitleFunction = function
 	return c
 }
 
-func (c *blazarAppBar) Trailer(ui app.UI) *blazarAppBar {
-	c.ITrailer = ui
+func (c *blazarAppBar) TrailerFunction(function func() app.UI) *blazarAppBar {
+	c.ITrailerFunction = function
 	return c
 }
 
@@ -101,20 +101,20 @@ func (c *blazarAppBar) Render() app.UI {
 					app.Div().
 						Class("blazar-app-bar__headline").
 						Body(
-							app.If(c.IHeadlineUI != nil, func() app.UI {
-								return c.IHeadlineUI
+							app.If(c.IHeadlineFunction != nil, func() app.UI {
+								return c.IHeadlineFunction()
 							}).Else(func() app.UI {
 								return app.Div().
 									Class("blazar-app-bar__headline-text").
 									Text(c.IHeadline)
 							}),
 						),
-					app.If(c.ISubtitle != "" || c.ISubtitleUI != nil, func() app.UI {
+					app.If(c.ISubtitle != "" || c.ISubtitleFunction != nil, func() app.UI {
 						return app.Div().
 							Class("blazar-app-bar__subtitle").
 							Body(
-								app.If(c.ISubtitleUI != nil, func() app.UI {
-									return c.ISubtitleUI
+								app.If(c.ISubtitleFunction != nil, func() app.UI {
+									return c.ISubtitleFunction()
 								}).Else(func() app.UI {
 									return app.Div().
 										Class("blazar-app-bar__subtitle-text").
@@ -123,10 +123,10 @@ func (c *blazarAppBar) Render() app.UI {
 							)
 					}),
 				),
-			app.If(c.ITrailer != nil, func() app.UI {
+			app.If(c.ITrailerFunction != nil, func() app.UI {
 				return app.Div().
 					Class("blazar-app-bar__trailer").
-					Body(c.ITrailer)
+					Body(c.ITrailerFunction())
 			}),
 		)
 }
