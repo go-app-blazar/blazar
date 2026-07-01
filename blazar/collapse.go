@@ -130,7 +130,7 @@ func (c *blazarCollapse) Render() app.UI {
 					}),
 					app.Span().Style("flex", "1"),
 					app.Span().
-						Class("blazar-collapse-icon").
+						Class("blazar-collapse__icon").
 						Body(
 							Icon().
 								Icon(closedIcon),
