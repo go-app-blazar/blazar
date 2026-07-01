@@ -186,6 +186,12 @@ body {
     margin-right: 1em;
 }
 
+.blazar-collapse__icon {
+    @media print {
+        display: none !important;
+    }
+}
+
 .blazar-form {
     display: flex;
     flex-direction: column;
@@ -360,6 +366,10 @@ a.blazar-item {
     box-sizing: border-box;
     width: fit-content;
     min-width: 100%;
+
+	@media print {
+		padding: 0;
+	}
 }
 
 .blazar-select__select {
@@ -492,3 +502,16 @@ a.blazar-item {
 .blazar-table__column__number {
     text-align: right;
 }
+
+.blazar-table__row-checkbox {
+	@media print {
+		display: none;
+	}
+}
+
+.blazar-table__row-actions {
+	@media print {
+		display: none;
+	}
+}
+

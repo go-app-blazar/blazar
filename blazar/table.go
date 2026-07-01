@@ -652,6 +652,7 @@ func (t *blazarTable[T]) Render() app.UI {
 								Body(
 									app.If(len(visibleMultiRowActions) > 0, func() app.UI {
 										return app.Th().
+											Class("blazar-table__row-checkbox").
 											Body(
 												Input[bool]().
 													Name("blazar-table-checkbox").
@@ -677,6 +678,7 @@ func (t *blazarTable[T]) Render() app.UI {
 									}),
 									app.If(len(visibleRowActions) > 0, func() app.UI {
 										return app.Th().
+											Class("blazar-table__row-actions").
 											Text("Actions")
 									}),
 								),
@@ -703,6 +705,7 @@ func (t *blazarTable[T]) Render() app.UI {
 									Body(
 										app.If(len(visibleMultiRowActions) > 0, func() app.UI {
 											return app.Td().
+												Class("blazar-table__row-checkbox").
 												Body(
 													Input[bool]().
 														Name("blazar-table-row-checkbox").
@@ -767,6 +770,7 @@ func (t *blazarTable[T]) Render() app.UI {
 										}),
 										app.If(len(visibleRowActions) > 0, func() app.UI {
 											return app.Td().
+												Class("blazar-table__row-actions").
 												Body(
 													app.Range(visibleRowActions).Slice(func(i int) app.UI {
 														rowAction := visibleRowActions[i]
