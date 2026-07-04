@@ -29,7 +29,7 @@ func main() {
 
 	{
 		logLevel := "info"
-		if value, ok := os.LookupEnv("LOG_LEVEL"); ok {
+		if value := app.Getenv("LOG_LEVEL"); value != "" {
 			logLevel = value
 		}
 		slogConfig := slog.HandlerOptions{
@@ -74,26 +74,6 @@ func main() {
 		slog.SetDefault(slog.New(slog.NewMultiHandler(
 			handler,
 		)))
-	}
-
-	disableServiceWorker := true
-	if value := os.Getenv("DISABLE_SERVICE_WORKER"); value != "" {
-		v, err := strconv.ParseBool(value)
-		if err != nil {
-			slog.ErrorContext(ctx, "Could not parse DISABLE_SERVICE_WORKER", "err", err)
-		} else {
-			disableServiceWorker = v
-		}
-	}
-
-	generateStaticFiles := false
-	if value := os.Getenv("GENERATE_STATIC_FILES"); value != "" {
-		v, err := strconv.ParseBool(value)
-		if err != nil {
-			slog.ErrorContext(ctx, "Could not parse GENERATE_STATIC_FILES", "err", err)
-		} else {
-			generateStaticFiles = v
-		}
 	}
 
 	router.Register(ctx,
@@ -208,10 +188,33 @@ func main() {
 	// instructions.
 	app.RunWhenOnBrowser()
 
+	disableServiceWorker := true
+	if value := os.Getenv("DISABLE_SERVICE_WORKER"); value != "" {
+		v, err := strconv.ParseBool(value)
+		if err != nil {
+			slog.ErrorContext(ctx, "Could not parse DISABLE_SERVICE_WORKER", "err", err)
+		} else {
+			disableServiceWorker = v
+		}
+	}
+
+	generateStaticFiles := false
+	if value := os.Getenv("GENERATE_STATIC_FILES"); value != "" {
+		v, err := strconv.ParseBool(value)
+		if err != nil {
+			slog.ErrorContext(ctx, "Could not parse GENERATE_STATIC_FILES", "err", err)
+		} else {
+			generateStaticFiles = v
+		}
+	}
+
 	blazarApp := blazarapp.NewApp(blazarapp.Config{
 		Name:        "UI Demo",
 		Description: "UI Demo",
 		Title:       "UI Demo",
+		Env: map[string]string{
+			"LOG_LEVEL": os.Getenv("LOG_LEVEL"),
+		},
 	})
 	blazarApp.AddPlugin(blazarapp.DefaultPlugins()...)
 
