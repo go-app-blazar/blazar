@@ -20,7 +20,7 @@ type blazarTable[T any] struct {
 	IColumns         []TableColumn[T]
 	IRowIDFunction   func(row T) string
 	IRows            []T
-	IRowIDs          []string // This is the list of the IDs of the rows.  This is recomputed whenever the rows change.
+	rowIDs           []string // This is the list of the IDs of the rows.  This is recomputed whenever the rows change.
 	IActions         []TableAction
 	IRowActions      []RowAction[T]
 	IMultiRowActions []MultiRowAction[T]
@@ -114,12 +114,14 @@ func (t *blazarTable[T]) Interactive(interactive bool) *blazarTable[T] {
 func (t *blazarTable[T]) Rows(rows []T) *blazarTable[T] {
 	t.IRows = rows
 	t.recalculateRowIDs()
+	t.recalculateSelectedRows()
 	return t
 }
 
 func (t *blazarTable[T]) RowIDFunction(rowIDFunction func(row T) string) *blazarTable[T] {
 	t.IRowIDFunction = rowIDFunction
 	t.recalculateRowIDs()
+	t.recalculateSelectedRows()
 	return t
 }
 
@@ -256,17 +258,17 @@ func (t *blazarTable[T]) recalculateRowIDs() {
 			rowIDs[i] = fmt.Sprintf("%d", i)
 		}
 	}
-	t.IRowIDs = rowIDs
+	t.rowIDs = rowIDs
 }
 
 func (t *blazarTable[T]) recalculateSelectedRows() {
 	rowIDToIndexMap := map[string]int{}
-	for i, rowID := range t.IRowIDs {
+	for i, rowID := range t.rowIDs {
 		rowIDToIndexMap[rowID] = i
 	}
 
-	selectedRows := make([]T, 0, len(t.IRowIDs))
-	selectedRowIDs := make([]string, 0, len(t.IRowIDs))
+	selectedRows := make([]T, 0, len(t.rowIDs))
+	selectedRowIDs := make([]string, 0, len(t.rowIDs))
 	for _, rowID := range t.selectedRowIDs {
 		index, ok := rowIDToIndexMap[rowID]
 		if !ok {
@@ -304,6 +306,9 @@ func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
 	if debugTable {
 		slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
 	}
+
+	t.recalculateRowIDs()
+	t.recalculateSelectedRows()
 
 	// Fix the checkboxes.
 	ctx.Defer(func(ctx app.Context) {
@@ -379,12 +384,15 @@ func (t *blazarTable[T]) Render() app.UI {
 	}
 
 	rowsToRender := t.IRows
-	rowIDsToRender := t.IRowIDs
+	rowIDsToRender := t.rowIDs
+	if len(t.rowIDs) != len(t.IRows) {
+		slog.WarnContext(context.TODO(), "blazarTable: Render: rowIDs and rows are out of sync", "self", fmt.Sprintf("%p", t), "rowIDs", len(t.rowIDs), "rows", len(t.IRows))
+	}
 	paginated := t.pageSize > 0
 	totalPages := t.totalPages()
 	if t.pageSize > 0 && uint(len(t.IRows)) > t.pageSize {
 		pages := slices.Collect(slices.Chunk(t.IRows, int(t.pageSize)))
-		rowIDPages := slices.Collect(slices.Chunk(t.IRowIDs, int(t.pageSize)))
+		rowIDPages := slices.Collect(slices.Chunk(t.rowIDs, int(t.pageSize)))
 		if t.pageIndex >= uint(len(pages)) {
 			t.pageIndex = uint(len(pages)) - 1
 		}
@@ -660,8 +668,8 @@ func (t *blazarTable[T]) Render() app.UI {
 														e.Get("target").Set("indeterminate", true)
 
 														if len(t.selectedRows) == 0 || (len(t.selectedRows) > 0 && len(t.selectedRows) < len(t.IRows)) {
-															t.selectedRowIDs = make([]string, len(t.IRowIDs))
-															copy(t.selectedRowIDs, t.IRowIDs)
+															t.selectedRowIDs = make([]string, len(t.rowIDs))
+															copy(t.selectedRowIDs, t.rowIDs)
 														} else {
 															t.selectedRowIDs = []string{}
 														}
