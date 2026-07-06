@@ -101,7 +101,6 @@ func (c *blazarSelect) Render() app.UI {
 					if c.BindSelectedValue != nil {
 						*c.BindSelectedValue = c.ISelectedValue
 					}
-					ctx.PreventUpdate()
 				}),
 			),
 		)
