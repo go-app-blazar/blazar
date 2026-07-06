@@ -664,6 +664,7 @@ func (t *blazarTable[T]) Render() app.UI {
 											Body(
 												Input[bool]().
 													Name("blazar-table-checkbox").
+													Outline(false).
 													On("change", func(ctx app.Context, e app.Event) {
 														e.Get("target").Set("indeterminate", true)
 
@@ -717,6 +718,7 @@ func (t *blazarTable[T]) Render() app.UI {
 												Body(
 													Input[bool]().
 														Name("blazar-table-row-checkbox").
+														Outline(false).
 														DataSet("rowid", rowID).
 														Value(slices.Contains(t.selectedRowIDs, rowID)).
 														On("change", func(ctx app.Context, e app.Event) {

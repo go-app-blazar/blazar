@@ -129,13 +129,13 @@ body {
     border-radius: 50%;
 }
 
-.blazar-button.disabled {
+.blazar-button.blazar-button--disabled {
     filter: opacity(0.3);
     cursor: not-allowed !important;
     user-select: none !important;
 }
 
-.blazar-button.disabled a {
+.blazar-button.blazar-button--disabled a {
     cursor: not-allowed !important;
     user-select: none !important;
 }
@@ -224,7 +224,7 @@ body {
     gap: 0.5em;
 }
 
-.blazar-input-wrapper.disabled {
+.blazar-input-wrapper.blazar-input-wrapper--disabled {
     filter: opacity(0.3);
 }
 
@@ -247,6 +247,12 @@ body {
     gap: 0.5em;
 
     padding: 0.5em;
+
+    border-radius: 0;
+    border: 0;
+}
+
+.blazar-input-wrapper--outline .blazar-input-wrapper__body {
     border-radius: 0.25em;
     border: 1px solid #dddddd;
 }

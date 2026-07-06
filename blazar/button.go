@@ -65,7 +65,7 @@ func (c *blazarButton) On(event string, function func(ctx app.Context, e app.Eve
 func (c *blazarButton) Render() app.UI {
 	disabledClass := ""
 	if c.IDisabled {
-		disabledClass = "disabled"
+		disabledClass = "blazar-button--disabled"
 	}
 
 	flatClass := ""

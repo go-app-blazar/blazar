@@ -76,8 +76,14 @@ func (c *blazarSelect) Render() app.UI {
 	if debugSelect {
 		slog.DebugContext(context.TODO(), "blazarSelect: Render", "label", c.ILabel, "allowedValues", c.IAllowedValues, "selectedValue", c.ISelectedValue, "bindSelectedValue", c.BindSelectedValue)
 	}
+
+	disabledClass := ""
+	if c.IDisabled {
+		disabledClass = "blazar-input-wrapper--disabled"
+	}
+
 	return InputWrapper().
-		Class("blazar-select").
+		Class("blazar-select", disabledClass, "blazar-input-wrapper--outline").
 		Label(c.ILabel).
 		Body(
 			c.UseEvents.Wrap(
