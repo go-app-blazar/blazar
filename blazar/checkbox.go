@@ -74,7 +74,7 @@ func (c *blazarCheckbox) Render() app.UI {
 
 	disabledClass := ""
 	if c.IDisabled {
-		disabledClass = "disabled"
+		disabledClass = "blazar-checkbox--disabled"
 	}
 
 	iconName := "square"

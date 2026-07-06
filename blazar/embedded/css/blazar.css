@@ -131,7 +131,7 @@ body {
 
 .blazar-button.blazar-button--disabled {
     filter: opacity(0.3);
-    cursor: not-allowed !important;
+    cursor: default !important;
     user-select: none !important;
 }
 
@@ -154,6 +154,10 @@ body {
     flex-direction: row;
     padding: 0.5em 0.5em;
     gap: 0.5em;
+}
+
+.blazar-checkbox.blazar-checkbox--disabled {
+    filter: opacity(0.3);
 }
 
 .blazar-checkbox.checked .blazar-checkbox__icon {
@@ -250,6 +254,8 @@ body {
 
     border-radius: 0;
     border: 0;
+
+    font-size: 0.9em;
 }
 
 .blazar-input-wrapper--outline .blazar-input-wrapper__body {
@@ -279,6 +285,7 @@ body {
 }
 
 input.blazar-input__input {
+    font-size: 1em;
     border: 0 !important;
     outline: none !important;
     background: transparent !important;
@@ -287,9 +294,8 @@ input.blazar-input__input {
 .blazar-input__clear-icon {
     cursor: pointer;
     opacity: 0.5;
-}
 
-.blazar-input__clear-icon .blazar-button {
+    margin: 0;
 }
 
 .blazar-input__clear-icon .blazar-button__content {

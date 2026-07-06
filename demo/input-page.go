@@ -13,6 +13,8 @@ type InputPage struct {
 
 	disabled  bool
 	clearable bool
+	prefix    string
+	suffix    string
 
 	stringValue   string
 	intValue      int
@@ -41,6 +43,38 @@ func (c *InputPage) OnNav(ctx app.Context) {
 }
 
 func (c *InputPage) Render() app.UI {
+	type Row struct {
+		Name  string
+		Value string
+	}
+
+	rows := []Row{
+		{
+			Name:  "string",
+			Value: c.stringValue,
+		},
+		{
+			Name:  "int",
+			Value: fmt.Sprintf("%d", c.intValue),
+		},
+		{
+			Name:  "float",
+			Value: fmt.Sprintf("%f", c.floatValue),
+		},
+		{
+			Name:  "uint",
+			Value: fmt.Sprintf("%d", c.uintValue),
+		},
+		{
+			Name:  "bool",
+			Value: fmt.Sprintf("%t", c.boolValue),
+		},
+		{
+			Name:  "checkbox",
+			Value: fmt.Sprintf("%t", c.checkboxValue),
+		},
+	}
+
 	return blazar.Page().
 		Body(
 			app.FieldSet().
@@ -52,32 +86,48 @@ func (c *InputPage) Render() app.UI {
 					blazar.Input[bool]().
 						Label("Clearable").
 						Bind(&c.clearable),
+					blazar.Input[string]().
+						Label("Prefix").
+						Bind(&c.prefix),
+					blazar.Input[string]().
+						Label("Suffix").
+						Bind(&c.suffix),
 				),
 			app.FieldSet().
 				Body(
 					app.Legend().Text("Input"),
 					blazar.Input[string]().
 						Label("string").
+						Prefix(c.prefix).
+						Suffix(c.suffix).
 						Disabled(c.disabled).
 						Clearable(c.clearable).
 						Bind(&c.stringValue),
 					blazar.Input[int]().
 						Label("int").
+						Prefix(c.prefix).
+						Suffix(c.suffix).
 						Disabled(c.disabled).
 						Clearable(c.clearable).
 						Bind(&c.intValue),
 					blazar.Input[float64]().
 						Label("float").
+						Prefix(c.prefix).
+						Suffix(c.suffix).
 						Disabled(c.disabled).
 						Clearable(c.clearable).
 						Bind(&c.floatValue),
 					blazar.Input[uint]().
 						Label("uint").
+						Prefix(c.prefix).
+						Suffix(c.suffix).
 						Disabled(c.disabled).
 						Clearable(c.clearable).
 						Bind(&c.uintValue),
 					blazar.Input[bool]().
 						Label("bool").
+						Prefix(c.prefix).
+						Suffix(c.suffix).
 						Disabled(c.disabled).
 						Clearable(c.clearable).
 						Bind(&c.boolValue),
@@ -89,18 +139,25 @@ func (c *InputPage) Render() app.UI {
 			app.FieldSet().
 				Body(
 					app.Legend().Text("Output"),
-					app.Div().Text("string"),
-					app.Pre().Text(c.stringValue),
-					app.Div().Text("int"),
-					app.Pre().Text(fmt.Sprintf("%d", c.intValue)),
-					app.Div().Text("float"),
-					app.Pre().Text(fmt.Sprintf("%f", c.floatValue)),
-					app.Div().Text("uint"),
-					app.Pre().Text(fmt.Sprintf("%d", c.uintValue)),
-					app.Div().Text("bool"),
-					app.Pre().Text(fmt.Sprintf("%t", c.boolValue)),
-					app.Div().Text("checkbox"),
-					app.Pre().Text(fmt.Sprintf("%t", c.checkboxValue)),
+					blazar.Table[Row]().
+						Interactive(false).
+						Rows(rows).
+						Columns([]blazar.TableColumn[Row]{
+							{
+								Name: "Name",
+								Type: blazar.TableColumnTypeString,
+								Value: func(row Row) any {
+									return row.Name
+								},
+							},
+							{
+								Name: "Value",
+								Type: blazar.TableColumnTypeString,
+								Value: func(row Row) any {
+									return row.Value
+								},
+							},
+						}),
 				),
 		)
 }

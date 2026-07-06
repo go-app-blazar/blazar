@@ -22,6 +22,8 @@ type blazarInput[T any] struct {
 	IAutoFocus   bool
 	IClearable   bool
 	IOutline     bool
+	IPrefix      string
+	ISuffix      string
 	IType        string
 	IName        string
 	IDisabled    bool
@@ -55,6 +57,16 @@ func (c *blazarInput[T]) Outline(outline bool) *blazarInput[T] {
 
 func (c *blazarInput[T]) Placeholder(placeholder string) *blazarInput[T] {
 	c.IPlaceholder = placeholder
+	return c
+}
+
+func (c *blazarInput[T]) Prefix(prefix string) *blazarInput[T] {
+	c.IPrefix = prefix
+	return c
+}
+
+func (c *blazarInput[T]) Suffix(suffix string) *blazarInput[T] {
+	c.ISuffix = suffix
 	return c
 }
 
@@ -162,10 +174,15 @@ func (c *blazarInput[T]) Render() app.UI {
 		outlineClass = "blazar-input-wrapper--outline"
 	}
 
+	isZeroValue := reflect.ValueOf(c.IValue).IsZero()
+
 	return InputWrapper().
 		Class("blazar-input", disabledClass, outlineClass).
 		Label(c.ILabel).
 		Body(
+			app.If(c.IPrefix != "", func() app.UI {
+				return app.Span().Class("blazar-input__prefix").Text(c.IPrefix)
+			}),
 			c.UseEvents.Wrap(
 				c.UseData.Wrap(
 					app.Input().
@@ -213,7 +230,10 @@ func (c *blazarInput[T]) Render() app.UI {
 					}
 				}),
 			),
-			app.If(c.IClearable, func() app.UI {
+			app.If(c.ISuffix != "", func() app.UI {
+				return app.Span().Class("blazar-input__suffix").Text(c.ISuffix)
+			}),
+			app.If(c.IClearable && !isZeroValue, func() app.UI {
 				return Button().
 					Class("blazar-input__clear-icon").
 					Icon("circle-xmark").
