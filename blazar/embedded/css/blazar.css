@@ -377,6 +377,12 @@ a.blazar-item {
     flex: 1;
 }
 
+select.blazar-multiselect__select {
+    border: 0 !important;
+    outline: none !important;
+    background: transparent !important;
+}
+
 .blazar-page {
     padding: 1em;
     background-color: var(--blazar-theme-background);
@@ -397,6 +403,12 @@ a.blazar-item {
 
 .blazar-select__select {
     flex: 1;
+}
+
+select.blazar-select__select {
+    border: 0 !important;
+    outline: none !important;
+    background: transparent !important;
 }
 
 .blazar-statusbar {

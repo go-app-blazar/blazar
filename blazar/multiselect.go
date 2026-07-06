@@ -104,7 +104,6 @@ func (c *blazarMultiselect) Render() app.UI {
 						*c.BindSelectedValues = make([]string, len(c.ISelectedValues))
 						copy(*c.BindSelectedValues, c.ISelectedValues)
 					}
-					ctx.PreventUpdate()
 				}),
 			),
 		)
