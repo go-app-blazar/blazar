@@ -49,7 +49,7 @@ func (c *blazarInputWrapper) Render() app.UI {
 			c.IBody...,
 		))
 
-	return app.Span().
+	return app.Label().
 		Class(append([]string{"blazar-input-wrapper"}, c.IClasses...)...).
 		Body(
 			body...,

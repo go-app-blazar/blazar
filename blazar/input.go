@@ -137,8 +137,13 @@ func (c *blazarInput[T]) Render() app.UI {
 		}
 	}
 
+	disabledClass := ""
+	if c.IDisabled {
+		disabledClass = "disabled"
+	}
+
 	return InputWrapper().
-		Class("blazar-input").
+		Class("blazar-input", disabledClass).
 		Label(c.ILabel).
 		Body(
 			c.UseEvents.Wrap(

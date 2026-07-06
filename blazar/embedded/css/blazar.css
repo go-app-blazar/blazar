@@ -224,21 +224,38 @@ body {
     gap: 0.5em;
 }
 
+.blazar-input-wrapper.disabled {
+    filter: opacity(0.3);
+}
+
 .blazar-input-wrapper__label {
     font-size: 0.8em;
     font-weight: bold;
+}
+
+.blazar-input-wrapper:focus-within {
+    .blazar-input-wrapper__label {
+        color: var(--blazar-theme-primary);
+    }
 }
 
 .blazar-input-wrapper__body {
     display: flex;
     flex-direction: row;
     align-items: center;
-}
 
-.blazar-input__input {
+    gap: 0.5em;
+
     padding: 0.5em;
     border-radius: 0.25em;
     border: 1px solid #dddddd;
+}
+
+.blazar-input-wrapper__body:focus-within {
+    border-color: var(--blazar-theme-primary);
+}
+
+.blazar-input__input {
     flex: 1;
 }
 
@@ -253,6 +270,12 @@ body {
 
 .blazar-input__input:active {
     border-color: var(--blazar-theme-primary);
+}
+
+input.blazar-input__input {
+    border: 0 !important;
+    outline: none !important;
+    background: transparent !important;
 }
 
 .blazar-input__clear-icon {
