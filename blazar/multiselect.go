@@ -78,8 +78,14 @@ func (c *blazarMultiselect) Render() app.UI {
 	if debugMultiselect {
 		slog.DebugContext(context.TODO(), "blazarMultiselect: Render", "label", c.ILabel, "allowedValues", c.IAllowedValues, "selectedValues", c.ISelectedValues, "bindSelectedValues", c.BindSelectedValues)
 	}
+
+	disabledClass := ""
+	if c.IDisabled {
+		disabledClass = "blazar-input-wrapper--disabled"
+	}
+
 	return InputWrapper().
-		Class("blazar-multiselect").
+		Class("blazar-multiselect", disabledClass, "blazar-input-wrapper--outline").
 		Label(c.ILabel).
 		Body(
 			c.UseEvents.Wrap(

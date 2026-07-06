@@ -10,7 +10,9 @@ import (
 )
 
 func Input[T any]() *blazarInput[T] {
-	return &blazarInput[T]{}
+	return &blazarInput[T]{
+		IOutline: true,
+	}
 }
 
 type blazarInput[T any] struct {
@@ -19,6 +21,7 @@ type blazarInput[T any] struct {
 	UseData
 	IAutoFocus   bool
 	IClearable   bool
+	IOutline     bool
 	IType        string
 	IName        string
 	IDisabled    bool
@@ -42,6 +45,11 @@ func (c *blazarInput[T]) Clearable(clearable bool) *blazarInput[T] {
 
 func (c *blazarInput[T]) Name(name string) *blazarInput[T] {
 	c.IName = name
+	return c
+}
+
+func (c *blazarInput[T]) Outline(outline bool) *blazarInput[T] {
+	c.IOutline = outline
 	return c
 }
 
@@ -139,11 +147,16 @@ func (c *blazarInput[T]) Render() app.UI {
 
 	disabledClass := ""
 	if c.IDisabled {
-		disabledClass = "disabled"
+		disabledClass = "blazar-input-wrapper--disabled"
+	}
+
+	outlineClass := ""
+	if c.IOutline {
+		outlineClass = "blazar-input-wrapper--outline"
 	}
 
 	return InputWrapper().
-		Class("blazar-input", disabledClass).
+		Class("blazar-input", disabledClass, outlineClass).
 		Label(c.ILabel).
 		Body(
 			c.UseEvents.Wrap(

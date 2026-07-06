@@ -107,9 +107,7 @@ func (c *blazarCollapse) Render() app.UI {
 	}
 
 	element = app.Div().
-		Class("blazar-collapse").
-		Class(disabledClass).
-		Class(closedClass).
+		Class("blazar-collapse", disabledClass, closedClass).
 		Body(
 			app.Div().
 				Class("blazar-collapse__top").
