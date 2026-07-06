@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log/slog"
 	"reflect"
+	"strconv"
+	"strings"
 
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
@@ -30,6 +32,9 @@ type blazarInput[T any] struct {
 	ILabel       string
 	IPlaceholder string
 	IValue       T
+	IMinValue    *T
+	IMaxValue    *T
+	IStepValue   *T
 	BindValue    *T
 }
 
@@ -67,6 +72,21 @@ func (c *blazarInput[T]) Prefix(prefix string) *blazarInput[T] {
 
 func (c *blazarInput[T]) Suffix(suffix string) *blazarInput[T] {
 	c.ISuffix = suffix
+	return c
+}
+
+func (c *blazarInput[T]) Min(minValue T) *blazarInput[T] {
+	c.IMinValue = &minValue
+	return c
+}
+
+func (c *blazarInput[T]) Max(maxValue T) *blazarInput[T] {
+	c.IMaxValue = &maxValue
+	return c
+}
+
+func (c *blazarInput[T]) Step(stepValue T) *blazarInput[T] {
+	c.IStepValue = &stepValue
 	return c
 }
 
@@ -123,6 +143,8 @@ func (c *blazarInput[T]) Render() app.UI {
 	kind := reflect.TypeOf(c.IValue).Kind()
 
 	var minValue any
+	var maxValue any
+	var stepValue float64
 	inputType := "text"
 	{
 		switch kind {
@@ -141,6 +163,27 @@ func (c *blazarInput[T]) Render() app.UI {
 			inputType = "number"
 		}
 	}
+	if c.IMinValue != nil {
+		minValue = *c.IMinValue
+	}
+	if c.IMaxValue != nil {
+		maxValue = *c.IMaxValue
+	}
+	if c.IStepValue != nil {
+		v := *c.IStepValue
+		vString := ""
+		if kind == reflect.Float32 || kind == reflect.Float64 {
+			vString = fmt.Sprintf("%f", reflect.ValueOf(v).Float())
+		} else {
+			vString = fmt.Sprintf("%v", v)
+		}
+		floatValue, err := strconv.ParseFloat(vString, 64)
+		if err != nil {
+			// Oh well.
+		} else {
+			stepValue = floatValue
+		}
+	}
 
 	if c.IType != "" {
 		inputType = c.IType
@@ -152,10 +195,23 @@ func (c *blazarInput[T]) Render() app.UI {
 		checked = fmt.Sprintf("%v", c.IValue) == "true"
 	} else {
 		if kind == reflect.Float32 || kind == reflect.Float64 {
-			value = fmt.Sprintf("%f", reflect.ValueOf(c.IValue).Float())
+			stringValue := fmt.Sprintf("%f", reflect.ValueOf(c.IValue).Float())
 			if c.BindValue != nil {
-				value = fmt.Sprintf("%f", reflect.ValueOf(*c.BindValue).Float())
+				stringValue = fmt.Sprintf("%f", reflect.ValueOf(*c.BindValue).Float())
 			}
+			if strings.Contains(stringValue, ".") {
+				stringValue = strings.TrimRight(stringValue, "0")
+			}
+			if strings.HasPrefix(stringValue, ".") {
+				stringValue = "0" + stringValue
+			}
+			if strings.HasSuffix(stringValue, ".") {
+				stringValue = stringValue + "0"
+			}
+			if strings.HasSuffix(stringValue, ".0") {
+				stringValue = strings.TrimSuffix(stringValue, ".0")
+			}
+			value = stringValue
 		} else {
 			value = fmt.Sprintf("%v", c.IValue)
 			if c.BindValue != nil {
@@ -196,6 +252,8 @@ func (c *blazarInput[T]) Render() app.UI {
 						Checked(checked).
 						Value(value).
 						Min(minValue).
+						Max(maxValue).
+						Step(stepValue).
 						Placeholder(c.IPlaceholder),
 				),
 				WithOn("change", func(ctx app.Context, e app.Event) {
