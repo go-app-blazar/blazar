@@ -139,9 +139,16 @@ func (c *blazarInput[T]) Render() app.UI {
 	if inputType == "checkbox" {
 		checked = fmt.Sprintf("%v", c.IValue) == "true"
 	} else {
-		value = fmt.Sprintf("%v", c.IValue)
-		if c.BindValue != nil {
-			value = fmt.Sprintf("%v", *c.BindValue)
+		if kind == reflect.Float32 || kind == reflect.Float64 {
+			value = fmt.Sprintf("%f", reflect.ValueOf(c.IValue).Float())
+			if c.BindValue != nil {
+				value = fmt.Sprintf("%f", reflect.ValueOf(*c.BindValue).Float())
+			}
+		} else {
+			value = fmt.Sprintf("%v", c.IValue)
+			if c.BindValue != nil {
+				value = fmt.Sprintf("%v", *c.BindValue)
+			}
 		}
 	}
 
