@@ -208,9 +208,7 @@ func (c *blazarInput[T]) Render() app.UI {
 			if strings.HasSuffix(stringValue, ".") {
 				stringValue = stringValue + "0"
 			}
-			if strings.HasSuffix(stringValue, ".0") {
-				stringValue = strings.TrimSuffix(stringValue, ".0")
-			}
+			stringValue = strings.TrimSuffix(stringValue, ".0")
 			value = stringValue
 		} else {
 			value = fmt.Sprintf("%v", c.IValue)
