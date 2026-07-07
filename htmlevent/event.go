@@ -15,6 +15,7 @@ const (
 )
 
 // Event is the base event type.
+// See: https://developer.mozilla.org/en-US/docs/Web/API/Event
 type Event struct {
 	Bubbles          bool      `javascript:"bubbles"`
 	Cancelable       bool      `javascript:"cancelable"`
