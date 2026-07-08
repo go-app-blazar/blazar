@@ -2,6 +2,7 @@ package demo
 
 import (
 	"log/slog"
+	"time"
 
 	"github.com/go-app-blazar/blazar/blazar"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
@@ -36,6 +37,9 @@ func (c *FormPage) Render() app.UI {
 	}
 	action2Function := func(ctx app.Context) {
 		app.Window().Call("alert", "Action 2 called")
+	}
+	sleepFunction := func(ctx app.Context) {
+		time.Sleep(5 * time.Second)
 	}
 
 	return blazar.Page().
@@ -112,6 +116,7 @@ func (c *FormPage) Render() app.UI {
 						Action(
 							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function},
 							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function},
+							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction},
 						),
 				),
 			app.FieldSet().
@@ -132,6 +137,7 @@ func (c *FormPage) Render() app.UI {
 						Action(
 							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function},
 							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function},
+							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction},
 						),
 				),
 			app.FieldSet().
@@ -150,6 +156,7 @@ func (c *FormPage) Render() app.UI {
 						Action(
 							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function},
 							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function},
+							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction},
 						),
 				),
 		)
