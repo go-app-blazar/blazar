@@ -28,6 +28,8 @@ type blazarForm struct {
 	ISubmitLabel    string
 	ISubmitIcon     string
 	IActions        []FormAction
+
+	loading bool
 }
 
 type FormAction struct {
@@ -102,6 +104,80 @@ func (c *blazarForm) On(event string, function func(ctx app.Context, e app.Event
 	return c
 }
 
+// performCancel performs the cancel function.
+//
+// If there is no cancel function, then nothing will be done.
+func (c *blazarForm) performCancel(ctx app.Context) {
+	// If there is no cancel function, then don't do anything.
+	if c.ICancelFunction == nil {
+		return
+	}
+
+	c.loading = true
+
+	ctx.Async(func() {
+		c.ICancelFunction(ctx)
+
+		ctx.Dispatch(func(ctx app.Context) {
+			c.loading = false
+			ctx.Update()
+		})
+	})
+}
+
+// performSubmit performs the submit function.
+//
+// If there is no submit function, then then the *last* action will be done.
+// If there is no last action, then nothing will be done.
+func (c *blazarForm) performSubmit(ctx app.Context) {
+	// If there is a submit function, then perform it.
+	if c.ISubmitFunction != nil {
+		c.loading = true
+
+		ctx.Async(func() {
+			c.ISubmitFunction(ctx)
+
+			ctx.Dispatch(func(ctx app.Context) {
+				c.loading = false
+				ctx.Update()
+			})
+		})
+
+		return
+	}
+
+	// If there are is at least one action, then perform the *last* one.
+	if len(c.IActions) > 0 {
+		lastAction := c.IActions[len(c.IActions)-1]
+
+		c.performAction(ctx, lastAction)
+	}
+}
+
+// performAction performs the action function.
+func (c *blazarForm) performAction(ctx app.Context, action FormAction) {
+	// If there is a function, then perform it.
+	if action.Function != nil {
+		c.loading = true
+
+		ctx.Async(func() {
+			action.Function(ctx)
+
+			ctx.Dispatch(func(ctx app.Context) {
+				c.loading = false
+				ctx.Update()
+			})
+		})
+
+		return
+	}
+
+	// If there is a link target, then navigate to it.
+	if action.To != "" {
+		ctx.Navigate(action.To)
+	}
+}
+
 func (c *blazarForm) Render() app.UI {
 	element := app.Div().
 		Class(append([]string{"blazar-form"}, c.IClasses...)...).
@@ -122,22 +198,9 @@ func (c *blazarForm) Render() app.UI {
 						// Otherwise, the default action is the *last* custom action.
 						switch e.Get("key").String() {
 						case "Enter":
-							if c.ISubmitFunction != nil {
-								c.ISubmitFunction(ctx)
-							} else {
-								if len(c.IActions) > 0 {
-									lastAction := c.IActions[len(c.IActions)-1]
-									if lastAction.Function != nil {
-										lastAction.Function(ctx)
-									} else if lastAction.To != "" {
-										ctx.Navigate(lastAction.To)
-									}
-								}
-							}
+							c.performSubmit(ctx)
 						case "Escape":
-							if c.ICancelFunction != nil {
-								c.ICancelFunction(ctx)
-							}
+							c.performCancel(ctx)
 						}
 					}).
 					Body(
@@ -150,6 +213,7 @@ func (c *blazarForm) Render() app.UI {
 					app.If(c.ICancelFunction != nil, func() app.UI {
 						return Button().
 							Flat(true).
+							Disabled(c.loading).
 							Label(func() string {
 								if c.ICancelLabel != "" {
 									return c.ICancelLabel
@@ -158,7 +222,7 @@ func (c *blazarForm) Render() app.UI {
 							}()).
 							Icon(c.ICancelIcon).
 							On("click", func(ctx app.Context, e app.Event) {
-								c.ICancelFunction(ctx)
+								c.performCancel(ctx)
 							})
 					}),
 					app.If(c.ISpacer, func() app.UI {
@@ -168,20 +232,18 @@ func (c *blazarForm) Render() app.UI {
 						action := c.IActions[i]
 						return Button().
 							Flat(false).
+							Disabled(c.loading).
 							Label(action.Name).
 							Icon(action.Icon).
 							To(action.To).
 							On("click", func(ctx app.Context, e app.Event) {
-								if action.Function == nil {
-									ctx.PreventUpdate()
-									return
-								}
-								action.Function(ctx)
+								c.performAction(ctx, action)
 							})
 					}),
 					app.If(c.ISubmitFunction != nil, func() app.UI {
 						return Button().
 							Flat(false).
+							Disabled(c.loading).
 							Label(func() string {
 								if c.ISubmitLabel != "" {
 									return c.ISubmitLabel
@@ -190,7 +252,7 @@ func (c *blazarForm) Render() app.UI {
 							}()).
 							Icon(c.ISubmitIcon).
 							On("click", func(ctx app.Context, e app.Event) {
-								c.ISubmitFunction(ctx)
+								c.performSubmit(ctx)
 							})
 					}),
 				),
