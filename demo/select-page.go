@@ -17,11 +17,12 @@ type SelectPage struct {
 }
 
 var _ app.Composer = (*SelectPage)(nil)
-var _ app.Mounter = (*SelectPage)(nil)
 var _ app.Navigator = (*SelectPage)(nil)
 
-func (c *SelectPage) OnMount(ctx app.Context) {
-	slog.DebugContext(ctx.Context, "SelectPage: OnMount")
+var _ app.Initializer = (*SelectPage)(nil)
+
+func (c *SelectPage) OnInit() {
+	slog.DebugContext(context.TODO(), "SelectPage: OnInit")
 
 	c.single = "option2"
 	c.multiple = []string{"option2", "option3"}

@@ -1,6 +1,7 @@
 package demo
 
 import (
+	"context"
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/blazar"
@@ -14,8 +15,10 @@ type AppBarPage struct {
 	defaultClosed bool
 }
 
-func (c *AppBarPage) OnMount(ctx app.Context) {
-	slog.DebugContext(ctx.Context, "AppBarPage: OnMount")
+var _ app.Initializer = (*AppBarPage)(nil)
+
+func (c *AppBarPage) OnInit() {
+	slog.DebugContext(context.TODO(), "AppBarPage: OnInit")
 
 	c.defaultOpen = true
 	c.defaultClosed = false

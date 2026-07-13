@@ -11,10 +11,6 @@ type IndexPage struct {
 	app.Compo
 }
 
-func (c *IndexPage) OnMount(ctx app.Context) {
-	slog.DebugContext(ctx.Context, "IndexPage: OnMount")
-}
-
 func (c *IndexPage) OnNav(ctx app.Context) {
 	slog.DebugContext(ctx.Context, "IndexPage: OnNav")
 }

@@ -1,6 +1,7 @@
 package demo
 
 import (
+	"context"
 	"fmt"
 	"log/slog"
 
@@ -37,8 +38,10 @@ type InputPage struct {
 	checkboxValue bool
 }
 
-func (c *InputPage) OnMount(ctx app.Context) {
-	slog.DebugContext(ctx.Context, "InputPage: OnMount")
+var _ app.Initializer = (*InputPage)(nil)
+
+func (c *InputPage) OnInit() {
+	slog.DebugContext(context.TODO(), "InputPage: OnInit")
 
 	c.disabled = false
 	c.clearable = false
