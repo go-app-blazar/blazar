@@ -1,6 +1,7 @@
 package demo
 
 import (
+	"context"
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/blazar"
@@ -11,8 +12,10 @@ type ButtonPage struct {
 	app.Compo
 }
 
-func (c *ButtonPage) OnMount(ctx app.Context) {
-	slog.DebugContext(ctx.Context, "ButtonPage: OnMount")
+var _ app.Initializer = (*ButtonPage)(nil)
+
+func (c *ButtonPage) OnInit() {
+	slog.DebugContext(context.TODO(), "ButtonPage: OnInit")
 }
 
 func (c *ButtonPage) OnNav(ctx app.Context) {

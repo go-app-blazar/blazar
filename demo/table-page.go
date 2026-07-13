@@ -1,6 +1,7 @@
 package demo
 
 import (
+	"context"
 	"fmt"
 	"log/slog"
 	"slices"
@@ -24,8 +25,10 @@ type characterRow struct {
 	Bounty uint
 }
 
-func (c *TablePage) OnMount(ctx app.Context) {
-	slog.DebugContext(ctx.Context, "TablePage: OnMount")
+var _ app.Initializer = (*TablePage)(nil)
+
+func (c *TablePage) OnInit() {
+	slog.DebugContext(context.TODO(), "TablePage: OnInit")
 
 	c.columns = []blazar.TableColumn[characterRow]{
 		{

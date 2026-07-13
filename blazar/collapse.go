@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/go-app-blazar/blazar/deref"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -13,13 +14,14 @@ func Collapse() *blazarCollapse {
 
 type blazarCollapse struct {
 	app.Compo
-	UseEvents
-	ILabel       string
-	IDisabled    bool
-	ISummaryText string
-	ISummary     []app.UI
-	IBody        []app.UI
-	BindOpen     *bool
+	ILabel        string
+	IDisabled     bool
+	ISummaryText  string
+	ISummary      []app.UI
+	IBody         []app.UI
+	IOnOpenChange func(ctx app.Context, open bool)
+	open          bool
+	bindOpen      *bool
 }
 
 var _ app.Composer = (*blazarCollapse)(nil)
@@ -29,10 +31,11 @@ func (c *blazarCollapse) OnUpdate(ctx app.Context) {
 	if debugCollapse {
 		slog.DebugContext(ctx.Context, "blazarCollapse: OnUpdate")
 	}
-	if c.BindOpen != nil {
+	if c.bindOpen != nil {
 		if debugCollapse {
-			slog.DebugContext(ctx.Context, "blazarCollapse: OnUpdate", "*BindValue", *c.BindOpen)
+			slog.DebugContext(ctx.Context, "blazarCollapse: OnUpdate", "*BindValue", *c.bindOpen)
 		}
+		c.open = *c.bindOpen
 	} else {
 		if debugCollapse {
 			slog.DebugContext(ctx.Context, "blazarCollapse: OnUpdate: BindOpen is nil.")
@@ -46,10 +49,13 @@ func (c *blazarCollapse) Disabled(disabled bool) *blazarCollapse {
 }
 
 func (c *blazarCollapse) Open(open bool) *blazarCollapse {
-	if c.BindOpen == nil {
-		c.BindOpen = new(bool)
+	if debugCollapse {
+		slog.DebugContext(context.TODO(), "blazarCollapse: Open", "open", open)
 	}
-	*c.BindOpen = open
+	c.open = open
+	if c.bindOpen != nil {
+		*c.bindOpen = open
+	}
 	return c
 }
 
@@ -73,23 +79,27 @@ func (c *blazarCollapse) Body(body ...app.UI) *blazarCollapse {
 	return c
 }
 
-func (c *blazarCollapse) On(event string, function func(ctx app.Context, e app.Event)) *blazarCollapse {
-	c.UseEvents.On(event, function)
+// OnOpenChange is called when the collapse is opened or closed.
+// The new value is passed to the function.
+func (c *blazarCollapse) OnOpenChange(function func(ctx app.Context, open bool)) *blazarCollapse {
+	c.IOnOpenChange = function
 	return c
 }
 
 func (c *blazarCollapse) Bind(variable *bool) *blazarCollapse {
-	c.BindOpen = variable
+	if debugCollapse {
+		slog.DebugContext(context.TODO(), "blazarCollapse: Bind", "variable", deref.String(variable))
+	}
+	c.bindOpen = variable
+	if c.bindOpen != nil {
+		c.open = *c.bindOpen
+	}
 	return c
 }
 
 func (c *blazarCollapse) Render() app.UI {
-	open := false
-	if c.BindOpen != nil {
-		open = *c.BindOpen
-	}
 	if debugCollapse {
-		slog.DebugContext(context.TODO(), "blazarCollapse: Render", "BindOpen", c.BindOpen, "open", open)
+		slog.DebugContext(context.TODO(), "blazarCollapse: Render", "bindOpen", deref.String(c.bindOpen), "open", c.open)
 	}
 
 	var element app.UI
@@ -101,7 +111,7 @@ func (c *blazarCollapse) Render() app.UI {
 
 	closedIcon := "chevron-down"
 	closedClass := ""
-	if !open {
+	if !c.open {
 		closedIcon = "chevron-right"
 		closedClass = "closed"
 	}
@@ -135,23 +145,23 @@ func (c *blazarCollapse) Render() app.UI {
 						),
 				).
 				On("click", func(ctx app.Context, e app.Event) {
-					open = !open
-					if c.BindOpen != nil {
-						*c.BindOpen = open
+					c.open = !c.open
+					if c.bindOpen != nil {
+						*c.bindOpen = c.open
 					}
 					if debugCollapse {
-						slog.DebugContext(ctx.Context, "Collapse: OnClick", "BindOpen", c.BindOpen, "open", open)
+						slog.DebugContext(ctx.Context, "Collapse: OnClick", "BindOpen", deref.String(c.bindOpen), "open", c.open)
+					}
+					if c.IOnOpenChange != nil {
+						c.IOnOpenChange(ctx, c.open)
 					}
 					ctx.Update()
 				}),
-			app.If(open, func() app.UI {
+			app.If(c.open, func() app.UI {
 				return app.Div().
 					Class("blazar-collapse-content").
 					Body(c.IBody...)
 			}),
 		)
-	if !c.IDisabled {
-		element = c.UseEvents.Wrap(element)
-	}
 	return element
 }

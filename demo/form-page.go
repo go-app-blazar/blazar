@@ -1,6 +1,7 @@
 package demo
 
 import (
+	"context"
 	"log/slog"
 	"time"
 
@@ -14,8 +15,10 @@ type FormPage struct {
 	name string
 }
 
-func (c *FormPage) OnMount(ctx app.Context) {
-	slog.DebugContext(ctx.Context, "FormPage: OnMount")
+var _ app.Initializer = (*FormPage)(nil)
+
+func (c *FormPage) OnInit() {
+	slog.DebugContext(context.TODO(), "FormPage: OnInit")
 
 	c.name = "Monkey D. Luffy"
 }
