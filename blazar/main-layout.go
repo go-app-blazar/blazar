@@ -81,7 +81,7 @@ func (c *blazarMainLayout) OnMount(ctx app.Context) {
 	c.matchMedia = matchmedia.New(ctx, "screen and (max-width: "+c.IResponsiveWidth+")")
 	c.matchMedia.SetOnChange(func(ctx app.Context, value bool) {
 		if debugMainLayout {
-			slog.DebugContext(ctx.Context, "MediaPage: MatchMedia: OnChange", "value", value)
+			slog.DebugContext(ctx.Context, "MainLayout: MatchMedia: OnChange", "value", value)
 		}
 		c.narrow = value
 
