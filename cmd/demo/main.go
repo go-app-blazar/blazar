@@ -108,6 +108,9 @@ func main() {
 									Label("Media").
 									To("/media"),
 								blazar.Item().
+									Label("Progress").
+									To("/progress"),
+								blazar.Item().
 									Label("Select").
 									To("/select"),
 								blazar.Item().
@@ -157,6 +160,12 @@ func main() {
 					Path: "/media",
 					Component: func() app.Composer {
 						return &demo.MediaPage{}
+					},
+				},
+				{
+					Path: "/progress",
+					Component: func() app.Composer {
+						return &demo.ProgressPage{}
 					},
 				},
 				{

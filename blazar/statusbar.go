@@ -53,8 +53,7 @@ func (c *blazarStatusBar) Render() app.UI {
 	}
 
 	return app.Div().
-		Class("blazar-statusbar").
-		Class(goodClass).
+		Class("blazar-statusbar", goodClass).
 		Body(
 			app.If(goodIcon != "", func() app.UI {
 				return Icon().
