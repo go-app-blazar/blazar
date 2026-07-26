@@ -8,6 +8,7 @@ require (
 	github.com/lmittmann/tint v1.1.3
 	github.com/mattn/go-isatty v0.0.22
 	github.com/maxence-charriere/go-app/v11 v11.0.4
+	github.com/tekkamanendless/httprequest v0.1.1
 	golang.org/x/text v0.38.0
 )
 

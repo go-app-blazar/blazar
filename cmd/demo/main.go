@@ -197,7 +197,7 @@ func main() {
 	// instructions.
 	app.RunWhenOnBrowser()
 
-	disableServiceWorker := true
+	disableServiceWorker := false
 	if value := os.Getenv("DISABLE_SERVICE_WORKER"); value != "" {
 		v, err := strconv.ParseBool(value)
 		if err != nil {
@@ -229,8 +229,9 @@ func main() {
 
 	slog.InfoContext(ctx, "Disable service worker?", "disableServiceWorker", disableServiceWorker)
 	if disableServiceWorker {
-		blazarApp.DisableServiceWorker()
+		blazarApp.DisableServiceWorker(disableServiceWorker)
 	}
+	blazarApp.AutoDisableServiceWorker(true)
 
 	wrapper := http.NewServeMux()
 	wrapper.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
