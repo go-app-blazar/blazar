@@ -5,13 +5,16 @@ import (
 
 	"github.com/go-app-blazar/blazar/blazarplugin"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
+	"github.com/tekkamanendless/httprequest"
 )
 
 // App is a wrapper around go-app app.Handler that provides a way to add plugins and handle requests.
 type App struct {
-	appHandler *app.Handler
-	mux        *http.ServeMux
-	plugins    []blazarplugin.Plugin
+	appHandler               *app.Handler
+	mux                      *http.ServeMux
+	plugins                  []blazarplugin.Plugin
+	disableServiceWorker     bool
+	autoDisableServiceWorker bool
 }
 
 var _ http.Handler = (*App)(nil)
@@ -127,44 +130,64 @@ type Config struct {
 
 // NewApp creates a new App instance.
 func NewApp(config Config) *App {
-	mux := http.NewServeMux()
-
-	handler := &app.Handler{
-		Name:               config.Name,
-		ShortName:          config.ShortName,
-		Icon:               config.Icon,
-		BackgroundColor:    config.BackgroundColor,
-		ThemeColor:         config.ThemeColor,
-		LoadingLabel:       config.LoadingLabel,
-		Lang:               config.Lang,
-		Libraries:          config.Libraries,
-		Title:              config.Title,
-		Description:        config.Description,
-		Domain:             config.Domain,
-		Author:             config.Author,
-		Keywords:           config.Keywords,
-		Image:              config.Image,
-		Styles:             config.Styles,
-		Fonts:              config.Fonts,
-		Scripts:            config.Scripts,
-		CacheableResources: config.CacheableResources,
-		RawHeaders:         config.RawHeaders,
-		HTML:               config.HTML,
-		Body:               config.Body,
-		Env:                config.Env,
-		InternalURLs:       config.InternalURLs,
-		Preconnect:         config.Preconnect,
-		ProxyResources:     config.ProxyResources,
-		Resources:          config.Resources,
-		StartURL:           config.StartURL,
-		Version:            config.Version,
+	a := &App{
+		appHandler: &app.Handler{
+			Name:               config.Name,
+			ShortName:          config.ShortName,
+			Icon:               config.Icon,
+			BackgroundColor:    config.BackgroundColor,
+			ThemeColor:         config.ThemeColor,
+			LoadingLabel:       config.LoadingLabel,
+			Lang:               config.Lang,
+			Libraries:          config.Libraries,
+			Title:              config.Title,
+			Description:        config.Description,
+			Domain:             config.Domain,
+			Author:             config.Author,
+			Keywords:           config.Keywords,
+			Image:              config.Image,
+			Styles:             config.Styles,
+			Fonts:              config.Fonts,
+			Scripts:            config.Scripts,
+			CacheableResources: config.CacheableResources,
+			RawHeaders:         config.RawHeaders,
+			HTML:               config.HTML,
+			Body:               config.Body,
+			Env:                config.Env,
+			InternalURLs:       config.InternalURLs,
+			Preconnect:         config.Preconnect,
+			ProxyResources:     config.ProxyResources,
+			Resources:          config.Resources,
+			StartURL:           config.StartURL,
+			Version:            config.Version,
+		},
+		mux: http.NewServeMux(),
 	}
-	mux.Handle("/", handler)
+	a.mux.Handle("/", a.appHandler)
+	// Disable the service worker by replacing it with an empty one.
+	a.mux.HandleFunc("/app-worker.js", func(w http.ResponseWriter, r *http.Request) {
+		serviceWorker := true
 
-	return &App{
-		appHandler: handler,
-		mux:        mux,
-	}
+		if a.disableServiceWorker {
+			// If the service worker is explicitly disabled, then don't use a service worker.
+			serviceWorker = false
+		} else if a.autoDisableServiceWorker {
+			// If the request is over HTTP (not HTTPS), then don't use a service worker.
+			if httprequest.Proto(r) == "http" {
+				serviceWorker = false
+			}
+		}
+
+		if !serviceWorker {
+			w.Header().Set("Content-Type", "application/javascript")
+			w.Write([]byte(""))
+			return
+		}
+
+		a.appHandler.ServeHTTP(w, r)
+	})
+
+	return a
 }
 
 // Handle adds a new handler to the app.
@@ -192,12 +215,12 @@ func (a *App) AddPlugin(plugins ...blazarplugin.Plugin) {
 }
 
 // DisableServiceWorker disables the service worker.
-func (a *App) DisableServiceWorker() {
-	// Disable the service worker by replacing it with an empty one.
-	a.HandleFunc("/app-worker.js", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/javascript")
-		w.Write([]byte(""))
-	})
+func (a *App) DisableServiceWorker(disable bool) {
+	a.disableServiceWorker = disable
+}
+
+func (a *App) AutoDisableServiceWorker(disable bool) {
+	a.autoDisableServiceWorker = disable
 }
 
 // GenerateStaticFiles generates the static files for the app.
