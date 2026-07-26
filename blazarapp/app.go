@@ -1,7 +1,10 @@
 package blazarapp
 
 import (
+	"log/slog"
+	"net"
 	"net/http"
+	"net/http/httputil"
 
 	"github.com/go-app-blazar/blazar/blazarplugin"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
@@ -168,22 +171,41 @@ func NewApp(config Config) *App {
 	a.mux.HandleFunc("/app-worker.js", func(w http.ResponseWriter, r *http.Request) {
 		serviceWorker := true
 
+		slog.InfoContext(r.Context(), "Auto disable service worker", "disableServiceWorker", a.disableServiceWorker, "autoDisableServiceWorker", a.autoDisableServiceWorker)
+
 		if a.disableServiceWorker {
 			// If the service worker is explicitly disabled, then don't use a service worker.
 			serviceWorker = false
 		} else if a.autoDisableServiceWorker {
+			slog.InfoContext(r.Context(), "Auto disable service worker.", "proto", httprequest.Proto(r), "host", httprequest.Host(r))
+			requestContents, _ := httputil.DumpRequest(r, false)
+			slog.InfoContext(r.Context(), "Request contents", "requestContents", string(requestContents))
+
+			nonLocal := false
+			ips, _ := net.LookupIP(httprequest.Host(r))
+			slog.InfoContext(r.Context(), "IPs", "ips", ips)
+			for _, ip := range ips {
+				if ip.IsLoopback() {
+					continue
+				}
+				nonLocal = true
+				break
+			}
+
 			// If the request is over HTTP (not HTTPS), then don't use a service worker.
-			if httprequest.Proto(r) == "http" {
+			if httprequest.Proto(r) == "http" && !nonLocal {
 				serviceWorker = false
 			}
 		}
 
 		if !serviceWorker {
+			slog.InfoContext(r.Context(), "Serving an empty service worker.")
 			w.Header().Set("Content-Type", "application/javascript")
 			w.Write([]byte(""))
 			return
 		}
 
+		slog.InfoContext(r.Context(), "Serving a real service worker.")
 		a.appHandler.ServeHTTP(w, r)
 	})
 
@@ -219,6 +241,8 @@ func (a *App) DisableServiceWorker(disable bool) {
 	a.disableServiceWorker = disable
 }
 
+// AutoDisableServiceWorker automatically disables the service worker based on the request.
+// If the request is over HTTP and using a loopback address, then the service worker will be disabled.
 func (a *App) AutoDisableServiceWorker(disable bool) {
 	a.autoDisableServiceWorker = disable
 }
@@ -235,5 +259,11 @@ func (a *App) GenerateStaticFiles() error {
 	for _, page := range a.appHandler.CacheableResources {
 		pages = append(pages, page)
 	}
+
+	originalAutoDisableServiceWorker := a.disableServiceWorker
+	a.autoDisableServiceWorker = false
+	defer func() {
+		a.autoDisableServiceWorker = originalAutoDisableServiceWorker
+	}()
 	return app.GenerateStaticWebsiteFromMux(".", a.mux, pages...)
 }
