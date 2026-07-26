@@ -259,5 +259,11 @@ func (a *App) GenerateStaticFiles() error {
 	for _, page := range a.appHandler.CacheableResources {
 		pages = append(pages, page)
 	}
+
+	originalAutoDisableServiceWorker := a.disableServiceWorker
+	a.autoDisableServiceWorker = false
+	defer func() {
+		a.autoDisableServiceWorker = originalAutoDisableServiceWorker
+	}()
 	return app.GenerateStaticWebsiteFromMux(".", a.mux, pages...)
 }
