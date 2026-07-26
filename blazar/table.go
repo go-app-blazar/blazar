@@ -16,16 +16,17 @@ import (
 type blazarTable[T any] struct {
 	app.Compo
 
-	ITitle           string
-	IColumns         []TableColumn[T]
-	IRowIDFunction   func(row T) string
-	IRows            []T
-	rowIDs           []string // This is the list of the IDs of the rows.  This is recomputed whenever the rows change.
-	IActions         []TableAction
-	IRowActions      []RowAction[T]
-	IMultiRowActions []MultiRowAction[T]
-	IEmptyMessage    string
-	IInteractive     bool
+	ITitle            string
+	IColumns          []TableColumn[T]
+	IRowIDFunction    func(row T) string
+	IRows             []T
+	rowIDs            []string // This is the list of the IDs of the rows.  This is recomputed whenever the rows change.
+	IActions          []TableAction
+	IRowActions       []RowAction[T]
+	IMultiRowActions  []MultiRowAction[T]
+	IEmptyMessage     string
+	IInteractive      bool
+	IOnPageSizeChange func(ctx app.Context, pageSize uint)
 
 	visibleColumnNames         []string // This is the list of columns that are currently visible in the table.
 	popoverSelectedColumnNames []string // This is the list of columns that are currently selected in the popover.
@@ -354,6 +355,11 @@ func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
 			}
 		}
 	})
+}
+
+func (t *blazarTable[T]) OnPageSizeChange(onPageSizeChange func(ctx app.Context, pageSize uint)) *blazarTable[T] {
+	t.IOnPageSizeChange = onPageSizeChange
+	return t
 }
 
 func (t *blazarTable[T]) Render() app.UI {
@@ -877,6 +883,9 @@ func (t *blazarTable[T]) Render() app.UI {
 									slog.DebugContext(ctx.Context, "blazarTable: Setting pageSize via select.", "pageSize", pageSize)
 								}
 								t.setPageSize(uint(pageSize))
+								if t.IOnPageSizeChange != nil {
+									t.IOnPageSizeChange(ctx, uint(pageSize))
+								}
 								ctx.Update()
 							}),
 					)
