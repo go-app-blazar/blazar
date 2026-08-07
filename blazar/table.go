@@ -87,12 +87,13 @@ func TableColumnFormatNumber(value any) any {
 }
 
 type TableColumn[T any] struct {
-	Name   string              // The name of the column.
-	To     func(row T) string  // If set, and if this returns a non-empty string, then this column will be a link.
-	Value  func(row T) any     // The value of the column.
-	Type   TableColumnType     // The type of the column.
-	Format func(value any) any // If set, this function will be used to format the value of the column.
-	Class  string              // The class of the column.
+	Name        string              // The name of the column.
+	DisplayName string              // The display name of the column. If empty, then the Name will be used.
+	To          func(row T) string  // If set, and if this returns a non-empty string, then this column will be a link.
+	Value       func(row T) any     // The value of the column.
+	Type        TableColumnType     // The type of the column.
+	Format      func(value any) any // If set, this function will be used to format the value of the column.
+	Class       string              // The class of the column.
 }
 
 func Table[T any]() *blazarTable[T] {
@@ -549,8 +550,15 @@ func (t *blazarTable[T]) Render() app.UI {
 									AllowedValue(func() []SelectOption {
 										columns := []SelectOption{}
 										for _, column := range t.IColumns {
+											displayName := column.DisplayName
+											if displayName == "" {
+												displayName = column.Name
+											}
+											if displayName != column.Name {
+												displayName = fmt.Sprintf("%s (%s)", displayName, column.Name)
+											}
 											columns = append(columns, SelectOption{
-												Label: column.Name,
+												Label: displayName,
 												Value: column.Name,
 											})
 										}
@@ -687,9 +695,13 @@ func (t *blazarTable[T]) Render() app.UI {
 									}),
 									app.Range(visibleColumns).Slice(func(i int) app.UI {
 										column := visibleColumns[i]
+										displayName := column.DisplayName
+										if displayName == "" {
+											displayName = column.Name
+										}
 										return app.Th().
 											Class(column.Class).
-											Text(column.Name)
+											Text(displayName)
 									}),
 									app.If(len(visibleRowActions) > 0, func() app.UI {
 										return app.Th().
