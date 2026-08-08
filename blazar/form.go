@@ -36,6 +36,7 @@ type FormAction struct {
 	Name            string                // The name of the action.
 	Icon            string                // The icon of the action.  If empty, then no icon will be shown.
 	To              string                // If set, then the action will navigate to the target URL.
+	Target          string                // When "To" is set, this will be the target of the button.
 	Function        func(ctx app.Context) // If set, then the action will perform the function.
 	Flat            bool                  // If true, then the button will be flat.
 	BackgroundColor string                // The background color of the button.  If empty, then the default background color will be used.
@@ -239,6 +240,7 @@ func (c *blazarForm) Render() app.UI {
 							Label(action.Name).
 							Icon(action.Icon).
 							To(action.To).
+							Target(action.Target).
 							On("click", func(ctx app.Context, e app.Event) {
 								c.performAction(ctx, action)
 							})

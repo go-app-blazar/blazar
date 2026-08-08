@@ -61,6 +61,11 @@ func (c *blazarButton) Round(round bool) *blazarButton {
 	return c
 }
 
+func (c *blazarButton) Target(target string) *blazarButton {
+	c.ITarget = target
+	return c
+}
+
 func (c *blazarButton) To(to string) *blazarButton {
 	c.ITo = to
 	return c
