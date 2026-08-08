@@ -5,17 +5,21 @@ import (
 )
 
 func Button() *blazarButton {
-	return &blazarButton{}
+	return &blazarButton{
+		IStyles: map[string]string{},
+	}
 }
 
 type blazarButton struct {
 	app.Compo
 	UseEvents
 	IClasses  []string
+	IStyles   map[string]string
 	IFlat     bool
 	IIcon     string
 	ILabel    string
 	ITo       string
+	ITarget   string // When "To" is set, this will be the target of the button.
 	IRound    bool
 	IDisabled bool
 }
@@ -24,6 +28,11 @@ var _ app.Composer = (*blazarButton)(nil)
 
 func (c *blazarButton) Class(class ...string) *blazarButton {
 	c.IClasses = class
+	return c
+}
+
+func (c *blazarButton) Style(name, value string) *blazarButton {
+	c.IStyles[name] = value
 	return c
 }
 
@@ -104,12 +113,13 @@ func (c *blazarButton) Render() app.UI {
 		innerElement = app.A().
 			Class("blazar-button__content").
 			Href(c.ITo).
+			Target(c.ITarget).
 			Body(body...)
 	}
 
 	classes := append([]string{"blazar-button", disabledClass, roundClass, flatClass}, c.IClasses...)
 
-	var element app.UI
+	var element app.HTMLSpan
 	element = app.Span().
 		Class(classes...).
 		TabIndex(0).
@@ -120,8 +130,14 @@ func (c *blazarButton) Render() app.UI {
 				e.Get("target").Call("click")
 			}
 		})
-	if !c.IDisabled {
-		element = c.UseEvents.Wrap(element)
+	for name, value := range c.IStyles {
+		element = element.Style(name, value)
 	}
-	return element
+
+	var finalElement app.UI
+	finalElement = element
+	if !c.IDisabled {
+		finalElement = c.UseEvents.Wrap(element)
+	}
+	return finalElement
 }

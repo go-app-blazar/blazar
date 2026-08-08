@@ -33,10 +33,13 @@ type blazarForm struct {
 }
 
 type FormAction struct {
-	Name     string
-	Icon     string
-	To       string
-	Function func(ctx app.Context)
+	Name            string                // The name of the action.
+	Icon            string                // The icon of the action.  If empty, then no icon will be shown.
+	To              string                // If set, then the action will navigate to the target URL.
+	Function        func(ctx app.Context) // If set, then the action will perform the function.
+	Flat            bool                  // If true, then the button will be flat.
+	BackgroundColor string                // The background color of the button.  If empty, then the default background color will be used.
+	Color           string                // The color of the button.  If empty, then the default color will be used.
 }
 
 var _ app.Composer = (*blazarForm)(nil)
@@ -230,8 +233,8 @@ func (c *blazarForm) Render() app.UI {
 					}),
 					app.Range(c.IActions).Slice(func(i int) app.UI {
 						action := c.IActions[i]
-						return Button().
-							Flat(false).
+						button := Button().
+							Flat(action.Flat).
 							Disabled(c.loading).
 							Label(action.Name).
 							Icon(action.Icon).
@@ -239,6 +242,13 @@ func (c *blazarForm) Render() app.UI {
 							On("click", func(ctx app.Context, e app.Event) {
 								c.performAction(ctx, action)
 							})
+						if action.BackgroundColor != "" {
+							button = button.Style("background-color", action.BackgroundColor)
+						}
+						if action.Color != "" {
+							button = button.Style("color", action.Color)
+						}
+						return button
 					}),
 					app.If(c.ISubmitFunction != nil, func() app.UI {
 						return Button().
