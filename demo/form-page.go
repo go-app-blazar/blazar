@@ -117,9 +117,9 @@ func (c *FormPage) Render() app.UI {
 								Bind(&c.name),
 						).
 						Action(
-							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function},
-							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function},
-							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction},
+							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function, Flat: true},
+							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function, BackgroundColor: "red", Color: "white"},
+							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction, BackgroundColor: "black", Color: "white"},
 						),
 				),
 			app.FieldSet().
@@ -138,9 +138,9 @@ func (c *FormPage) Render() app.UI {
 						SubmitIcon("save").
 						SubmitFunction(submitFunction).
 						Action(
-							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function},
-							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function},
-							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction},
+							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function, Flat: true},
+							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function, BackgroundColor: "red", Color: "white"},
+							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction, BackgroundColor: "black", Color: "white"},
 						),
 				),
 			app.FieldSet().
@@ -157,9 +157,9 @@ func (c *FormPage) Render() app.UI {
 						SubmitIcon("save").
 						SubmitFunction(submitFunction).
 						Action(
-							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function},
-							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function},
-							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction},
+							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function, Flat: true},
+							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function, BackgroundColor: "red", Color: "white"},
+							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction, BackgroundColor: "black", Color: "white"},
 						),
 				),
 		)
