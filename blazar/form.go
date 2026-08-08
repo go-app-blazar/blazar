@@ -175,11 +175,6 @@ func (c *blazarForm) performAction(ctx app.Context, action FormAction) {
 
 		return
 	}
-
-	// If there is a link target, then navigate to it.
-	if action.To != "" {
-		ctx.Navigate(action.To)
-	}
 }
 
 func (c *blazarForm) Render() app.UI {
