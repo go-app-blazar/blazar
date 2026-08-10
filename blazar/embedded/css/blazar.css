@@ -210,6 +210,7 @@ body {
     }
 
     .blazar-copy__icon {
+        font-size: 0.8em;
         cursor: copy;
     }
 }
