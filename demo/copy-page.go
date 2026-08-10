@@ -32,7 +32,11 @@ func (c *CopyPage) onClick(ctx app.Context, event htmlevent.PointerEvent) {
 
 func (c *CopyPage) onCopy(ctx app.Context, value string) {
 	app.Window().Get("navigator").Get("clipboard").Call("readText").Then(func(result app.Value) {
-		c.output = result.String()
+		ctx.Dispatch(func(ctx app.Context) {
+			c.output = result.String()
+
+			ctx.Update()
+		})
 	})
 }
 
