@@ -178,12 +178,18 @@ func (c *blazarForm) performAction(ctx app.Context, action FormAction) {
 }
 
 func (c *blazarForm) Render() app.UI {
+	formDisplay := "block"
+	if len(c.IBody) == 0 {
+		formDisplay = "none"
+	}
+
 	element := app.Div().
 		Class(append([]string{"blazar-form"}, c.IClasses...)...).
 		Body(
 			c.UseEvents.Wrap(
 				app.Div().
 					Class("blazar-form__form").
+					Style("display", formDisplay).
 					On("keyup", func(ctx app.Context, e app.Event) {
 						ctx.PreventUpdate()
 
