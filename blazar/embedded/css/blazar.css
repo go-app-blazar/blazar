@@ -196,6 +196,24 @@ body {
     }
 }
 
+.blazar-copy {
+    cursor: copy;
+
+    &.disabled {
+        cursor: initial;
+    }
+
+    .blazar-copy__wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .blazar-copy__icon {
+        cursor: copy;
+    }
+}
+
 .blazar-form {
     display: flex;
     flex-direction: column;

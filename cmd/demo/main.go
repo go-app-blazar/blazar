@@ -99,6 +99,9 @@ func main() {
 									Label("Collapse").
 									To("/collapse"),
 								blazar.Item().
+									Label("Copy").
+									To("/copy"),
+								blazar.Item().
 									Label("Form").
 									To("/form"),
 								blazar.Item().
@@ -142,6 +145,12 @@ func main() {
 					Path: "/collapse",
 					Component: func() app.Composer {
 						return &demo.CollapsePage{}
+					},
+				},
+				{
+					Path: "/copy",
+					Component: func() app.Composer {
+						return &demo.CopyPage{}
 					},
 				},
 				{

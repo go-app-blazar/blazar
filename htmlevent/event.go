@@ -84,6 +84,39 @@ type MouseEvent struct {
 	ShiftKey      bool      `javascript:"shiftKey"`
 }
 
+const (
+	PointerEventPointerOver        = "pointerover"
+	PointerEventPointerEnter       = "pointerenter"
+	PointerEventPointerDown        = "pointerdown"
+	PointerEventPointerMove        = "pointermove"
+	PointerEventPointerRawUpdate   = "pointerrawupdate"
+	PointerEventPointerUp          = "pointerup"
+	PointerEventPointerCancel      = "pointercancel"
+	PointerEventPointerOut         = "pointerout"
+	PointerEventPointerLeave       = "pointerleave"
+	PointerEventGotPointerCapture  = "gotpointercapture"
+	PointerEventLostPointerCapture = "lostpointercapture"
+)
+
+// PointerEvent is the event type for pointer events.
+// See: https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent
+type PointerEvent struct {
+	MouseEvent
+	AltitudeAngle      float64 `javascript:"altitudeAngle"`
+	AzimuthAngle       float64 `javascript:"azimuthAngle"`
+	PersistentDeviceID int     `javascript:"persistentDeviceId"`
+	PointerID          int     `javascript:"pointerId"`
+	Width              int     `javascript:"width"`
+	Height             int     `javascript:"height"`
+	Pressure           float64 `javascript:"pressure"`
+	TangentialPressure float64 `javascript:"tangentialPressure"`
+	TiltX              int     `javascript:"tiltX"`
+	TiltY              int     `javascript:"tiltY"`
+	Twist              float64 `javascript:"twist"`
+	PointerType        string  `javascript:"pointerType"`
+	IsPrimary          bool    `javascript:"isPrimary"`
+}
+
 // Toggle is the event type for toggle events.
 // See: https://developer.mozilla.org/en-US/docs/Web/API/ToggleEvent
 type Toggle struct {

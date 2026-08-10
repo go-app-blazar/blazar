@@ -6,6 +6,7 @@ func Debug(debug bool) {
 	debugButton = debug
 	debugCheckbox = debug
 	debugCollapse = debug
+	debugCopy = debug
 	debugForm = debug
 	debugInput = debug
 	debugInputWrapper = debug
@@ -48,6 +49,14 @@ var debugCollapse bool = false
 // DebugCollapse toggles debug logging for Collapse.
 func DebugCollapse(debug bool) {
 	debugCollapse = debug
+}
+
+// debugCopy toggles debug logging for Copy.
+var debugCopy bool = false
+
+// DebugCopy toggles debug logging for Copy.
+func DebugCopy(debug bool) {
+	debugCopy = debug
 }
 
 // debugForm toggles debug logging for Form.
