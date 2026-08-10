@@ -9,7 +9,9 @@ import (
 )
 
 func Collapse() *blazarCollapse {
-	return &blazarCollapse{}
+	return &blazarCollapse{
+		IStyles: map[string]string{},
+	}
 }
 
 type blazarCollapse struct {
@@ -20,6 +22,7 @@ type blazarCollapse struct {
 	ISummary      []app.UI
 	IBody         []app.UI
 	IOnOpenChange func(ctx app.Context, open bool)
+	IStyles       map[string]string // The styles to apply to the copy component.
 	open          bool
 	bindOpen      *bool
 }
@@ -64,6 +67,11 @@ func (c *blazarCollapse) Label(label string) *blazarCollapse {
 	return c
 }
 
+func (c *blazarCollapse) Style(name, value string) *blazarCollapse {
+	c.IStyles[name] = value
+	return c
+}
+
 func (c *blazarCollapse) SummaryText(summaryText string) *blazarCollapse {
 	c.ISummaryText = summaryText
 	return c
@@ -102,8 +110,6 @@ func (c *blazarCollapse) Render() app.UI {
 		slog.DebugContext(context.TODO(), "blazarCollapse: Render", "bindOpen", deref.String(c.bindOpen), "open", c.open)
 	}
 
-	var element app.UI
-
 	disabledClass := ""
 	if c.IDisabled {
 		disabledClass = "disabled"
@@ -116,7 +122,7 @@ func (c *blazarCollapse) Render() app.UI {
 		closedClass = "closed"
 	}
 
-	element = app.Div().
+	element := app.Div().
 		Class("blazar-collapse", disabledClass, closedClass).
 		Body(
 			app.Div().
@@ -163,5 +169,8 @@ func (c *blazarCollapse) Render() app.UI {
 					Body(c.IBody...)
 			}),
 		)
+	for name, value := range c.IStyles {
+		element = element.Style(name, value)
+	}
 	return element
 }
