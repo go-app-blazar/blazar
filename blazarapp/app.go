@@ -7,6 +7,7 @@ import (
 	"net/http/httputil"
 
 	"github.com/go-app-blazar/blazar/blazarplugin"
+	"github.com/go-app-blazar/router"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 	"github.com/tekkamanendless/httprequest"
 )
@@ -248,8 +249,11 @@ func (a *App) AutoDisableServiceWorker(disable bool) {
 }
 
 // GenerateStaticFiles generates the static files for the app.
-func (a *App) GenerateStaticFiles() error {
+func (a *App) GenerateStaticFiles(paths ...string) error {
 	var pages []string
+	for _, path := range paths {
+		pages = append(pages, path)
+	}
 	for _, page := range a.appHandler.Styles {
 		pages = append(pages, page)
 	}
@@ -258,6 +262,10 @@ func (a *App) GenerateStaticFiles() error {
 	}
 	for _, page := range a.appHandler.CacheableResources {
 		pages = append(pages, page)
+	}
+
+	for _, staticRoute := range router.GetStaticRoutes() {
+		pages = append(pages, staticRoute.Path)
 	}
 
 	originalAutoDisableServiceWorker := a.disableServiceWorker
