@@ -3,7 +3,7 @@ module github.com/go-app-blazar/blazar
 go 1.26.2
 
 require (
-	github.com/go-app-blazar/router v0.1.1
+	github.com/go-app-blazar/router v0.1.2
 	github.com/joho/godotenv v1.5.1
 	github.com/lmittmann/tint v1.1.3
 	github.com/mattn/go-isatty v0.0.22
