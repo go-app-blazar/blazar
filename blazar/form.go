@@ -204,8 +204,10 @@ func (c *blazarForm) Render() app.UI {
 						switch e.Get("key").String() {
 						case "Enter":
 							c.performSubmit(ctx)
+							ctx.Update()
 						case "Escape":
 							c.performCancel(ctx)
+							ctx.Update()
 						}
 					}).
 					Body(
