@@ -134,6 +134,14 @@ type Config struct {
 
 // NewApp creates a new App instance.
 func NewApp(config Config) *App {
+	if config.Icon == (app.Icon{}) {
+		config.Icon.Default = "/web/blazar/logo.png"
+		config.Icon.Large = "/web/blazar/logo.png"
+		config.Icon.SVG = "/web/blazar/logo.svg"
+	}
+	if config.Image == "" {
+		config.Image = "/web/blazar/logo.png"
+	}
 	a := &App{
 		appHandler: &app.Handler{
 			Name:               config.Name,
