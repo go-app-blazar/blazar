@@ -135,6 +135,37 @@ func (c *FormPage) Render() app.UI {
 				),
 			app.FieldSet().
 				Body(
+					app.Legend().Text("With simple custom actions only"),
+					blazar.Form().
+						Body(
+							blazar.Input[string]().
+								Label("Name").
+								Bind(&c.name),
+						).
+						Action(
+							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function},
+							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function},
+							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction},
+						),
+				),
+			app.FieldSet().
+				Body(
+					app.Legend().Text("With simple custom actions only and no auto submit"),
+					blazar.Form().
+						AutoSubmit(false).
+						Body(
+							blazar.Input[string]().
+								Label("Name").
+								Bind(&c.name),
+						).
+						Action(
+							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function},
+							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function},
+							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction},
+						),
+				),
+			app.FieldSet().
+				Body(
 					app.Legend().Text("With custom actions only"),
 					blazar.Form().
 						Body(
