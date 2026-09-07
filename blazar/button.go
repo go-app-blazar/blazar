@@ -16,6 +16,7 @@ type blazarButton struct {
 	IClasses  []string
 	IStyles   map[string]string
 	IFlat     bool
+	IOutline  bool
 	IIcon     string
 	ILabel    string
 	ITo       string
@@ -56,6 +57,11 @@ func (c *blazarButton) Label(label string) *blazarButton {
 	return c
 }
 
+func (c *blazarButton) Outline(outline bool) *blazarButton {
+	c.IOutline = outline
+	return c
+}
+
 func (c *blazarButton) Round(round bool) *blazarButton {
 	c.IRound = round
 	return c
@@ -85,6 +91,11 @@ func (c *blazarButton) Render() app.UI {
 	flatClass := ""
 	if c.IFlat {
 		flatClass = "flat"
+	}
+
+	outlineClass := ""
+	if c.IOutline {
+		outlineClass = "outline"
 	}
 
 	roundClass := ""
@@ -122,7 +133,7 @@ func (c *blazarButton) Render() app.UI {
 			Body(body...)
 	}
 
-	classes := append([]string{"blazar-button", disabledClass, roundClass, flatClass}, c.IClasses...)
+	classes := append([]string{"blazar-button", disabledClass, roundClass, flatClass, outlineClass}, c.IClasses...)
 
 	var element app.HTMLSpan
 	element = app.Span().

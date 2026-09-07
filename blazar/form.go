@@ -33,14 +33,14 @@ type blazarForm struct {
 }
 
 type FormAction struct {
-	Name            string                // The name of the action.
-	Icon            string                // The icon of the action.  If empty, then no icon will be shown.
-	To              string                // If set, then the action will navigate to the target URL.
-	Target          string                // When "To" is set, this will be the target of the button.
-	Function        func(ctx app.Context) // If set, then the action will perform the function.
-	Flat            bool                  // If true, then the button will be flat.
-	BackgroundColor string                // The background color of the button.  If empty, then the default background color will be used.
-	Color           string                // The color of the button.  If empty, then the default color will be used.
+	Name     string                // The name of the action.
+	Icon     string                // The icon of the action.  If empty, then no icon will be shown.
+	To       string                // If set, then the action will navigate to the target URL.
+	Target   string                // When "To" is set, this will be the target of the button.
+	Function func(ctx app.Context) // If set, then the action will perform the function.
+	Flat     bool                  // If true, then the button will be flat.
+	Outline  bool                  // If true, then the button will be outlined.
+	Color    string                // The color of the button.  If empty, then the primary theme color will be used.
 }
 
 var _ app.Composer = (*blazarForm)(nil)
@@ -239,6 +239,7 @@ func (c *blazarForm) Render() app.UI {
 						action := c.IActions[i]
 						button := Button().
 							Flat(action.Flat).
+							Outline(action.Outline).
 							Disabled(c.loading).
 							Label(action.Name).
 							Icon(action.Icon).
@@ -247,11 +248,21 @@ func (c *blazarForm) Render() app.UI {
 							On("click", func(ctx app.Context, e app.Event) {
 								c.performAction(ctx, action)
 							})
-						if action.BackgroundColor != "" {
-							button = button.Style("background-color", action.BackgroundColor)
+						if action.Color == "" {
+							action.Color = "var(--blazar-theme-secondary)"
 						}
-						if action.Color != "" {
-							button = button.Style("color", action.Color)
+						if action.Flat {
+							if action.Color != "" {
+								button = button.Style("--color", action.Color)
+							}
+						} else if action.Outline {
+							if action.Color != "" {
+								button = button.Style("--color", action.Color)
+							}
+						} else {
+							if action.Color != "" {
+								button = button.Style("--color", action.Color)
+							}
 						}
 						return button
 					}),
