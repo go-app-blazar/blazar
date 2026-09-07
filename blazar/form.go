@@ -8,7 +8,8 @@ import (
 
 func Form() *blazarForm {
 	return &blazarForm{
-		ISpacer: true,
+		IAutoSubmit: true,
+		ISpacer:     true,
 	}
 }
 
@@ -19,9 +20,10 @@ type blazarForm struct {
 	IClasses []string
 	IStyles  map[string]string
 
-	ISpacer  bool
-	IBody    []app.UI
-	IActions []FormAction
+	ISpacer     bool
+	IBody       []app.UI
+	IActions    []FormAction
+	IAutoSubmit bool // If true, then the last action will be the submit action.
 
 	loading bool
 }
@@ -40,6 +42,11 @@ type FormAction struct {
 }
 
 var _ app.Composer = (*blazarForm)(nil)
+
+func (c *blazarForm) AutoSubmit(autoSubmit bool) *blazarForm {
+	c.IAutoSubmit = autoSubmit
+	return c
+}
 
 func (c *blazarForm) Class(class ...string) *blazarForm {
 	c.IClasses = class
@@ -110,7 +117,7 @@ func (c *blazarForm) performSubmit(ctx app.Context) {
 		}
 	}
 	// If there is no submit action, then use the last normal action.
-	if submitAction == nil {
+	if submitAction == nil && c.IAutoSubmit {
 		for _, action := range c.IActions {
 			if !action.Cancel {
 				submitAction = &action
@@ -171,7 +178,7 @@ func (c *blazarForm) Render() app.UI {
 		otherActions = append(otherActions, action)
 	}
 	if submitAction == nil {
-		if len(otherActions) > 0 {
+		if c.IAutoSubmit && len(otherActions) > 0 {
 			submitAction = &otherActions[len(otherActions)-1]
 			otherActions = otherActions[:len(otherActions)-1]
 		}
