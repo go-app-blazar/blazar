@@ -19,15 +19,9 @@ type blazarForm struct {
 	IClasses []string
 	IStyles  map[string]string
 
-	ISpacer         bool
-	IBody           []app.UI
-	ICancelFunction func(ctx app.Context)
-	ICancelLabel    string
-	ICancelIcon     string
-	ISubmitFunction func(ctx app.Context)
-	ISubmitLabel    string
-	ISubmitIcon     string
-	IActions        []FormAction
+	ISpacer  bool
+	IBody    []app.UI
+	IActions []FormAction
 
 	loading bool
 }
@@ -41,6 +35,8 @@ type FormAction struct {
 	Flat     bool                  // If true, then the button will be flat.
 	Outline  bool                  // If true, then the button will be outlined.
 	Color    string                // The color of the button.  If empty, then the primary theme color will be used.
+	Submit   bool                  // If true, then the action will be the submit button.
+	Cancel   bool                  // If true, then the action will be the cancel button.
 }
 
 var _ app.Composer = (*blazarForm)(nil)
@@ -68,36 +64,6 @@ func (c *blazarForm) Action(actions ...FormAction) *blazarForm {
 	return c
 }
 
-func (c *blazarForm) CancelFunction(function func(ctx app.Context)) *blazarForm {
-	c.ICancelFunction = function
-	return c
-}
-
-func (c *blazarForm) CancelLabel(label string) *blazarForm {
-	c.ICancelLabel = label
-	return c
-}
-
-func (c *blazarForm) CancelIcon(icon string) *blazarForm {
-	c.ICancelIcon = icon
-	return c
-}
-
-func (c *blazarForm) SubmitFunction(function func(ctx app.Context)) *blazarForm {
-	c.ISubmitFunction = function
-	return c
-}
-
-func (c *blazarForm) SubmitIcon(icon string) *blazarForm {
-	c.ISubmitIcon = icon
-	return c
-}
-
-func (c *blazarForm) SubmitLabel(label string) *blazarForm {
-	c.ISubmitLabel = label
-	return c
-}
-
 func (c *blazarForm) Body(body ...app.UI) *blazarForm {
 	c.IBody = body
 	return c
@@ -112,21 +78,21 @@ func (c *blazarForm) On(event string, function func(ctx app.Context, e app.Event
 //
 // If there is no cancel function, then nothing will be done.
 func (c *blazarForm) performCancel(ctx app.Context) {
-	// If there is no cancel function, then don't do anything.
-	if c.ICancelFunction == nil {
+	var cancelAction *FormAction
+
+	// If there is a cancel action, then use the last one given.
+	for _, action := range c.IActions {
+		if action.Cancel {
+			cancelAction = &action
+			// Keep going; we'll keep the last one.
+		}
+	}
+	// If there is no cancel action, then nothing will be done.
+	if cancelAction == nil {
 		return
 	}
 
-	c.loading = true
-
-	ctx.Async(func() {
-		c.ICancelFunction(ctx)
-
-		ctx.Dispatch(func(ctx app.Context) {
-			c.loading = false
-			ctx.Update()
-		})
-	})
+	c.performAction(ctx, *cancelAction)
 }
 
 // performSubmit performs the submit function.
@@ -134,28 +100,31 @@ func (c *blazarForm) performCancel(ctx app.Context) {
 // If there is no submit function, then then the *last* action will be done.
 // If there is no last action, then nothing will be done.
 func (c *blazarForm) performSubmit(ctx app.Context) {
-	// If there is a submit function, then perform it.
-	if c.ISubmitFunction != nil {
-		c.loading = true
+	var submitAction *FormAction
 
-		ctx.Async(func() {
-			c.ISubmitFunction(ctx)
+	// If there is a submit action, then use the last one given.
+	for _, action := range c.IActions {
+		if action.Submit {
+			submitAction = &action
+			// Keep going; we'll keep the last one.
+		}
+	}
+	// If there is no submit action, then use the last normal action.
+	if submitAction == nil {
+		for _, action := range c.IActions {
+			if !action.Cancel {
+				submitAction = &action
+				// Keep going; we'll keep the last one.
+			}
+		}
+	}
 
-			ctx.Dispatch(func(ctx app.Context) {
-				c.loading = false
-				ctx.Update()
-			})
-		})
-
+	// If there is no submit action, then nothing will be done.
+	if submitAction == nil {
 		return
 	}
 
-	// If there are is at least one action, then perform the *last* one.
-	if len(c.IActions) > 0 {
-		lastAction := c.IActions[len(c.IActions)-1]
-
-		c.performAction(ctx, lastAction)
-	}
+	c.performAction(ctx, *submitAction)
 }
 
 // performAction performs the action function.
@@ -175,12 +144,37 @@ func (c *blazarForm) performAction(ctx app.Context, action FormAction) {
 
 		return
 	}
+
+	// TODO: Handle a "To" action.
 }
 
 func (c *blazarForm) Render() app.UI {
 	formDisplay := "block"
 	if len(c.IBody) == 0 {
 		formDisplay = "none"
+	}
+
+	var cancelAction *FormAction
+	var submitAction *FormAction
+	var otherActions []FormAction
+	for _, action := range c.IActions {
+		if action.Cancel {
+			cancelAction = &action
+			// Keep going; we'll keep the last one.
+			continue
+		}
+		if action.Submit {
+			submitAction = &action
+			// Keep going; we'll keep the last one.
+			continue
+		}
+		otherActions = append(otherActions, action)
+	}
+	if submitAction == nil {
+		if len(otherActions) > 0 {
+			submitAction = &otherActions[len(otherActions)-1]
+			otherActions = otherActions[:len(otherActions)-1]
+		}
 	}
 
 	element := app.Div().
@@ -217,26 +211,45 @@ func (c *blazarForm) Render() app.UI {
 			app.Div().
 				Class("blazar-form__actions").
 				Body(
-					app.If(c.ICancelFunction != nil, func() app.UI {
-						return Button().
+					app.If(cancelAction != nil, func() app.UI {
+						action := cancelAction
+
+						button := Button().
 							Flat(true).
 							Disabled(c.loading).
 							Label(func() string {
-								if c.ICancelLabel != "" {
-									return c.ICancelLabel
+								if action.Name != "" {
+									return action.Name
 								}
 								return "Cancel"
 							}()).
-							Icon(c.ICancelIcon).
+							Icon(action.Icon).
 							On("click", func(ctx app.Context, e app.Event) {
 								c.performCancel(ctx)
 							})
+						if action.Color == "" {
+							action.Color = "var(--blazar-theme-primary)"
+						}
+						if action.Flat {
+							if action.Color != "" {
+								button = button.Style("--color", action.Color)
+							}
+						} else if action.Outline {
+							if action.Color != "" {
+								button = button.Style("--color", action.Color)
+							}
+						} else {
+							if action.Color != "" {
+								button = button.Style("--color", action.Color)
+							}
+						}
+						return button
 					}),
 					app.If(c.ISpacer, func() app.UI {
 						return app.Span().Style("flex", "1")
 					}),
-					app.Range(c.IActions).Slice(func(i int) app.UI {
-						action := c.IActions[i]
+					app.Range(otherActions).Slice(func(i int) app.UI {
+						action := otherActions[i]
 						button := Button().
 							Flat(action.Flat).
 							Outline(action.Outline).
@@ -266,20 +279,39 @@ func (c *blazarForm) Render() app.UI {
 						}
 						return button
 					}),
-					app.If(c.ISubmitFunction != nil, func() app.UI {
-						return Button().
+					app.If(submitAction != nil, func() app.UI {
+						action := submitAction
+
+						button := Button().
 							Flat(false).
 							Disabled(c.loading).
 							Label(func() string {
-								if c.ISubmitLabel != "" {
-									return c.ISubmitLabel
+								if action.Name != "" {
+									return action.Name
 								}
 								return "Submit"
 							}()).
-							Icon(c.ISubmitIcon).
+							Icon(action.Icon).
 							On("click", func(ctx app.Context, e app.Event) {
 								c.performSubmit(ctx)
 							})
+						if action.Color == "" {
+							action.Color = "var(--blazar-theme-primary)"
+						}
+						if action.Flat {
+							if action.Color != "" {
+								button = button.Style("--color", action.Color)
+							}
+						} else if action.Outline {
+							if action.Color != "" {
+								button = button.Style("--color", action.Color)
+							}
+						} else {
+							if action.Color != "" {
+								button = button.Style("--color", action.Color)
+							}
+						}
+						return button
 					}),
 				),
 		)

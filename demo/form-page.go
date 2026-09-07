@@ -66,7 +66,12 @@ func (c *FormPage) Render() app.UI {
 								Label("Name").
 								Bind(&c.name),
 						).
-						CancelFunction(cancelFunction),
+						Action(
+							blazar.FormAction{
+								Function: cancelFunction,
+								Cancel:   true,
+							},
+						),
 				),
 			app.FieldSet().
 				Body(
@@ -77,7 +82,12 @@ func (c *FormPage) Render() app.UI {
 								Label("Name").
 								Bind(&c.name),
 						).
-						SubmitFunction(submitFunction),
+						Action(
+							blazar.FormAction{
+								Function: submitFunction,
+								Submit:   true,
+							},
+						),
 				),
 			app.FieldSet().
 				Body(
@@ -88,8 +98,16 @@ func (c *FormPage) Render() app.UI {
 								Label("Name").
 								Bind(&c.name),
 						).
-						CancelFunction(cancelFunction).
-						SubmitFunction(submitFunction),
+						Action(
+							blazar.FormAction{
+								Function: cancelFunction,
+								Cancel:   true,
+							},
+							blazar.FormAction{
+								Function: submitFunction,
+								Submit:   true,
+							},
+						),
 				),
 			app.FieldSet().
 				Body(
@@ -100,12 +118,20 @@ func (c *FormPage) Render() app.UI {
 								Label("Name").
 								Bind(&c.name),
 						).
-						CancelLabel("Please cancel this").
-						CancelIcon("trash").
-						CancelFunction(cancelFunction).
-						SubmitLabel("Please submit this").
-						SubmitIcon("save").
-						SubmitFunction(submitFunction),
+						Action(
+							blazar.FormAction{
+								Name:     "Please cancel this",
+								Icon:     "trash",
+								Function: cancelFunction,
+								Cancel:   true,
+							},
+							blazar.FormAction{
+								Name:     "Please submit this",
+								Icon:     "save",
+								Function: submitFunction,
+								Submit:   true,
+							},
+						),
 				),
 			app.FieldSet().
 				Body(
@@ -131,13 +157,19 @@ func (c *FormPage) Render() app.UI {
 								Label("Name").
 								Bind(&c.name),
 						).
-						CancelLabel("Please cancel this").
-						CancelIcon("trash").
-						CancelFunction(cancelFunction).
-						SubmitLabel("Please submit this").
-						SubmitIcon("save").
-						SubmitFunction(submitFunction).
 						Action(
+							blazar.FormAction{
+								Name:     "Please cancel this",
+								Icon:     "trash",
+								Function: cancelFunction,
+								Cancel:   true,
+							},
+							blazar.FormAction{
+								Name:     "Please submit this",
+								Icon:     "save",
+								Function: submitFunction,
+								Submit:   true,
+							},
 							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function},
 							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function},
 							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction},
@@ -152,13 +184,19 @@ func (c *FormPage) Render() app.UI {
 								Label("Name").
 								Bind(&c.name),
 						).
-						CancelLabel("Please cancel this").
-						CancelIcon("trash").
-						CancelFunction(cancelFunction).
-						SubmitLabel("Please submit this").
-						SubmitIcon("save").
-						SubmitFunction(submitFunction).
 						Action(
+							blazar.FormAction{
+								Name:     "Please cancel this",
+								Icon:     "trash",
+								Function: cancelFunction,
+								Cancel:   true,
+							},
+							blazar.FormAction{
+								Name:     "Please submit this",
+								Icon:     "save",
+								Function: submitFunction,
+								Submit:   true,
+							},
 							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function, Flat: true},
 							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function, Color: "red"},
 							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction, Color: "black"},
@@ -173,13 +211,19 @@ func (c *FormPage) Render() app.UI {
 								Label("Name").
 								Bind(&c.name),
 						).
-						CancelLabel("Please cancel this").
-						CancelIcon("trash").
-						CancelFunction(cancelFunction).
-						SubmitLabel("Please submit this").
-						SubmitIcon("save").
-						SubmitFunction(submitFunction).
 						Action(
+							blazar.FormAction{
+								Name:     "Please cancel this",
+								Icon:     "trash",
+								Function: cancelFunction,
+								Cancel:   true,
+							},
+							blazar.FormAction{
+								Name:     "Please submit this",
+								Icon:     "save",
+								Function: submitFunction,
+								Submit:   true,
+							},
 							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function, Outline: true},
 							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function, Outline: true, Color: "red"},
 							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction, Outline: true, Color: "black"},
@@ -195,10 +239,13 @@ func (c *FormPage) Render() app.UI {
 								Label("Name").
 								Bind(&c.name),
 						).
-						SubmitLabel("Please submit this").
-						SubmitIcon("save").
-						SubmitFunction(submitFunction).
 						Action(
+							blazar.FormAction{
+								Name:     "Please submit this",
+								Icon:     "save",
+								Function: submitFunction,
+								Submit:   true,
+							},
 							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function, Flat: true},
 							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function, Color: "red"},
 							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction, Color: "black"},
