@@ -5,8 +5,8 @@ html {
 
     font-family: sans-serif;
 
-    --blazar-theme-primary: #20a4f3;
-    --blazar-theme-secondary: #2ec4b6;
+    --blazar-theme-primary: #00b4ff;
+    --blazar-theme-secondary: #26a69a;
     --blazar-theme-background: #ffffff;
     --blazar-theme-on-primary: #ffffff;
     --blazar-theme-on-secondary: #000000;
@@ -26,6 +26,24 @@ body {
     padding: 0;
     margin: 0;
 }
+
+@function --contrast-color(--bg-color, --threshold: 0.8, --light-tweak: #ffffff, --dark-tweak: #111111) {
+    /* 
+        Extract the lightness channel from the background color.
+        If the background lightness is less than the threshold (dark background), 
+        return the light text color.
+    */
+    @container (style(--bg-color: oklch(from var(--bg-color) l c h))) {
+        /* CSS conditional logic or relative color channel extractions */
+    }
+
+    /* Inline evaluation using inline relative color math or media/style queries */
+    result: oklch(from var(--bg-color) 
+        calc(1 - round(down, l, var(--threshold))) 
+        0 
+        0
+    );
+}  
 
 .blazar-full-screen {
     height: 100vh;
@@ -97,10 +115,12 @@ body {
 }
 
 .blazar-button {
+    --color: var(--blazar-theme-primary);
+
     display: inline-block;
     border-radius: 0.5em;
-    background-color: var(--blazar-theme-primary);
-    color: var(--blazar-theme-on-primary);
+    background-color: var(--color);
+    color: --contrast-color(var(--color));
     cursor: pointer;
 
     margin-top: 0.2em;
@@ -109,51 +129,65 @@ body {
     margin-right: 0.2em;
 
     user-select: none;
-}
 
-.blazar-button a, .blazar-button a:hover, .blazar-button a:active, .blazar-button a:visited {
-    text-decoration: none !important;
-    color: inherit !important;
-}
+    a, a:hover, a:active, a:visited {
+        text-decoration: none !important;
+        color: inherit !important;
+    }
 
-.blazar-button:hover {
-    opacity: 0.7;
-}
+    &:hover {
+        opacity: 0.7;
+    }
 
-.blazar-button.flat {
-    background-color: transparent;
-    color: var(--blazar-theme-primary);
-}
+    &.flat {
+        background-color: transparent;
+        color: var(--color);
+    }
 
-.blazar-button.round {
-    border-radius: 50%;
-}
+    &.flat:hover {
+        background-color: color-mix(in srgb, var(--color) 10%, transparent);
+    }
 
-.blazar-button.blazar-button--disabled {
-    filter: opacity(0.3);
-    cursor: default !important;
-    user-select: none !important;
-}
+    &.outline {
+        background-color: transparent;
+        color: var(--color);
+        border: 1px solid var(--color);
+    }
 
-.blazar-button.blazar-button--disabled a {
-    cursor: not-allowed !important;
-    user-select: none !important;
-}
+    &.outline:hover {
+        background-color: color-mix(in srgb, var(--color) 10%, transparent);
+    }
 
-.blazar-button__icon {
-    margin-left: auto;
-    margin-right: auto;
-    width: 1em;
-    height: 1em;
-}
+    &.round {
+        border-radius: 50%;
+    }
 
-.blazar-button__content {
-    margin-top: auto;
-    margin-bottom: auto;
-    display: flex;
-    flex-direction: row;
-    padding: 0.5em 0.5em;
-    gap: 0.5em;
+    &.blazar-button--disabled {
+        filter: opacity(0.3);
+        cursor: default !important;
+        user-select: none !important;
+    }
+
+    &.blazar-button--disabled a {
+        cursor: not-allowed !important;
+        user-select: none !important;
+    }
+
+    .blazar-button__icon {
+        margin-left: auto;
+        margin-right: auto;
+        width: 1em;
+        height: 1em;
+    }
+
+    .blazar-button__content {
+        margin-top: auto;
+        margin-bottom: auto;
+        display: flex;
+        flex-direction: row;
+        padding: 0.5em 0.5em;
+        gap: 0.5em;
+    }
 }
 
 .blazar-checkbox.blazar-checkbox--disabled {

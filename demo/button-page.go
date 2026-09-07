@@ -42,6 +42,11 @@ func (c *ButtonPage) Render() app.UI {
 							Flat(true).
 							To("/"),
 						blazar.Button().
+							Label("Outline").
+							Outline(true).
+							Flat(true).
+							To("/"),
+						blazar.Button().
 							Label("Round").
 							Round(true).
 							To("/"),
@@ -61,6 +66,12 @@ func (c *ButtonPage) Render() app.UI {
 							Icon("home").
 							To("/"),
 						blazar.Button().
+							Label("Outline").
+							Outline(true).
+							Flat(true).
+							Icon("home").
+							To("/"),
+						blazar.Button().
 							Label("Round").
 							Round(true).
 							Icon("home").
@@ -77,6 +88,10 @@ func (c *ButtonPage) Render() app.UI {
 							To("/"),
 						blazar.Button().
 							Flat(true).
+							Icon("home").
+							To("/"),
+						blazar.Button().
+							Outline(true).
 							Icon("home").
 							To("/"),
 						blazar.Button().
@@ -101,6 +116,11 @@ func (c *ButtonPage) Render() app.UI {
 							Flat(true).
 							On("click", clickFunction),
 						blazar.Button().
+							Label("Outline").
+							Outline(true).
+							Icon("home").
+							On("click", clickFunction),
+						blazar.Button().
 							Label("Round").
 							Round(true).
 							On("click", clickFunction),
@@ -120,6 +140,11 @@ func (c *ButtonPage) Render() app.UI {
 							Icon("home").
 							On("click", clickFunction),
 						blazar.Button().
+							Label("Outline").
+							Outline(true).
+							Icon("home").
+							On("click", clickFunction),
+						blazar.Button().
 							Label("Round").
 							Round(true).
 							Icon("home").
@@ -136,6 +161,10 @@ func (c *ButtonPage) Render() app.UI {
 							On("click", clickFunction),
 						blazar.Button().
 							Flat(true).
+							Icon("home").
+							On("click", clickFunction),
+						blazar.Button().
+							Outline(true).
 							Icon("home").
 							On("click", clickFunction),
 						blazar.Button().

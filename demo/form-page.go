@@ -118,8 +118,8 @@ func (c *FormPage) Render() app.UI {
 						).
 						Action(
 							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function, Flat: true},
-							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function, BackgroundColor: "red", Color: "white"},
-							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction, BackgroundColor: "black", Color: "white"},
+							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function, Color: "red"},
+							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction, Color: "black"},
 						),
 				),
 			app.FieldSet().
@@ -138,9 +138,51 @@ func (c *FormPage) Render() app.UI {
 						SubmitIcon("save").
 						SubmitFunction(submitFunction).
 						Action(
+							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function},
+							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function},
+							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction},
+						),
+				),
+			app.FieldSet().
+				Body(
+					app.Legend().Text("With styled custom actions and default actions"),
+					blazar.Form().
+						Body(
+							blazar.Input[string]().
+								Label("Name").
+								Bind(&c.name),
+						).
+						CancelLabel("Please cancel this").
+						CancelIcon("trash").
+						CancelFunction(cancelFunction).
+						SubmitLabel("Please submit this").
+						SubmitIcon("save").
+						SubmitFunction(submitFunction).
+						Action(
 							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function, Flat: true},
-							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function, BackgroundColor: "red", Color: "white"},
-							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction, BackgroundColor: "black", Color: "white"},
+							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function, Color: "red"},
+							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction, Color: "black"},
+						),
+				),
+			app.FieldSet().
+				Body(
+					app.Legend().Text("With outlined custom actions and default actions"),
+					blazar.Form().
+						Body(
+							blazar.Input[string]().
+								Label("Name").
+								Bind(&c.name),
+						).
+						CancelLabel("Please cancel this").
+						CancelIcon("trash").
+						CancelFunction(cancelFunction).
+						SubmitLabel("Please submit this").
+						SubmitIcon("save").
+						SubmitFunction(submitFunction).
+						Action(
+							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function, Outline: true},
+							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function, Outline: true, Color: "red"},
+							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction, Outline: true, Color: "black"},
 						),
 				),
 			app.FieldSet().
@@ -158,8 +200,8 @@ func (c *FormPage) Render() app.UI {
 						SubmitFunction(submitFunction).
 						Action(
 							blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function, Flat: true},
-							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function, BackgroundColor: "red", Color: "white"},
-							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction, BackgroundColor: "black", Color: "white"},
+							blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function, Color: "red"},
+							blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction, Color: "black"},
 						),
 				),
 		)

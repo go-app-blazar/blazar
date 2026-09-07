@@ -41,6 +41,10 @@ func (p *plugin) Register(handler *app.Handler, mux *http.ServeMux) {
 	mux.Handle(location, http.StripPrefix(location, p.httpHandler()))
 
 	handler.Styles = append(handler.Styles, p.cssFilenames(p.config.Location)...)
+	handler.CacheableResources = append(handler.CacheableResources,
+		filepath.Join(p.config.Location, "logo.png"),
+		filepath.Join(p.config.Location, "logo.svg"),
+	)
 }
 
 // cssFilenames returns the CSS filenames for the plugin.
