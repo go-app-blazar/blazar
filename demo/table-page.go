@@ -145,7 +145,26 @@ func (c *TablePage) Render() app.UI {
 		app.Window().Call("alert", "Clicked on "+row.Name)
 	}
 
-	addCharacterFunction := func(ctx app.Context) {
+	removeFunction := func(ctx app.Context, row characterRow) {
+		app.Window().Call("alert", "Removing "+row.Name)
+		c.rows = slices.DeleteFunc(c.rows, func(r characterRow) bool {
+			return r.Name == row.Name
+		})
+		ctx.Update()
+	}
+
+	addCharacterFrontFunction := func(ctx app.Context) {
+		c.newCharacters++
+		c.rows = append([]characterRow{{
+			Name: fmt.Sprintf("New character %d", c.newCharacters),
+			Role: fmt.Sprintf("New role %d", c.newCharacters),
+			Crew: fmt.Sprintf("New crew %d", c.newCharacters),
+		}}, c.rows...)
+
+		ctx.Update()
+	}
+
+	addCharacterBackFunction := func(ctx app.Context) {
 		c.newCharacters++
 		c.rows = append(c.rows, characterRow{
 			Name: fmt.Sprintf("New character %d", c.newCharacters),
@@ -187,20 +206,37 @@ func (c *TablePage) Render() app.UI {
 								return row.Name
 							}).
 							Columns(c.columns).
-							Action(blazar.TableAction{
-								Name:     "Add character",
-								Icon:     "plus",
-								Function: addCharacterFunction,
-							}).
-							RowAction(blazar.RowAction[characterRow]{
-								Name:     "Click",
-								Function: clickFunction,
-							}).
-							MultiRowAction(blazar.MultiRowAction[characterRow]{
-								Name:     "Remove Selected",
-								Icon:     "trash",
-								Function: removeCharactersFunction,
-							}),
+							Action(
+								blazar.TableAction{
+									Name:     "Add character (front)",
+									Icon:     "plus",
+									Function: addCharacterFrontFunction,
+								},
+								blazar.TableAction{
+									Name:     "Add character (back)",
+									Icon:     "plus",
+									Function: addCharacterBackFunction,
+								},
+							).
+							RowAction(
+								blazar.RowAction[characterRow]{
+									Name:     "Click",
+									Function: clickFunction,
+								},
+								blazar.RowAction[characterRow]{
+									Name:     "",
+									Icon:     "trash",
+									Color:    "red",
+									Function: removeFunction,
+								},
+							).
+							MultiRowAction(
+								blazar.MultiRowAction[characterRow]{
+									Name:     "Remove Selected",
+									Icon:     "trash",
+									Function: removeCharactersFunction,
+								},
+							),
 					),
 				),
 			app.FieldSet().
@@ -214,11 +250,13 @@ func (c *TablePage) Render() app.UI {
 							return row.Name
 						}).
 						Columns(c.columns).
-						MultiRowAction(blazar.MultiRowAction[characterRow]{
-							Name:     "Remove Selected",
-							Icon:     "trash",
-							Function: removeCharactersFunction,
-						}),
+						MultiRowAction(
+							blazar.MultiRowAction[characterRow]{
+								Name:     "Remove Selected",
+								Icon:     "trash",
+								Function: removeCharactersFunction,
+							},
+						),
 				),
 			app.FieldSet().
 				Body(

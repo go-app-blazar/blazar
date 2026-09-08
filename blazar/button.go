@@ -19,6 +19,7 @@ type blazarButton struct {
 	IOutline  bool
 	IIcon     string
 	ILabel    string
+	ITitle    string
 	ITo       string
 	ITarget   string // When "To" is set, this will be the target of the button.
 	IRound    bool
@@ -69,6 +70,11 @@ func (c *blazarButton) Round(round bool) *blazarButton {
 
 func (c *blazarButton) Target(target string) *blazarButton {
 	c.ITarget = target
+	return c
+}
+
+func (c *blazarButton) Title(title string) *blazarButton {
+	c.ITitle = title
 	return c
 }
 
@@ -141,6 +147,7 @@ func (c *blazarButton) Render() app.UI {
 		TabIndex(0).
 		Role("button").
 		Body(innerElement).
+		Title(c.ITitle).
 		OnKeyPress(func(ctx app.Context, e app.Event) {
 			if e.Get("key").String() == "Enter" || e.Get("key").String() == " " {
 				e.Get("target").Call("click")

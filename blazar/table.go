@@ -50,6 +50,9 @@ type RowAction[T any] struct {
 	To       func(row T) string
 	Function func(ctx app.Context, row T)
 	Disabled bool
+	Color    string
+	Flat     bool
+	Outline  bool
 }
 
 type MultiRowAction[T any] struct {
@@ -58,6 +61,9 @@ type MultiRowAction[T any] struct {
 	To       func(rows []T) string
 	Function func(ctx app.Context, rows []T)
 	Disabled bool
+	Color    string
+	Flat     bool
+	Outline  bool
 }
 
 type TableColumnType string
@@ -363,6 +369,33 @@ func (t *blazarTable[T]) OnPageSizeChange(onPageSizeChange func(ctx app.Context,
 	return t
 }
 
+// rowAtRenderedIndex returns the row at the given rendered index.
+//
+// The rendered index is what a row-based function can know definitively; it cannot know the row, since the row
+// can change (as pages change, as rows are added or removed, etc.).
+func (t *blazarTable[T]) rowAtRenderedIndex(renderedIndex int) T {
+	// TODO: CONSIDER RECOMPUTING THIS WHEN THE ROWS, PAGE SIZE, OR PAGE INDEX CHANGE.
+	rowsToRender := t.IRows
+	rowIDsToRender := t.rowIDs
+	if len(t.rowIDs) != len(t.IRows) {
+		slog.WarnContext(context.TODO(), "blazarTable: rowAtRenderedIndex: rowIDs and rows are out of sync", "self", fmt.Sprintf("%p", t), "rowIDs", len(t.rowIDs), "rows", len(t.IRows))
+	}
+	if t.pageSize > 0 && uint(len(t.IRows)) > t.pageSize {
+		pages := slices.Collect(slices.Chunk(t.IRows, int(t.pageSize)))
+		rowIDPages := slices.Collect(slices.Chunk(t.rowIDs, int(t.pageSize)))
+		if t.pageIndex >= uint(len(pages)) {
+			t.pageIndex = uint(len(pages)) - 1
+		}
+		rowsToRender = pages[t.pageIndex]
+		rowIDsToRender = rowIDPages[t.pageIndex]
+		if debugTable {
+			slog.DebugContext(context.TODO(), "blazarTable: rowAtRenderedIndex", "self", fmt.Sprintf("%p", t), "rowIDsToRender", rowIDsToRender)
+		}
+	}
+
+	return rowsToRender[renderedIndex]
+}
+
 func (t *blazarTable[T]) Render() app.UI {
 	if debugTable {
 		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "pageIndex", t.pageIndex, "pageSize", t.pageSize, "rows", len(t.IRows))
@@ -390,6 +423,7 @@ func (t *blazarTable[T]) Render() app.UI {
 		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "visibleColumns", visibleColumns)
 	}
 
+	// TODO: CONSIDER RECOMPUTING THIS WHEN THE ROWS, PAGE SIZE, OR PAGE INDEX CHANGE.
 	rowsToRender := t.IRows
 	rowIDsToRender := t.rowIDs
 	if len(t.rowIDs) != len(t.IRows) {
@@ -649,7 +683,12 @@ func (t *blazarTable[T]) Render() app.UI {
 
 							button := Button().
 								Label(multiRowAction.Name).
-								Icon(multiRowAction.Icon)
+								Icon(multiRowAction.Icon).
+								Flat(multiRowAction.Flat).
+								Outline(multiRowAction.Outline)
+							if multiRowAction.Color != "" {
+								button = button.Style("--color", multiRowAction.Color)
+							}
 							if len(t.selectedRows) == 0 {
 								button = button.Disabled(true)
 							}
@@ -724,9 +763,9 @@ func (t *blazarTable[T]) Render() app.UI {
 											),
 									)
 							}),
-							app.Range(rowsToRender).Slice(func(i int) app.UI {
-								row := rowsToRender[i]
-								rowID := rowIDsToRender[i]
+							app.Range(rowsToRender).Slice(func(rowIndex int) app.UI {
+								row := rowsToRender[rowIndex]
+								rowID := rowIDsToRender[rowIndex]
 
 								return app.Tr().
 									Body(
@@ -741,7 +780,7 @@ func (t *blazarTable[T]) Render() app.UI {
 														Value(slices.Contains(t.selectedRowIDs, rowID)).
 														On("change", func(ctx app.Context, e app.Event) {
 															if debugTable {
-																slog.DebugContext(ctx.Context, "blazarTable: row: change", "e", e, "i", i, "e.target.dataset.rowid", e.Get("target").Get("dataset").Get("rowid").String())
+																slog.DebugContext(ctx.Context, "blazarTable: row: change", "e", e, "rowIndex", rowIndex, "e.target.dataset.rowid", e.Get("target").Get("dataset").Get("rowid").String())
 															}
 
 															// For whatever reason, the actual `rowID` is incorrect in this handler function.
@@ -804,13 +843,20 @@ func (t *blazarTable[T]) Render() app.UI {
 														rowAction := visibleRowActions[i]
 														button := Button().
 															Label(rowAction.Name).
-															Icon(rowAction.Icon)
+															Icon(rowAction.Icon).
+															Flat(rowAction.Flat).
+															Outline(rowAction.Outline)
+														if rowAction.Color != "" {
+															button = button.Style("--color", rowAction.Color)
+														}
 														if rowAction.To != nil {
 															button.To(rowAction.To(row))
 														}
 														if rowAction.Function != nil {
 															button.On("click", func(ctx app.Context, e app.Event) {
-																rowAction.Function(ctx, row)
+																// This function will exist until the row is removed from the table, so we need to reference
+																// the row INDEX, not the row itself.
+																rowAction.Function(ctx, t.rowAtRenderedIndex(rowIndex))
 															})
 														}
 														return button
@@ -825,66 +871,76 @@ func (t *blazarTable[T]) Render() app.UI {
 				return app.Div().
 					Class("blazar-table__pagination").
 					Body(
-						Button().
-							Label("Previous").
-							Disabled(t.pageIndex < 1).
-							On("click", func(ctx app.Context, e app.Event) {
-								t.previousPage()
-								ctx.Update()
-							}),
-						app.Span().
-							Style("display", "flex").
-							Style("align-items", "center").
-							Text("Page"),
-						app.Select().
-							Disabled(totalPages <= 1).
+						app.Div().
+							Class("blazar-table__pagination-control").
 							Body(
-								app.Range(pageIndexes).Slice(func(i int) app.UI {
-									index := pageIndexes[i]
-									return app.Option().
-										Value(index).
-										Selected(index == t.pageIndex).
-										Text(fmt.Sprintf("%d", index+1)).Selected(index == t.pageIndex)
-								}),
-							).
-							OnChange(func(ctx app.Context, e app.Event) {
-								v := e.Get("target").Get("value").String()
-								index, err := strconv.ParseUint(v, 10, 64)
-								if err != nil {
-									return
-								}
+								Button().
+									Icon("angle-left").
+									Title("Previous page").
+									Disabled(t.pageIndex < 1).
+									On("click", func(ctx app.Context, e app.Event) {
+										t.previousPage()
+										ctx.Update()
+									}),
+								app.Span().
+									Style("display", "flex").
+									Style("align-items", "center").
+									Text("Page"),
+								Select().
+									Disabled(totalPages <= 1).
+									SelectedValue(fmt.Sprintf("%d", t.pageIndex)).
+									AllowedValue(func() []SelectOption {
+										selectOptions := []SelectOption{}
+										for index := range pageIndexes {
+											selectOptions = append(selectOptions, SelectOption{
+												Label: fmt.Sprintf("%d", index+1),
+												Value: fmt.Sprintf("%d", index),
+											})
+										}
+										return selectOptions
+									}()...).
+									On("change", func(ctx app.Context, e app.Event) {
+										v := e.Get("target").Get("value").String()
+										index, err := strconv.ParseUint(v, 10, 64)
+										if err != nil {
+											return
+										}
 
-								t.setPageIndex(uint(index))
-								ctx.Update()
-							}),
-						app.Span().
-							Style("display", "flex").
-							Style("align-items", "center").
-							Text(fmt.Sprintf("/%d", totalPages)),
-						Button().
-							Label("Next").
-							Disabled(t.pageIndex >= totalPages-1).
-							On("click", func(ctx app.Context, e app.Event) {
-								t.nextPage()
-								ctx.Update()
-							}),
+										t.setPageIndex(uint(index))
+										ctx.Update()
+									}),
+								app.Span().
+									Style("display", "flex").
+									Style("align-items", "center").
+									Text(fmt.Sprintf("/ %d", totalPages)),
+								Button().
+									Icon("angle-right").
+									Title("Next page").
+									Disabled(t.pageIndex >= totalPages-1).
+									On("click", func(ctx app.Context, e app.Event) {
+										t.nextPage()
+										ctx.Update()
+									}),
+							),
 						app.Span().
 							Style("flex-grow", "1"),
 						app.Span().
 							Style("display", "flex").
 							Style("align-items", "center").
 							Text("Page size:"),
-						app.Select().
-							Body(
-								app.Range(pageSizes).Slice(func(i int) app.UI {
-									pageSize := pageSizes[i]
-									return app.Option().
-										Value(pageSize).
-										Selected(pageSize == t.pageSize).
-										Text(fmt.Sprintf("%d", pageSize)).Selected(pageSize == t.pageSize)
-								}),
-							).
-							OnChange(func(ctx app.Context, e app.Event) {
+						Select().
+							SelectedValue(fmt.Sprintf("%d", t.pageSize)).
+							AllowedValue(func() []SelectOption {
+								selectOptions := []SelectOption{}
+								for _, pageSize := range pageSizes {
+									selectOptions = append(selectOptions, SelectOption{
+										Label: fmt.Sprintf("%d", pageSize),
+										Value: fmt.Sprintf("%d", pageSize),
+									})
+								}
+								return selectOptions
+							}()...).
+							On("change", func(ctx app.Context, e app.Event) {
 								v := e.Get("target").Get("value").String()
 								pageSize, err := strconv.ParseUint(v, 10, 64)
 								if err != nil {
