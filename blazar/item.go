@@ -11,7 +11,7 @@ func Item() *blazarItem {
 type blazarItem struct {
 	app.Compo
 	UseEvents
-	mixHTML
+	MixHTML
 
 	IIcon  string
 	ILabel string
@@ -87,7 +87,7 @@ func (c *blazarItem) Render() app.UI {
 				Text(c.ILabel),
 		)
 
-	finalItem = c.mixHTML.Wrap(finalItem)
+	finalItem = c.MixHTML.Wrap(finalItem)
 	finalItem = c.UseEvents.Wrap(finalItem)
 
 	return finalItem

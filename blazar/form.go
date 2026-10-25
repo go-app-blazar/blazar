@@ -16,7 +16,7 @@ func Form() *blazarForm {
 type blazarForm struct {
 	app.Compo
 	UseEvents
-	mixHTML
+	MixHTML
 
 	ISpacer     bool
 	IBody       []app.UI
@@ -338,7 +338,7 @@ func (c *blazarForm) Render() app.UI {
 		)
 
 	var finalElement app.UI
-	finalElement = c.mixHTML.Wrap(element)
+	finalElement = c.MixHTML.Wrap(element)
 
 	return finalElement
 }

@@ -14,7 +14,7 @@ func InputWrapper() *blazarInputWrapper {
 type blazarInputWrapper struct {
 	app.Compo
 	UseEvents
-	mixHTML
+	MixHTML
 
 	ILabel string
 	IBody  []app.UI
@@ -81,6 +81,6 @@ func (c *blazarInputWrapper) Render() app.UI {
 			body...,
 		)
 
-	finalElement = c.mixHTML.Wrap(finalElement)
+	finalElement = c.MixHTML.Wrap(finalElement)
 	return finalElement
 }

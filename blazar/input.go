@@ -21,7 +21,7 @@ func Input[T any]() *blazarInput[T] {
 type blazarInput[T any] struct {
 	app.Compo
 	UseEvents
-	mixHTML
+	MixHTML
 
 	IAutoFocus   bool
 	IClearable   bool
@@ -321,6 +321,6 @@ func (c *blazarInput[T]) Render() app.UI {
 					})
 			}),
 		)
-	finalElement = c.mixHTML.Wrap(finalElement)
+	finalElement = c.MixHTML.Wrap(finalElement)
 	return finalElement
 }

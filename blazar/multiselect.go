@@ -15,7 +15,7 @@ func Multiselect() *blazarMultiselect {
 type blazarMultiselect struct {
 	app.Compo
 	UseEvents
-	mixHTML
+	MixHTML
 
 	IName              string
 	ILabel             string
@@ -146,7 +146,7 @@ func (c *blazarMultiselect) Render() app.UI {
 			),
 		)
 
-	finalElement = c.mixHTML.Wrap(finalElement)
+	finalElement = c.MixHTML.Wrap(finalElement)
 
 	return finalElement
 }

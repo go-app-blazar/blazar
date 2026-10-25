@@ -8,7 +8,7 @@ import (
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
-type mixHTML struct {
+type MixHTML struct {
 	IAttributes map[string]any
 	IClasses    []string
 	IData       map[string]any
@@ -16,7 +16,7 @@ type mixHTML struct {
 	ITitle      string
 }
 
-func (c *mixHTML) mixAttr(name string, value any) *mixHTML {
+func (c *MixHTML) mixAttr(name string, value any) *MixHTML {
 	if c.IAttributes == nil {
 		c.IAttributes = map[string]any{}
 	}
@@ -24,12 +24,12 @@ func (c *mixHTML) mixAttr(name string, value any) *mixHTML {
 	return c
 }
 
-func (c *mixHTML) mixClass(class ...string) *mixHTML {
+func (c *MixHTML) mixClass(class ...string) *MixHTML {
 	c.IClasses = append(c.IClasses, class...)
 	return c
 }
 
-func (c *mixHTML) mixDataSet(name string, value any) *mixHTML {
+func (c *MixHTML) mixDataSet(name string, value any) *MixHTML {
 	if c.IData == nil {
 		c.IData = map[string]any{}
 	}
@@ -37,7 +37,7 @@ func (c *mixHTML) mixDataSet(name string, value any) *mixHTML {
 	return c
 }
 
-func (c *mixHTML) mixStyle(name, value string) *mixHTML {
+func (c *MixHTML) mixStyle(name, value string) *MixHTML {
 	if c.IStyles == nil {
 		c.IStyles = map[string]string{}
 	}
@@ -45,12 +45,12 @@ func (c *mixHTML) mixStyle(name, value string) *mixHTML {
 	return c
 }
 
-func (c *mixHTML) mixTitle(title string) *mixHTML {
+func (c *MixHTML) mixTitle(title string) *MixHTML {
 	c.ITitle = title
 	return c
 }
 
-func (c *mixHTML) Wrap(element app.UI) app.UI {
+func (c *MixHTML) Wrap(element app.UI) app.UI {
 	//slog.Debug("Wrap", "element", element)
 
 	elementValue := reflect.ValueOf(element)

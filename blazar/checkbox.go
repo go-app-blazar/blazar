@@ -13,7 +13,7 @@ func Checkbox() *blazarCheckbox {
 
 type blazarCheckbox struct {
 	app.Compo
-	mixHTML
+	MixHTML
 
 	IOnChange  func(ctx app.Context, checked bool)
 	IAutoFocus bool
@@ -159,7 +159,7 @@ func (c *blazarCheckbox) Render() app.UI {
 			icon,
 		)
 
-	finalElement = c.mixHTML.Wrap(finalElement)
+	finalElement = c.MixHTML.Wrap(finalElement)
 
 	return finalElement
 }

@@ -15,7 +15,7 @@ import (
 
 type blazarTable[T any] struct {
 	app.Compo
-	mixHTML
+	MixHTML
 
 	ILabel            string
 	IColumns          []TableColumn[T]
@@ -991,7 +991,7 @@ func (c *blazarTable[T]) Render() app.UI {
 			}),
 		)
 
-	finalElement = c.mixHTML.Wrap(finalElement)
+	finalElement = c.MixHTML.Wrap(finalElement)
 
 	return finalElement
 }

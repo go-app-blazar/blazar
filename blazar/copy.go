@@ -18,7 +18,7 @@ func Copy() *blazarCopy {
 
 type blazarCopy struct {
 	app.Compo
-	mixHTML
+	MixHTML
 
 	IDisabled bool                                                // If true, copying will be disabled.
 	IIcon     string                                              // The icon to display next to the content.
@@ -153,7 +153,7 @@ func (c *blazarCopy) Render() app.UI {
 		)
 
 	var finalElement app.UI
-	finalElement = c.mixHTML.Wrap(element)
+	finalElement = c.MixHTML.Wrap(element)
 
 	return finalElement
 }
