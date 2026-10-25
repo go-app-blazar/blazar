@@ -200,7 +200,7 @@ func (c *TablePage) Render() app.UI {
 					app.Legend().Text("Actions"),
 					app.Div().Body(
 						blazar.Table[characterRow]().
-							Title("One Piece Characters").
+							Label("One Piece Characters").
 							Rows(c.rows).
 							RowIDFunction(func(row characterRow) string {
 								return row.Name
@@ -243,7 +243,7 @@ func (c *TablePage) Render() app.UI {
 				Body(
 					app.Legend().Text("Paginated"),
 					blazar.Table[characterRow]().
-						Title("One Piece Characters").
+						Label("One Piece Characters").
 						PageSize(10).
 						Rows(c.rows).
 						RowIDFunction(func(row characterRow) string {
@@ -262,7 +262,7 @@ func (c *TablePage) Render() app.UI {
 				Body(
 					app.Legend().Text("Column Visibility"),
 					blazar.Table[characterRow]().
-						Title("One Piece Characters").
+						Label("One Piece Characters").
 						PageSize(10).
 						VisibleColumns([]string{"Name"}).
 						Rows(c.rows).

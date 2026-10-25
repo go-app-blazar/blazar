@@ -6,39 +6,55 @@ import (
 )
 
 func Page() *blazarPage {
-	return &blazarPage{
-		IStyles: map[string]string{},
-	}
+	return &blazarPage{}
 }
 
 type blazarPage struct {
 	app.Compo
 	slot.Slotted
-
-	IClasses []string
-	IStyles  map[string]string
+	mixHTML
 }
 
 var _ app.Composer = (*blazarPage)(nil)
 
+// BEGIN: mixHTML methods
+
+func (c *blazarPage) Attr(name string, value any) *blazarPage {
+	c.mixAttr(name, value)
+	return c
+}
+
 func (c *blazarPage) Class(class ...string) *blazarPage {
-	c.IClasses = class
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarPage) DataSet(name string, value any) *blazarPage {
+	c.mixDataSet(name, value)
 	return c
 }
 
 func (c *blazarPage) Style(name, value string) *blazarPage {
-	c.IStyles[name] = value
+	c.mixStyle(name, value)
 	return c
 }
 
+func (c *blazarPage) Title(title string) *blazarPage {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
+
 func (c *blazarPage) Render() app.UI {
 	element := app.Div().
-		Class(append([]string{"blazar-page"}, c.IClasses...)...)
-	for name, value := range c.IStyles {
-		element.Style(name, value)
-	}
-	return element.
+		Class("blazar-page").
 		Body(c.SlotContents()...)
+
+	var finalElement app.UI
+	finalElement = c.mixHTML.Wrap(element)
+
+	return finalElement
 }
 
 func (c *blazarPage) Body(components ...app.UI) *blazarPage {

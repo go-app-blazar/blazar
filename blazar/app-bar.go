@@ -9,8 +9,8 @@ import (
 
 type blazarAppBar struct {
 	app.Compo
+	mixHTML
 
-	IClasses      []string
 	INoIcon       bool
 	IIcon         string
 	IIconFunction func(ctx app.Context, e app.Event)
@@ -28,10 +28,34 @@ func AppBar() *blazarAppBar {
 	}
 }
 
-func (c *blazarAppBar) Class(class ...string) *blazarAppBar {
-	c.IClasses = class
+// BEGIN: mixHTML methods
+
+func (c *blazarAppBar) Attr(name string, value any) *blazarAppBar {
+	c.mixAttr(name, value)
 	return c
 }
+
+func (c *blazarAppBar) Class(class ...string) *blazarAppBar {
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarAppBar) DataSet(name string, value any) *blazarAppBar {
+	c.mixDataSet(name, value)
+	return c
+}
+
+func (c *blazarAppBar) Style(name, value string) *blazarAppBar {
+	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarAppBar) Title(title string) *blazarAppBar {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
 
 func (c *blazarAppBar) NoIcon(noIcon bool) *blazarAppBar {
 	c.INoIcon = noIcon
@@ -78,7 +102,8 @@ func (c *blazarAppBar) Render() app.UI {
 		slog.DebugContext(context.TODO(), "AppBar: Render", "INoIcon", c.INoIcon)
 	}
 
-	return app.Div().
+	var finalElement app.UI
+	finalElement = app.Div().
 		Class(append([]string{"blazar-app-bar"}, c.IClasses...)...).
 		Style("width", "100%").
 		Body(
@@ -129,4 +154,8 @@ func (c *blazarAppBar) Render() app.UI {
 					Body(c.ITrailerFunction())
 			}),
 		)
+
+	finalElement = c.mixHTML.Wrap(finalElement)
+
+	return finalElement
 }

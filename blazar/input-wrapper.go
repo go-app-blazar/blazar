@@ -14,17 +14,42 @@ func InputWrapper() *blazarInputWrapper {
 type blazarInputWrapper struct {
 	app.Compo
 	UseEvents
-	IClasses []string
-	ILabel   string
-	IBody    []app.UI
+	mixHTML
+
+	ILabel string
+	IBody  []app.UI
 }
 
 var _ app.Composer = (*blazarInputWrapper)(nil)
 
-func (c *blazarInputWrapper) Class(class ...string) *blazarInputWrapper {
-	c.IClasses = class
+// BEGIN: mixHTML methods
+
+func (c *blazarInputWrapper) Attr(name string, value any) *blazarInputWrapper {
+	c.mixAttr(name, value)
 	return c
 }
+
+func (c *blazarInputWrapper) Class(class ...string) *blazarInputWrapper {
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarInputWrapper) DataSet(name string, value any) *blazarInputWrapper {
+	c.mixDataSet(name, value)
+	return c
+}
+
+func (c *blazarInputWrapper) Style(name, value string) *blazarInputWrapper {
+	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarInputWrapper) Title(title string) *blazarInputWrapper {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
 
 func (c *blazarInputWrapper) Label(label string) *blazarInputWrapper {
 	c.ILabel = label
@@ -49,9 +74,13 @@ func (c *blazarInputWrapper) Render() app.UI {
 			c.IBody...,
 		))
 
-	return app.Label().
-		Class(append([]string{"blazar-input-wrapper"}, c.IClasses...)...).
+	var finalElement app.UI
+	finalElement = app.Label().
+		Class("blazar-input-wrapper").
 		Body(
 			body...,
 		)
+
+	finalElement = c.mixHTML.Wrap(finalElement)
+	return finalElement
 }

@@ -15,6 +15,8 @@ func Multiselect() *blazarMultiselect {
 type blazarMultiselect struct {
 	app.Compo
 	UseEvents
+	mixHTML
+
 	IName              string
 	ILabel             string
 	IDisabled          bool
@@ -25,6 +27,35 @@ type blazarMultiselect struct {
 
 var _ app.Composer = (*blazarMultiselect)(nil)
 var _ app.Updater = (*blazarMultiselect)(nil)
+
+// BEGIN: mixHTML methods
+
+func (c *blazarMultiselect) Attr(name string, value any) *blazarMultiselect {
+	c.mixAttr(name, value)
+	return c
+}
+
+func (c *blazarMultiselect) Class(class ...string) *blazarMultiselect {
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarMultiselect) DataSet(name string, value any) *blazarMultiselect {
+	c.mixDataSet(name, value)
+	return c
+}
+
+func (c *blazarMultiselect) Style(name, value string) *blazarMultiselect {
+	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarMultiselect) Title(title string) *blazarMultiselect {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
 
 func (c *blazarMultiselect) OnUpdate(ctx app.Context) {
 	if debugMultiselect {
@@ -84,7 +115,8 @@ func (c *blazarMultiselect) Render() app.UI {
 		disabledClass = "blazar-input-wrapper--disabled"
 	}
 
-	return InputWrapper().
+	var finalElement app.UI
+	finalElement = InputWrapper().
 		Class("blazar-multiselect", disabledClass, "blazar-input-wrapper--outline").
 		Label(c.ILabel).
 		Body(
@@ -113,6 +145,10 @@ func (c *blazarMultiselect) Render() app.UI {
 				}),
 			),
 		)
+
+	finalElement = c.mixHTML.Wrap(finalElement)
+
+	return finalElement
 }
 
 // SelectedValuesTo is an event handler that updates the variable based on the selected options in a multiselect.

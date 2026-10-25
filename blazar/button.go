@@ -5,21 +5,17 @@ import (
 )
 
 func Button() *blazarButton {
-	return &blazarButton{
-		IStyles: map[string]string{},
-	}
+	return &blazarButton{}
 }
 
 type blazarButton struct {
 	app.Compo
 	UseEvents
-	IClasses  []string
-	IStyles   map[string]string
+	mixHTML
 	IFlat     bool
 	IOutline  bool
 	IIcon     string
 	ILabel    string
-	ITitle    string
 	ITo       string
 	ITarget   string // When "To" is set, this will be the target of the button.
 	IRound    bool
@@ -28,15 +24,34 @@ type blazarButton struct {
 
 var _ app.Composer = (*blazarButton)(nil)
 
+// BEGIN: mixHTML methods
+
+func (c *blazarButton) Attr(name string, value any) *blazarButton {
+	c.mixAttr(name, value)
+	return c
+}
+
 func (c *blazarButton) Class(class ...string) *blazarButton {
-	c.IClasses = class
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarButton) DataSet(name string, value any) *blazarButton {
+	c.mixDataSet(name, value)
 	return c
 }
 
 func (c *blazarButton) Style(name, value string) *blazarButton {
-	c.IStyles[name] = value
+	c.mixStyle(name, value)
 	return c
 }
+
+func (c *blazarButton) Title(title string) *blazarButton {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
 
 func (c *blazarButton) Disabled(disabled bool) *blazarButton {
 	c.IDisabled = disabled
@@ -70,11 +85,6 @@ func (c *blazarButton) Round(round bool) *blazarButton {
 
 func (c *blazarButton) Target(target string) *blazarButton {
 	c.ITarget = target
-	return c
-}
-
-func (c *blazarButton) Title(title string) *blazarButton {
-	c.ITitle = title
 	return c
 }
 
@@ -139,7 +149,7 @@ func (c *blazarButton) Render() app.UI {
 			Body(body...)
 	}
 
-	classes := append([]string{"blazar-button", disabledClass, roundClass, flatClass, outlineClass}, c.IClasses...)
+	classes := []string{"blazar-button", disabledClass, roundClass, flatClass, outlineClass}
 
 	var element app.HTMLSpan
 	element = app.Span().
@@ -158,9 +168,9 @@ func (c *blazarButton) Render() app.UI {
 	}
 
 	var finalElement app.UI
-	finalElement = element
+	finalElement = c.mixHTML.Wrap(element)
 	if !c.IDisabled {
-		finalElement = c.UseEvents.Wrap(element)
+		finalElement = c.UseEvents.Wrap(finalElement)
 	}
 	return finalElement
 }

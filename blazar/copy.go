@@ -12,24 +12,53 @@ import (
 // The copy component is a button that allows the user to copy text to the clipboard.
 func Copy() *blazarCopy {
 	return &blazarCopy{
-		IIcon:   "copy",
-		IStyles: map[string]string{},
+		IIcon: "copy",
 	}
 }
 
 type blazarCopy struct {
 	app.Compo
+	mixHTML
+
 	IDisabled bool                                                // If true, copying will be disabled.
 	IIcon     string                                              // The icon to display next to the content.
 	IText     string                                              // The text to display.
 	IBody     []app.UI                                            // The body to display inside the copy component (optional).
-	IStyles   map[string]string                                   // The styles to apply to the copy component.
 	IValue    string                                              // This is the value that will be copied to the clipboard.
 	IOnCopy   func(ctx app.Context, value string)                 // The function to call when the text has been copied.
 	IOnClick  func(ctx app.Context, event htmlevent.PointerEvent) // The function to call when the copy is clicked.
 }
 
 var _ app.Composer = (*blazarCopy)(nil)
+
+// BEGIN: mixHTML methods
+
+func (c *blazarCopy) Attr(name string, value any) *blazarCopy {
+	c.mixAttr(name, value)
+	return c
+}
+
+func (c *blazarCopy) Class(class ...string) *blazarCopy {
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarCopy) DataSet(name string, value any) *blazarCopy {
+	c.mixDataSet(name, value)
+	return c
+}
+
+func (c *blazarCopy) Style(name, value string) *blazarCopy {
+	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarCopy) Title(title string) *blazarCopy {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
 
 func (c *blazarCopy) Disabled(disabled bool) *blazarCopy {
 	c.IDisabled = disabled
@@ -38,11 +67,6 @@ func (c *blazarCopy) Disabled(disabled bool) *blazarCopy {
 
 func (c *blazarCopy) Icon(icon string) *blazarCopy {
 	c.IIcon = icon
-	return c
-}
-
-func (c *blazarCopy) Style(name, value string) *blazarCopy {
-	c.IStyles[name] = value
 	return c
 }
 
@@ -127,8 +151,9 @@ func (c *blazarCopy) Render() app.UI {
 					}),
 				),
 		)
-	for name, value := range c.IStyles {
-		element = element.Style(name, value)
-	}
-	return element
+
+	var finalElement app.UI
+	finalElement = c.mixHTML.Wrap(element)
+
+	return finalElement
 }

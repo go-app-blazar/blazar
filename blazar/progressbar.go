@@ -16,25 +16,48 @@ func ProgressBar() *blazarProgressBar {
 // blazarProgressBar is the component that renders a progress bar.
 type blazarProgressBar struct {
 	app.Compo
+	mixHTML
 
-	IAnimated      bool     // If true, the progress bar will be animated.
-	IClasses       []string // The classes to add to the progress bar.
-	IHeight        string   // The height of the progress bar.
-	IIndeterminate bool     // If true, the progress bar will be indeterminate.
-	IPercentage    uint     // The percentage of the progress bar.  This is ignored if IIndeterminate is true.
+	IAnimated      bool   // If true, the progress bar will be animated.
+	IHeight        string // The height of the progress bar.
+	IIndeterminate bool   // If true, the progress bar will be indeterminate.
+	IPercentage    uint   // The percentage of the progress bar.  This is ignored if IIndeterminate is true.
 }
 
 var _ app.Composer = (*blazarProgressBar)(nil)
 
-// Animated enables or disables the animated mode of the progress bar.
-func (c *blazarProgressBar) Animated(animated bool) *blazarProgressBar {
-	c.IAnimated = animated
+// BEGIN: mixHTML methods
+
+func (c *blazarProgressBar) Attr(name string, value any) *blazarProgressBar {
+	c.mixAttr(name, value)
 	return c
 }
 
-// Class adds a class to the progress bar.
 func (c *blazarProgressBar) Class(class ...string) *blazarProgressBar {
-	c.IClasses = class
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarProgressBar) DataSet(name string, value any) *blazarProgressBar {
+	c.mixDataSet(name, value)
+	return c
+}
+
+func (c *blazarProgressBar) Style(name, value string) *blazarProgressBar {
+	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarProgressBar) Title(title string) *blazarProgressBar {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
+
+// Animated enables or disables the animated mode of the progress bar.
+func (c *blazarProgressBar) Animated(animated bool) *blazarProgressBar {
+	c.IAnimated = animated
 	return c
 }
 
@@ -67,12 +90,17 @@ func (c *blazarProgressBar) Render() app.UI {
 		extraClass = " blazar-progress-bar__bar--animated"
 	}
 
-	return app.Div().
-		Class(append([]string{"blazar-progress-bar"}, c.IClasses...)...).
+	var finalElement app.UI
+	finalElement = app.Div().
+		Class("blazar-progress-bar").
 		Style("--height", c.IHeight).
 		Style("--percentage", fmt.Sprintf("%d", c.IPercentage)).
 		Body(
 			app.Div().
 				Class("blazar-progress-bar__bar", extraClass),
 		)
+
+	finalElement = c.mixHTML.Wrap(finalElement)
+
+	return finalElement
 }

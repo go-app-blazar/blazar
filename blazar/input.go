@@ -21,7 +21,8 @@ func Input[T any]() *blazarInput[T] {
 type blazarInput[T any] struct {
 	app.Compo
 	UseEvents
-	UseData
+	mixHTML
+
 	IAutoFocus   bool
 	IClearable   bool
 	IOutline     bool
@@ -40,6 +41,35 @@ type blazarInput[T any] struct {
 }
 
 var _ app.Composer = (*blazarInput[any])(nil)
+
+// BEGIN: mixHTML methods
+
+func (c *blazarInput[T]) Attr(name string, value any) *blazarInput[T] {
+	c.mixAttr(name, value)
+	return c
+}
+
+func (c *blazarInput[T]) Class(class ...string) *blazarInput[T] {
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarInput[T]) DataSet(name string, value any) *blazarInput[T] {
+	c.mixDataSet(name, value)
+	return c
+}
+
+func (c *blazarInput[T]) Style(name, value string) *blazarInput[T] {
+	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarInput[T]) Title(title string) *blazarInput[T] {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
 
 func (c *blazarInput[T]) AutoFocus(autoFocus bool) *blazarInput[T] {
 	c.IAutoFocus = autoFocus
@@ -117,11 +147,6 @@ func (c *blazarInput[T]) Value(value T) *blazarInput[T] {
 func (c *blazarInput[T]) Bind(valuePointer *T) *blazarInput[T] {
 	c.IValue = *valuePointer
 	c.BindValue = valuePointer
-	return c
-}
-
-func (c *blazarInput[T]) DataSet(name string, value any) *blazarInput[T] {
-	c.UseData.DataSet(name, value)
 	return c
 }
 
@@ -225,7 +250,8 @@ func (c *blazarInput[T]) Render() app.UI {
 
 	isZeroValue := reflect.ValueOf(c.IValue).IsZero()
 
-	return InputWrapper().
+	var finalElement app.UI
+	finalElement = InputWrapper().
 		Class("blazar-input", disabledClass, outlineClass).
 		Label(c.ILabel).
 		Body(
@@ -233,22 +259,20 @@ func (c *blazarInput[T]) Render() app.UI {
 				return app.Span().Class("blazar-input__prefix").Text(c.IPrefix)
 			}),
 			c.UseEvents.Wrap(
-				c.UseData.Wrap(
-					app.Input().
-						Class("blazar-input__input").
-						Disabled(c.IDisabled).
-						ReadOnly(c.IDisabled).
-						AutoComplete(false).
-						AutoFocus(c.IAutoFocus).
-						Name(c.IName).
-						Type(inputType).
-						Checked(checked).
-						Value(value).
-						Min(minValue).
-						Max(maxValue).
-						Step(stepValue).
-						Placeholder(c.IPlaceholder),
-				),
+				app.Input().
+					Class("blazar-input__input").
+					Disabled(c.IDisabled).
+					ReadOnly(c.IDisabled).
+					AutoComplete(false).
+					AutoFocus(c.IAutoFocus).
+					Name(c.IName).
+					Type(inputType).
+					Checked(checked).
+					Value(value).
+					Min(minValue).
+					Max(maxValue).
+					Step(stepValue).
+					Placeholder(c.IPlaceholder),
 				WithOn("change", func(ctx app.Context, e app.Event) {
 					/*
 						if debugInput {
@@ -297,4 +321,6 @@ func (c *blazarInput[T]) Render() app.UI {
 					})
 			}),
 		)
+	finalElement = c.mixHTML.Wrap(finalElement)
+	return finalElement
 }
