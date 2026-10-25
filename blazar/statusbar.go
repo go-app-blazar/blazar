@@ -10,12 +10,42 @@ func StatusBar() *blazarStatusBar {
 
 type blazarStatusBar struct {
 	app.Compo
+	mixHTML
 
 	TextValue string
 	GoodValue *bool
 }
 
 var _ app.Composer = (*blazarStatusBar)(nil)
+
+// BEGIN: mixHTML methods
+
+func (c *blazarStatusBar) Attr(name string, value any) *blazarStatusBar {
+	c.mixAttr(name, value)
+	return c
+}
+
+func (c *blazarStatusBar) Class(class ...string) *blazarStatusBar {
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarStatusBar) DataSet(name string, value any) *blazarStatusBar {
+	c.mixDataSet(name, value)
+	return c
+}
+
+func (c *blazarStatusBar) Style(name, value string) *blazarStatusBar {
+	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarStatusBar) Title(title string) *blazarStatusBar {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
 
 func (c *blazarStatusBar) Text(text string) *blazarStatusBar {
 	c.TextValue = text
@@ -52,7 +82,8 @@ func (c *blazarStatusBar) Render() app.UI {
 		}
 	}
 
-	return app.Div().
+	var finalElement app.UI
+	finalElement = app.Div().
 		Class("blazar-statusbar", goodClass).
 		Body(
 			app.If(goodIcon != "", func() app.UI {
@@ -63,4 +94,8 @@ func (c *blazarStatusBar) Render() app.UI {
 				Class("blazar-button-label").
 				Text(c.TextValue),
 		)
+
+	finalElement = c.mixHTML.Wrap(finalElement)
+
+	return finalElement
 }

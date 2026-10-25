@@ -16,9 +16,7 @@ func Form() *blazarForm {
 type blazarForm struct {
 	app.Compo
 	UseEvents
-
-	IClasses []string
-	IStyles  map[string]string
+	mixHTML
 
 	ISpacer     bool
 	IBody       []app.UI
@@ -43,26 +41,42 @@ type FormAction struct {
 
 var _ app.Composer = (*blazarForm)(nil)
 
+// BEGIN: mixHTML methods
+
+func (c *blazarForm) Attr(name string, value any) *blazarForm {
+	c.mixAttr(name, value)
+	return c
+}
+
+func (c *blazarForm) Class(class ...string) *blazarForm {
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarForm) DataSet(name string, value any) *blazarForm {
+	c.mixDataSet(name, value)
+	return c
+}
+
+func (c *blazarForm) Style(name, value string) *blazarForm {
+	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarForm) Title(title string) *blazarForm {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
+
 func (c *blazarForm) AutoSubmit(autoSubmit bool) *blazarForm {
 	c.IAutoSubmit = autoSubmit
 	return c
 }
 
-func (c *blazarForm) Class(class ...string) *blazarForm {
-	c.IClasses = class
-	return c
-}
-
 func (c *blazarForm) Spacer(spacer bool) *blazarForm {
 	c.ISpacer = spacer
-	return c
-}
-
-func (c *blazarForm) Style(name, value string) *blazarForm {
-	if c.IStyles == nil {
-		c.IStyles = make(map[string]string)
-	}
-	c.IStyles[name] = value
 	return c
 }
 
@@ -185,7 +199,7 @@ func (c *blazarForm) Render() app.UI {
 	}
 
 	element := app.Div().
-		Class(append([]string{"blazar-form"}, c.IClasses...)...).
+		Class("blazar-form").
 		Body(
 			c.UseEvents.Wrap(
 				app.Div().
@@ -322,8 +336,9 @@ func (c *blazarForm) Render() app.UI {
 					}),
 				),
 		)
-	for name, value := range c.IStyles {
-		element = element.Style(name, value)
-	}
-	return element
+
+	var finalElement app.UI
+	finalElement = c.mixHTML.Wrap(element)
+
+	return finalElement
 }

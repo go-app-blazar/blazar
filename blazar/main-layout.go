@@ -12,6 +12,7 @@ import (
 type blazarMainLayout struct {
 	app.Compo
 	router.RouterViewComponent
+	mixHTML
 
 	IHeadline         string
 	IHeadlineFunction func() app.UI
@@ -34,6 +35,35 @@ func MainLayout() *blazarMainLayout {
 		IResponsiveWidth: "900px",
 	}
 }
+
+// BEGIN: mixHTML methods
+
+func (c *blazarMainLayout) Attr(name string, value any) *blazarMainLayout {
+	c.mixAttr(name, value)
+	return c
+}
+
+func (c *blazarMainLayout) Class(class ...string) *blazarMainLayout {
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarMainLayout) DataSet(name string, value any) *blazarMainLayout {
+	c.mixDataSet(name, value)
+	return c
+}
+
+func (c *blazarMainLayout) Style(name, value string) *blazarMainLayout {
+	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarMainLayout) Title(title string) *blazarMainLayout {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
 
 func (c *blazarMainLayout) ResponsiveWidth(width string) *blazarMainLayout {
 	c.IResponsiveWidth = width
@@ -116,7 +146,8 @@ func (c *blazarMainLayout) Render() app.UI {
 		}
 	}
 
-	return app.Div().
+	var finalElement app.UI
+	finalElement = app.Div().
 		Class("blazar-main-layout").
 		Body(
 			AppBar().
@@ -148,4 +179,8 @@ func (c *blazarMainLayout) Render() app.UI {
 						),
 				),
 		)
+
+	finalElement = c.mixHTML.Wrap(finalElement)
+
+	return finalElement
 }

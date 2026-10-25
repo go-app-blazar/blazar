@@ -13,6 +13,8 @@ func Checkbox() *blazarCheckbox {
 
 type blazarCheckbox struct {
 	app.Compo
+	mixHTML
+
 	IOnChange  func(ctx app.Context, checked bool)
 	IAutoFocus bool
 	IDisabled  bool
@@ -22,6 +24,35 @@ type blazarCheckbox struct {
 }
 
 var _ app.Composer = (*blazarCheckbox)(nil)
+
+// BEGIN: mixHTML methods
+
+func (c *blazarCheckbox) Attr(name string, value any) *blazarCheckbox {
+	c.mixAttr(name, value)
+	return c
+}
+
+func (c *blazarCheckbox) Class(class ...string) *blazarCheckbox {
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarCheckbox) DataSet(name string, value any) *blazarCheckbox {
+	c.mixDataSet(name, value)
+	return c
+}
+
+func (c *blazarCheckbox) Style(name, value string) *blazarCheckbox {
+	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarCheckbox) Title(title string) *blazarCheckbox {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
 
 func (c *blazarCheckbox) AutoFocus(autoFocus bool) *blazarCheckbox {
 	c.IAutoFocus = autoFocus
@@ -120,10 +151,15 @@ func (c *blazarCheckbox) Render() app.UI {
 		})
 	}
 
-	return InputWrapper().
+	var finalElement app.UI
+	finalElement = InputWrapper().
 		Class("blazar-checkbox", checkedClass, disabledClass).
 		Label(c.ILabel).
 		Body(
 			icon,
 		)
+
+	finalElement = c.mixHTML.Wrap(finalElement)
+
+	return finalElement
 }

@@ -9,13 +9,13 @@ import (
 )
 
 func Collapse() *blazarCollapse {
-	return &blazarCollapse{
-		IStyles: map[string]string{},
-	}
+	return &blazarCollapse{}
 }
 
 type blazarCollapse struct {
 	app.Compo
+	mixHTML
+
 	ILabel        string
 	IDisabled     bool
 	ISummaryText  string
@@ -29,6 +29,35 @@ type blazarCollapse struct {
 
 var _ app.Composer = (*blazarCollapse)(nil)
 var _ app.Updater = (*blazarCollapse)(nil)
+
+// BEGIN: mixHTML methods
+
+func (c *blazarCollapse) Attr(name string, value any) *blazarCollapse {
+	c.mixAttr(name, value)
+	return c
+}
+
+func (c *blazarCollapse) Class(class ...string) *blazarCollapse {
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarCollapse) DataSet(name string, value any) *blazarCollapse {
+	c.mixDataSet(name, value)
+	return c
+}
+
+func (c *blazarCollapse) Style(name, value string) *blazarCollapse {
+	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarCollapse) Title(title string) *blazarCollapse {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
 
 func (c *blazarCollapse) OnUpdate(ctx app.Context) {
 	if debugCollapse {
@@ -64,11 +93,6 @@ func (c *blazarCollapse) Open(open bool) *blazarCollapse {
 
 func (c *blazarCollapse) Label(label string) *blazarCollapse {
 	c.ILabel = label
-	return c
-}
-
-func (c *blazarCollapse) Style(name, value string) *blazarCollapse {
-	c.IStyles[name] = value
 	return c
 }
 
@@ -169,8 +193,9 @@ func (c *blazarCollapse) Render() app.UI {
 					Body(c.IBody...)
 			}),
 		)
-	for name, value := range c.IStyles {
-		element = element.Style(name, value)
-	}
-	return element
+
+	var finalElement app.UI
+	finalElement = c.mixHTML.Wrap(element)
+
+	return finalElement
 }

@@ -15,8 +15,9 @@ import (
 
 type blazarTable[T any] struct {
 	app.Compo
+	mixHTML
 
-	ITitle            string
+	ILabel            string
 	IColumns          []TableColumn[T]
 	IRowIDFunction    func(row T) string
 	IRows             []T
@@ -109,93 +110,122 @@ func Table[T any]() *blazarTable[T] {
 	return &table
 }
 
-func (t *blazarTable[T]) Title(title string) *blazarTable[T] {
-	t.ITitle = title
-	return t
+// BEGIN: mixHTML methods
+
+func (c *blazarTable[T]) Attr(name string, value any) *blazarTable[T] {
+	c.mixAttr(name, value)
+	return c
 }
 
-func (t *blazarTable[T]) Interactive(interactive bool) *blazarTable[T] {
-	t.IInteractive = interactive
-	return t
+func (c *blazarTable[T]) Class(class ...string) *blazarTable[T] {
+	c.mixClass(class...)
+	return c
 }
 
-func (t *blazarTable[T]) Rows(rows []T) *blazarTable[T] {
-	t.IRows = rows
-	t.recalculateRowIDs()
-	t.recalculateSelectedRows()
-	return t
+func (c *blazarTable[T]) DataSet(name string, value any) *blazarTable[T] {
+	c.mixDataSet(name, value)
+	return c
 }
 
-func (t *blazarTable[T]) RowIDFunction(rowIDFunction func(row T) string) *blazarTable[T] {
-	t.IRowIDFunction = rowIDFunction
-	t.recalculateRowIDs()
-	t.recalculateSelectedRows()
-	return t
+func (c *blazarTable[T]) Style(name, value string) *blazarTable[T] {
+	c.mixStyle(name, value)
+	return c
 }
 
-func (t *blazarTable[T]) Columns(columns []TableColumn[T]) *blazarTable[T] {
-	t.IColumns = columns
+func (c *blazarTable[T]) Title(title string) *blazarTable[T] {
+	c.mixTitle(title)
+	return c
+}
 
-	if len(t.popoverSelectedColumnNames) == 0 {
-		t.popoverSelectedColumnNames = make([]string, 0, len(t.IColumns))
-		for _, column := range t.IColumns {
-			t.popoverSelectedColumnNames = append(t.popoverSelectedColumnNames, column.Name)
+// END: mixHTML methods
+
+func (c *blazarTable[T]) Label(title string) *blazarTable[T] {
+	c.ILabel = title
+	return c
+}
+
+func (c *blazarTable[T]) Interactive(interactive bool) *blazarTable[T] {
+	c.IInteractive = interactive
+	return c
+}
+
+func (c *blazarTable[T]) Rows(rows []T) *blazarTable[T] {
+	c.IRows = rows
+	c.recalculateRowIDs()
+	c.recalculateSelectedRows()
+	return c
+}
+
+func (c *blazarTable[T]) RowIDFunction(rowIDFunction func(row T) string) *blazarTable[T] {
+	c.IRowIDFunction = rowIDFunction
+	c.recalculateRowIDs()
+	c.recalculateSelectedRows()
+	return c
+}
+
+func (c *blazarTable[T]) Columns(columns []TableColumn[T]) *blazarTable[T] {
+	c.IColumns = columns
+
+	if len(c.popoverSelectedColumnNames) == 0 {
+		c.popoverSelectedColumnNames = make([]string, 0, len(c.IColumns))
+		for _, column := range c.IColumns {
+			c.popoverSelectedColumnNames = append(c.popoverSelectedColumnNames, column.Name)
 		}
 	}
 	if debugTable {
-		slog.DebugContext(context.TODO(), "blazarTable: Columns", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+		slog.DebugContext(context.TODO(), "blazarTable: Columns", "self", fmt.Sprintf("%p", c), "popoverSelectedColumnNames", c.popoverSelectedColumnNames)
 	}
-	return t
+	return c
 }
 
-func (t *blazarTable[T]) VisibleColumns(visibleColumnNames []string) *blazarTable[T] {
-	t.visibleColumnNames = visibleColumnNames
+func (c *blazarTable[T]) VisibleColumns(visibleColumnNames []string) *blazarTable[T] {
+	c.visibleColumnNames = visibleColumnNames
 
-	if len(t.visibleColumnNames) > 0 {
-		t.popoverSelectedColumnNames = make([]string, len(t.visibleColumnNames))
-		copy(t.popoverSelectedColumnNames, t.visibleColumnNames)
+	if len(c.visibleColumnNames) > 0 {
+		c.popoverSelectedColumnNames = make([]string, len(c.visibleColumnNames))
+		copy(c.popoverSelectedColumnNames, c.visibleColumnNames)
 	}
 	if debugTable {
-		slog.DebugContext(context.TODO(), "blazarTable: VisibleColumns", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+		slog.DebugContext(context.TODO(), "blazarTable: VisibleColumns", "self", fmt.Sprintf("%p", c), "popoverSelectedColumnNames", c.popoverSelectedColumnNames)
 	}
-	return t
+	return c
 }
 
-func (t *blazarTable[T]) EmptyMessage(emptyMessage string) *blazarTable[T] {
-	t.IEmptyMessage = emptyMessage
-	return t
+func (c *blazarTable[T]) EmptyMessage(emptyMessage string) *blazarTable[T] {
+	c.IEmptyMessage = emptyMessage
+	return c
 }
 
-func (t *blazarTable[T]) PageIndex(pageIndex uint) *blazarTable[T] {
-	t.setPageIndex(pageIndex)
-	return t
+func (c *blazarTable[T]) PageIndex(pageIndex uint) *blazarTable[T] {
+	c.setPageIndex(pageIndex)
+	return c
 }
 
-func (t *blazarTable[T]) PageSize(pageSize uint) *blazarTable[T] {
-	t.setPageSize(pageSize)
-	return t
+func (c *blazarTable[T]) PageSize(pageSize uint) *blazarTable[T] {
+	c.setPageSize(pageSize)
+	return c
 }
 
-func (t *blazarTable[T]) Action(actions ...TableAction) *blazarTable[T] {
-	t.IActions = actions
-	return t
+func (c *blazarTable[T]) Action(actions ...TableAction) *blazarTable[T] {
+	c.IActions = actions
+	return c
 }
 
-func (t *blazarTable[T]) RowAction(rowActions ...RowAction[T]) *blazarTable[T] {
-	t.IRowActions = rowActions
-	return t
+func (c *blazarTable[T]) RowAction(rowActions ...RowAction[T]) *blazarTable[T] {
+	c.IRowActions = rowActions
+	return c
 }
 
-func (t *blazarTable[T]) MultiRowAction(multiRowActions ...MultiRowAction[T]) *blazarTable[T] {
-	t.IMultiRowActions = multiRowActions
-	return t
+func (c *blazarTable[T]) MultiRowAction(multiRowActions ...MultiRowAction[T]) *blazarTable[T] {
+	c.IMultiRowActions = multiRowActions
+	return c
 }
 
-func (t *blazarTable[T]) totalPages() uint {
+func (c *blazarTable[T]) totalPages() uint {
 	totalPages := uint(1)
-	if t.pageSize > 0 {
-		totalPages = uint(uint(len(t.IRows)) / t.pageSize)
-		if uint(len(t.IRows))%t.pageSize > 0 {
+	if c.pageSize > 0 {
+		totalPages = uint(uint(len(c.IRows)) / c.pageSize)
+		if uint(len(c.IRows))%c.pageSize > 0 {
 			totalPages++
 		}
 	}
@@ -206,117 +236,117 @@ func (t *blazarTable[T]) totalPages() uint {
 	return totalPages
 }
 
-func (t *blazarTable[T]) previousPage() {
-	if t.pageIndex > 0 {
-		t.pageIndex--
+func (c *blazarTable[T]) previousPage() {
+	if c.pageIndex > 0 {
+		c.pageIndex--
 	}
 }
 
-func (t *blazarTable[T]) nextPage() {
-	t.pageIndex++
+func (c *blazarTable[T]) nextPage() {
+	c.pageIndex++
 
-	totalPages := t.totalPages()
-	if t.pageIndex >= totalPages {
-		t.pageIndex = totalPages - 1
+	totalPages := c.totalPages()
+	if c.pageIndex >= totalPages {
+		c.pageIndex = totalPages - 1
 	}
 }
 
-func (t *blazarTable[T]) setPageIndex(pageIndex uint) {
-	t.pageIndex = pageIndex
+func (c *blazarTable[T]) setPageIndex(pageIndex uint) {
+	c.pageIndex = pageIndex
 
-	totalPages := t.totalPages()
-	if t.pageIndex >= totalPages {
-		t.pageIndex = totalPages - 1
+	totalPages := c.totalPages()
+	if c.pageIndex >= totalPages {
+		c.pageIndex = totalPages - 1
 	}
 }
 
-func (t *blazarTable[T]) setPageSize(pageSize uint) {
+func (c *blazarTable[T]) setPageSize(pageSize uint) {
 	if pageSize > 0 {
-		t.pageSize = pageSize
+		c.pageSize = pageSize
 
-		totalPages := t.totalPages()
-		if t.pageIndex >= totalPages {
-			t.pageIndex = totalPages - 1
+		totalPages := c.totalPages()
+		if c.pageIndex >= totalPages {
+			c.pageIndex = totalPages - 1
 		}
 	}
 }
 
-func (t *blazarTable[T]) selectRowID(rowID string, checked bool) {
+func (c *blazarTable[T]) selectRowID(rowID string, checked bool) {
 	if checked {
-		t.selectedRowIDs = append(t.selectedRowIDs, rowID)
+		c.selectedRowIDs = append(c.selectedRowIDs, rowID)
 	} else {
-		slices.Sort(t.selectedRowIDs)
-		t.selectedRowIDs = slices.Compact(t.selectedRowIDs)
+		slices.Sort(c.selectedRowIDs)
+		c.selectedRowIDs = slices.Compact(c.selectedRowIDs)
 
-		selectedRowIDIndex := slices.Index(t.selectedRowIDs, rowID)
+		selectedRowIDIndex := slices.Index(c.selectedRowIDs, rowID)
 		if selectedRowIDIndex >= 0 {
-			t.selectedRowIDs = slices.Delete(t.selectedRowIDs, selectedRowIDIndex, selectedRowIDIndex+1)
+			c.selectedRowIDs = slices.Delete(c.selectedRowIDs, selectedRowIDIndex, selectedRowIDIndex+1)
 		}
 	}
 
-	t.recalculateSelectedRows()
+	c.recalculateSelectedRows()
 }
 
-func (t *blazarTable[T]) recalculateRowIDs() {
-	rowIDs := make([]string, len(t.IRows))
-	for i, row := range t.IRows {
-		if t.IRowIDFunction != nil {
-			rowIDs[i] = t.IRowIDFunction(row)
+func (c *blazarTable[T]) recalculateRowIDs() {
+	rowIDs := make([]string, len(c.IRows))
+	for i, row := range c.IRows {
+		if c.IRowIDFunction != nil {
+			rowIDs[i] = c.IRowIDFunction(row)
 		} else {
 			rowIDs[i] = fmt.Sprintf("%d", i)
 		}
 	}
-	t.rowIDs = rowIDs
+	c.rowIDs = rowIDs
 }
 
-func (t *blazarTable[T]) recalculateSelectedRows() {
+func (c *blazarTable[T]) recalculateSelectedRows() {
 	rowIDToIndexMap := map[string]int{}
-	for i, rowID := range t.rowIDs {
+	for i, rowID := range c.rowIDs {
 		rowIDToIndexMap[rowID] = i
 	}
 
-	selectedRows := make([]T, 0, len(t.rowIDs))
-	selectedRowIDs := make([]string, 0, len(t.rowIDs))
-	for _, rowID := range t.selectedRowIDs {
+	selectedRows := make([]T, 0, len(c.rowIDs))
+	selectedRowIDs := make([]string, 0, len(c.rowIDs))
+	for _, rowID := range c.selectedRowIDs {
 		index, ok := rowIDToIndexMap[rowID]
 		if !ok {
 			continue
 		}
 
-		selectedRows = append(selectedRows, t.IRows[index])
+		selectedRows = append(selectedRows, c.IRows[index])
 		selectedRowIDs = append(selectedRowIDs, rowID)
 	}
 
-	t.selectedRowIDs = selectedRowIDs
-	t.selectedRows = selectedRows
+	c.selectedRowIDs = selectedRowIDs
+	c.selectedRows = selectedRows
 
-	slices.Sort(t.selectedRowIDs)
-	t.selectedRowIDs = slices.Compact(t.selectedRowIDs)
+	slices.Sort(c.selectedRowIDs)
+	c.selectedRowIDs = slices.Compact(c.selectedRowIDs)
 }
 
-func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
+func (c *blazarTable[T]) OnUpdate(ctx app.Context) {
 	if debugTable {
-		slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "pageIndex", t.pageIndex, "pageSize", t.pageSize, "rows", len(t.IRows))
-		slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "visibleColumnNames", len(t.visibleColumnNames), "popoverSelectedColumnNames", len(t.popoverSelectedColumnNames))
+		slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", c), "pageIndex", c.pageIndex, "pageSize", c.pageSize, "rows", len(c.IRows))
+		slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", c), "visibleColumnNames", len(c.visibleColumnNames), "popoverSelectedColumnNames", len(c.popoverSelectedColumnNames))
 	}
 
-	if len(t.popoverSelectedColumnNames) == 0 {
-		if len(t.visibleColumnNames) == 0 {
-			t.popoverSelectedColumnNames = make([]string, 0, len(t.IColumns))
-			for _, column := range t.IColumns {
-				t.popoverSelectedColumnNames = append(t.popoverSelectedColumnNames, column.Name)
+	if len(c.popoverSelectedColumnNames) == 0 {
+		if len(c.visibleColumnNames) == 0 {
+			c.popoverSelectedColumnNames = make([]string, 0, len(c.IColumns))
+			for _, column := range c.IColumns {
+				c.popoverSelectedColumnNames = append(c.popoverSelectedColumnNames, column.Name)
 			}
 		} else {
-			t.popoverSelectedColumnNames = make([]string, len(t.visibleColumnNames))
-			copy(t.popoverSelectedColumnNames, t.visibleColumnNames)
+			c.popoverSelectedColumnNames = make([]string, len(c.visibleColumnNames))
+			copy(c.popoverSelectedColumnNames, c.visibleColumnNames)
 		}
 	}
 	if debugTable {
-		slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+		slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", c), "popoverSelectedColumnNames", c.popoverSelectedColumnNames)
 	}
 
-	t.recalculateRowIDs()
-	t.recalculateSelectedRows()
+	c.recalculateRowIDs()
+	c.recalculateSelectedRows()
 
 	// Fix the checkboxes.
 	ctx.Defer(func(ctx app.Context) {
@@ -324,7 +354,7 @@ func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
 		if !checkboxes.IsNull() {
 			length := checkboxes.Get("length").Int()
 			if debugTable {
-				slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "checkboxes", checkboxes, "length", length, "selectedRowIDs", t.selectedRowIDs)
+				slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", c), "checkboxes", checkboxes, "length", length, "selectedRowIDs", c.selectedRowIDs)
 			}
 
 			changesMade := false
@@ -337,10 +367,10 @@ func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
 					continue
 				}
 
-				shouldBeChecked := slices.Contains(t.selectedRowIDs, rowID)
+				shouldBeChecked := slices.Contains(c.selectedRowIDs, rowID)
 
 				if debugTable {
-					slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", t), "rowID", rowID, "checked", checked, "shouldBeChecked", shouldBeChecked)
+					slog.DebugContext(ctx.Context, "blazarTable: OnUpdate", "self", fmt.Sprintf("%p", c), "rowID", rowID, "checked", checked, "shouldBeChecked", shouldBeChecked)
 				}
 
 				if shouldBeChecked {
@@ -357,55 +387,55 @@ func (t *blazarTable[T]) OnUpdate(ctx app.Context) {
 			}
 
 			if changesMade {
-				t.recalculateSelectedRows()
+				c.recalculateSelectedRows()
 				ctx.Update()
 			}
 		}
 	})
 }
 
-func (t *blazarTable[T]) OnPageSizeChange(onPageSizeChange func(ctx app.Context, pageSize uint)) *blazarTable[T] {
-	t.IOnPageSizeChange = onPageSizeChange
-	return t
+func (c *blazarTable[T]) OnPageSizeChange(onPageSizeChange func(ctx app.Context, pageSize uint)) *blazarTable[T] {
+	c.IOnPageSizeChange = onPageSizeChange
+	return c
 }
 
 // rowAtRenderedIndex returns the row at the given rendered index.
 //
 // The rendered index is what a row-based function can know definitively; it cannot know the row, since the row
 // can change (as pages change, as rows are added or removed, etc.).
-func (t *blazarTable[T]) rowAtRenderedIndex(renderedIndex int) T {
+func (c *blazarTable[T]) rowAtRenderedIndex(renderedIndex int) T {
 	// TODO: CONSIDER RECOMPUTING THIS WHEN THE ROWS, PAGE SIZE, OR PAGE INDEX CHANGE.
-	rowsToRender := t.IRows
-	rowIDsToRender := t.rowIDs
-	if len(t.rowIDs) != len(t.IRows) {
-		slog.WarnContext(context.TODO(), "blazarTable: rowAtRenderedIndex: rowIDs and rows are out of sync", "self", fmt.Sprintf("%p", t), "rowIDs", len(t.rowIDs), "rows", len(t.IRows))
+	rowsToRender := c.IRows
+	rowIDsToRender := c.rowIDs
+	if len(c.rowIDs) != len(c.IRows) {
+		slog.WarnContext(context.TODO(), "blazarTable: rowAtRenderedIndex: rowIDs and rows are out of sync", "self", fmt.Sprintf("%p", c), "rowIDs", len(c.rowIDs), "rows", len(c.IRows))
 	}
-	if t.pageSize > 0 && uint(len(t.IRows)) > t.pageSize {
-		pages := slices.Collect(slices.Chunk(t.IRows, int(t.pageSize)))
-		rowIDPages := slices.Collect(slices.Chunk(t.rowIDs, int(t.pageSize)))
-		if t.pageIndex >= uint(len(pages)) {
-			t.pageIndex = uint(len(pages)) - 1
+	if c.pageSize > 0 && uint(len(c.IRows)) > c.pageSize {
+		pages := slices.Collect(slices.Chunk(c.IRows, int(c.pageSize)))
+		rowIDPages := slices.Collect(slices.Chunk(c.rowIDs, int(c.pageSize)))
+		if c.pageIndex >= uint(len(pages)) {
+			c.pageIndex = uint(len(pages)) - 1
 		}
-		rowsToRender = pages[t.pageIndex]
-		rowIDsToRender = rowIDPages[t.pageIndex]
+		rowsToRender = pages[c.pageIndex]
+		rowIDsToRender = rowIDPages[c.pageIndex]
 		if debugTable {
-			slog.DebugContext(context.TODO(), "blazarTable: rowAtRenderedIndex", "self", fmt.Sprintf("%p", t), "rowIDsToRender", rowIDsToRender)
+			slog.DebugContext(context.TODO(), "blazarTable: rowAtRenderedIndex", "self", fmt.Sprintf("%p", c), "rowIDsToRender", rowIDsToRender)
 		}
 	}
 
 	return rowsToRender[renderedIndex]
 }
 
-func (t *blazarTable[T]) Render() app.UI {
+func (c *blazarTable[T]) Render() app.UI {
 	if debugTable {
-		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "pageIndex", t.pageIndex, "pageSize", t.pageSize, "rows", len(t.IRows))
-		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "visibleColumnNames", t.visibleColumnNames)
-		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", c), "pageIndex", c.pageIndex, "pageSize", c.pageSize, "rows", len(c.IRows))
+		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", c), "visibleColumnNames", c.visibleColumnNames)
+		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", c), "popoverSelectedColumnNames", c.popoverSelectedColumnNames)
 	}
 
 	visibleColumns := []TableColumn[T]{}
-	for _, column := range t.IColumns {
-		if len(t.visibleColumnNames) == 0 || slices.Contains(t.visibleColumnNames, column.Name) {
+	for _, column := range c.IColumns {
+		if len(c.visibleColumnNames) == 0 || slices.Contains(c.visibleColumnNames, column.Name) {
 			visibleColumns = append(visibleColumns, column)
 		}
 	}
@@ -420,27 +450,27 @@ func (t *blazarTable[T]) Render() app.UI {
 		}
 	}
 	if debugTable {
-		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "visibleColumns", visibleColumns)
+		slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", c), "visibleColumns", visibleColumns)
 	}
 
 	// TODO: CONSIDER RECOMPUTING THIS WHEN THE ROWS, PAGE SIZE, OR PAGE INDEX CHANGE.
-	rowsToRender := t.IRows
-	rowIDsToRender := t.rowIDs
-	if len(t.rowIDs) != len(t.IRows) {
-		slog.WarnContext(context.TODO(), "blazarTable: Render: rowIDs and rows are out of sync", "self", fmt.Sprintf("%p", t), "rowIDs", len(t.rowIDs), "rows", len(t.IRows))
+	rowsToRender := c.IRows
+	rowIDsToRender := c.rowIDs
+	if len(c.rowIDs) != len(c.IRows) {
+		slog.WarnContext(context.TODO(), "blazarTable: Render: rowIDs and rows are out of sync", "self", fmt.Sprintf("%p", c), "rowIDs", len(c.rowIDs), "rows", len(c.IRows))
 	}
-	paginated := t.pageSize > 0
-	totalPages := t.totalPages()
-	if t.pageSize > 0 && uint(len(t.IRows)) > t.pageSize {
-		pages := slices.Collect(slices.Chunk(t.IRows, int(t.pageSize)))
-		rowIDPages := slices.Collect(slices.Chunk(t.rowIDs, int(t.pageSize)))
-		if t.pageIndex >= uint(len(pages)) {
-			t.pageIndex = uint(len(pages)) - 1
+	paginated := c.pageSize > 0
+	totalPages := c.totalPages()
+	if c.pageSize > 0 && uint(len(c.IRows)) > c.pageSize {
+		pages := slices.Collect(slices.Chunk(c.IRows, int(c.pageSize)))
+		rowIDPages := slices.Collect(slices.Chunk(c.rowIDs, int(c.pageSize)))
+		if c.pageIndex >= uint(len(pages)) {
+			c.pageIndex = uint(len(pages)) - 1
 		}
-		rowsToRender = pages[t.pageIndex]
-		rowIDsToRender = rowIDPages[t.pageIndex]
+		rowsToRender = pages[c.pageIndex]
+		rowIDsToRender = rowIDPages[c.pageIndex]
 		if debugTable {
-			slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", t), "rowIDsToRender", rowIDsToRender)
+			slog.DebugContext(context.TODO(), "blazarTable: Render", "self", fmt.Sprintf("%p", c), "rowIDsToRender", rowIDsToRender)
 		}
 	}
 
@@ -454,7 +484,7 @@ func (t *blazarTable[T]) Render() app.UI {
 	pageSizes := []uint{1, 10, 50, 100, 500, 10000, 100000, 1000000}
 
 	tableMenuItems := []app.UI{}
-	if t.IInteractive {
+	if c.IInteractive {
 		tableMenuItems = append(tableMenuItems,
 			Item().
 				Icon("list").
@@ -493,13 +523,13 @@ func (t *blazarTable[T]) Render() app.UI {
 		)
 	}
 
-	emptyMessage := t.IEmptyMessage
+	emptyMessage := c.IEmptyMessage
 	if emptyMessage == "" {
 		emptyMessage = "No results found"
 	}
 
 	var visibleActions []TableAction
-	for _, action := range t.IActions {
+	for _, action := range c.IActions {
 		if action.Disabled {
 			continue
 		}
@@ -507,7 +537,7 @@ func (t *blazarTable[T]) Render() app.UI {
 	}
 
 	var visibleRowActions []RowAction[T]
-	for _, rowAction := range t.IRowActions {
+	for _, rowAction := range c.IRowActions {
 		if rowAction.Disabled {
 			continue
 		}
@@ -515,23 +545,24 @@ func (t *blazarTable[T]) Render() app.UI {
 	}
 
 	var visibleMultiRowActions []MultiRowAction[T]
-	for _, multiRowAction := range t.IMultiRowActions {
+	for _, multiRowAction := range c.IMultiRowActions {
 		if multiRowAction.Disabled {
 			continue
 		}
 		visibleMultiRowActions = append(visibleMultiRowActions, multiRowAction)
 	}
 
-	return app.Div().
+	var finalElement app.UI
+	finalElement = app.Div().
 		Class("blazar-table").
 		Body(
-			app.If(t.ITitle != "" || len(tableMenuItems) > 0, func() app.UI {
+			app.If(c.ILabel != "" || len(tableMenuItems) > 0, func() app.UI {
 				return app.Div().
 					Class("blazar-table__header").
 					Body(
 						app.Div().
 							Class("blazar-table__title").
-							Text(t.ITitle),
+							Text(c.ILabel),
 						app.Span().Style("flex", "1"),
 						app.If(len(tableMenuItems) > 0, func() app.UI {
 							return app.Span().
@@ -583,7 +614,7 @@ func (t *blazarTable[T]) Render() app.UI {
 									Label("Columns").
 									AllowedValue(func() []SelectOption {
 										columns := []SelectOption{}
-										for _, column := range t.IColumns {
+										for _, column := range c.IColumns {
 											displayName := column.DisplayName
 											if displayName == "" {
 												displayName = column.Name
@@ -598,12 +629,12 @@ func (t *blazarTable[T]) Render() app.UI {
 										}
 										return columns
 									}()...).
-									Bind(&t.popoverSelectedColumnNames),
+									Bind(&c.popoverSelectedColumnNames),
 								Button().
 									Label("Apply").
 									On("click", func(ctx app.Context, e app.Event) {
 										if debugTable {
-											slog.DebugContext(ctx.Context, "blazarTable: table-columns-menu: Apply", "popoverSelectedColumnNames", t.popoverSelectedColumnNames)
+											slog.DebugContext(ctx.Context, "blazarTable: table-columns-menu: Apply", "popoverSelectedColumnNames", c.popoverSelectedColumnNames)
 										}
 
 										popoverElement := ctx.JSSrc().Call("closest", "[popover]")
@@ -615,11 +646,11 @@ func (t *blazarTable[T]) Render() app.UI {
 										}
 										popoverElement.Call("hidePopover")
 
-										t.visibleColumnNames = make([]string, len(t.popoverSelectedColumnNames))
-										copy(t.visibleColumnNames, t.popoverSelectedColumnNames)
+										c.visibleColumnNames = make([]string, len(c.popoverSelectedColumnNames))
+										copy(c.visibleColumnNames, c.popoverSelectedColumnNames)
 
 										if debugTable {
-											slog.DebugContext(ctx.Context, "blazarTable: table-columns-menu: Apply", "visibleColumnNames", t.visibleColumnNames)
+											slog.DebugContext(ctx.Context, "blazarTable: table-columns-menu: Apply", "visibleColumnNames", c.visibleColumnNames)
 										}
 										ctx.Update()
 									}),
@@ -677,7 +708,7 @@ func (t *blazarTable[T]) Render() app.UI {
 					Class("blazar-table__multi-row-actions").
 					Body(
 						app.Span().
-							Text(fmt.Sprintf("Selected: %d", len(t.selectedRows))),
+							Text(fmt.Sprintf("Selected: %d", len(c.selectedRows))),
 						app.Range(visibleMultiRowActions).Slice(func(i int) app.UI {
 							multiRowAction := visibleMultiRowActions[i]
 
@@ -689,16 +720,16 @@ func (t *blazarTable[T]) Render() app.UI {
 							if multiRowAction.Color != "" {
 								button = button.Style("--color", multiRowAction.Color)
 							}
-							if len(t.selectedRows) == 0 {
+							if len(c.selectedRows) == 0 {
 								button = button.Disabled(true)
 							}
 							if multiRowAction.To != nil {
-								button = button.To(multiRowAction.To(t.selectedRows))
+								button = button.To(multiRowAction.To(c.selectedRows))
 							}
 							if multiRowAction.Function != nil {
 								button = button.On("click", func(ctx app.Context, e app.Event) {
 									//slog.DebugContext(ctx.Context, "blazarTable: multi-row-actions: click", "selectedRows", t.selectedRows)
-									multiRowAction.Function(ctx, t.selectedRows)
+									multiRowAction.Function(ctx, c.selectedRows)
 								})
 							}
 							return button
@@ -721,14 +752,14 @@ func (t *blazarTable[T]) Render() app.UI {
 													On("change", func(ctx app.Context, e app.Event) {
 														e.Get("target").Set("indeterminate", true)
 
-														if len(t.selectedRows) == 0 || (len(t.selectedRows) > 0 && len(t.selectedRows) < len(t.IRows)) {
-															t.selectedRowIDs = make([]string, len(t.rowIDs))
-															copy(t.selectedRowIDs, t.rowIDs)
+														if len(c.selectedRows) == 0 || (len(c.selectedRows) > 0 && len(c.selectedRows) < len(c.IRows)) {
+															c.selectedRowIDs = make([]string, len(c.rowIDs))
+															copy(c.selectedRowIDs, c.rowIDs)
 														} else {
-															t.selectedRowIDs = []string{}
+															c.selectedRowIDs = []string{}
 														}
 
-														t.recalculateSelectedRows()
+														c.recalculateSelectedRows()
 													}),
 											)
 									}),
@@ -777,7 +808,7 @@ func (t *blazarTable[T]) Render() app.UI {
 														Name("blazar-table-row-checkbox").
 														Outline(false).
 														DataSet("rowid", rowID).
-														Value(slices.Contains(t.selectedRowIDs, rowID)).
+														Value(slices.Contains(c.selectedRowIDs, rowID)).
 														On("change", func(ctx app.Context, e app.Event) {
 															if debugTable {
 																slog.DebugContext(ctx.Context, "blazarTable: row: change", "e", e, "rowIndex", rowIndex, "e.target.dataset.rowid", e.Get("target").Get("dataset").Get("rowid").String())
@@ -792,10 +823,10 @@ func (t *blazarTable[T]) Render() app.UI {
 
 															checked := e.Get("target").Get("checked").Bool()
 
-															t.selectRowID(rowID, checked)
+															c.selectRowID(rowID, checked)
 
 															if debugTable {
-																slog.DebugContext(ctx.Context, "blazarTable: row: change", "selectedRowIDs", t.selectedRowIDs)
+																slog.DebugContext(ctx.Context, "blazarTable: row: change", "selectedRowIDs", c.selectedRowIDs)
 															}
 
 															ctx.Update()
@@ -856,7 +887,7 @@ func (t *blazarTable[T]) Render() app.UI {
 															button.On("click", func(ctx app.Context, e app.Event) {
 																// This function will exist until the row is removed from the table, so we need to reference
 																// the row INDEX, not the row itself.
-																rowAction.Function(ctx, t.rowAtRenderedIndex(rowIndex))
+																rowAction.Function(ctx, c.rowAtRenderedIndex(rowIndex))
 															})
 														}
 														return button
@@ -877,9 +908,9 @@ func (t *blazarTable[T]) Render() app.UI {
 								Button().
 									Icon("angle-left").
 									Title("Previous page").
-									Disabled(t.pageIndex < 1).
+									Disabled(c.pageIndex < 1).
 									On("click", func(ctx app.Context, e app.Event) {
-										t.previousPage()
+										c.previousPage()
 										ctx.Update()
 									}),
 								app.Span().
@@ -888,7 +919,7 @@ func (t *blazarTable[T]) Render() app.UI {
 									Text("Page"),
 								Select().
 									Disabled(totalPages <= 1).
-									SelectedValue(fmt.Sprintf("%d", t.pageIndex)).
+									SelectedValue(fmt.Sprintf("%d", c.pageIndex)).
 									AllowedValue(func() []SelectOption {
 										selectOptions := []SelectOption{}
 										for index := range pageIndexes {
@@ -906,7 +937,7 @@ func (t *blazarTable[T]) Render() app.UI {
 											return
 										}
 
-										t.setPageIndex(uint(index))
+										c.setPageIndex(uint(index))
 										ctx.Update()
 									}),
 								app.Span().
@@ -916,9 +947,9 @@ func (t *blazarTable[T]) Render() app.UI {
 								Button().
 									Icon("angle-right").
 									Title("Next page").
-									Disabled(t.pageIndex >= totalPages-1).
+									Disabled(c.pageIndex >= totalPages-1).
 									On("click", func(ctx app.Context, e app.Event) {
-										t.nextPage()
+										c.nextPage()
 										ctx.Update()
 									}),
 							),
@@ -929,7 +960,7 @@ func (t *blazarTable[T]) Render() app.UI {
 							Style("align-items", "center").
 							Text("Page size:"),
 						Select().
-							SelectedValue(fmt.Sprintf("%d", t.pageSize)).
+							SelectedValue(fmt.Sprintf("%d", c.pageSize)).
 							AllowedValue(func() []SelectOption {
 								selectOptions := []SelectOption{}
 								for _, pageSize := range pageSizes {
@@ -950,13 +981,17 @@ func (t *blazarTable[T]) Render() app.UI {
 								if debugTable {
 									slog.DebugContext(ctx.Context, "blazarTable: Setting pageSize via select.", "pageSize", pageSize)
 								}
-								t.setPageSize(uint(pageSize))
-								if t.IOnPageSizeChange != nil {
-									t.IOnPageSizeChange(ctx, uint(pageSize))
+								c.setPageSize(uint(pageSize))
+								if c.IOnPageSizeChange != nil {
+									c.IOnPageSizeChange(ctx, uint(pageSize))
 								}
 								ctx.Update()
 							}),
 					)
 			}),
 		)
+
+	finalElement = c.mixHTML.Wrap(finalElement)
+
+	return finalElement
 }

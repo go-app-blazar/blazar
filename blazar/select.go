@@ -14,6 +14,8 @@ func Select() *blazarSelect {
 type blazarSelect struct {
 	app.Compo
 	UseEvents
+	mixHTML
+
 	IName             string
 	ILabel            string
 	IAllowedValues    []SelectOption
@@ -24,6 +26,35 @@ type blazarSelect struct {
 
 var _ app.Composer = (*blazarSelect)(nil)
 var _ app.Updater = (*blazarSelect)(nil)
+
+// BEGIN: mixHTML methods
+
+func (c *blazarSelect) Attr(name string, value any) *blazarSelect {
+	c.mixAttr(name, value)
+	return c
+}
+
+func (c *blazarSelect) Class(class ...string) *blazarSelect {
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarSelect) DataSet(name string, value any) *blazarSelect {
+	c.mixDataSet(name, value)
+	return c
+}
+
+func (c *blazarSelect) Style(name, value string) *blazarSelect {
+	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarSelect) Title(title string) *blazarSelect {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
 
 func (c *blazarSelect) OnUpdate(ctx app.Context) {
 	if debugSelect {
@@ -82,7 +113,8 @@ func (c *blazarSelect) Render() app.UI {
 		disabledClass = "blazar-input-wrapper--disabled"
 	}
 
-	return InputWrapper().
+	var finalElement app.UI
+	finalElement = InputWrapper().
 		Class("blazar-select", disabledClass, "blazar-input-wrapper--outline").
 		Label(c.ILabel).
 		Body(
@@ -110,4 +142,8 @@ func (c *blazarSelect) Render() app.UI {
 				}),
 			),
 		)
+
+	finalElement = c.mixHTML.Wrap(finalElement)
+
+	return finalElement
 }

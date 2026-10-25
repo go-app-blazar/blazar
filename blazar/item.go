@@ -11,12 +11,43 @@ func Item() *blazarItem {
 type blazarItem struct {
 	app.Compo
 	UseEvents
+	mixHTML
+
 	IIcon  string
 	ILabel string
 	ITo    string
 }
 
 var _ app.Composer = (*blazarItem)(nil)
+
+// BEGIN: mixHTML methods
+
+func (c *blazarItem) Attr(name string, value any) *blazarItem {
+	c.mixAttr(name, value)
+	return c
+}
+
+func (c *blazarItem) Class(class ...string) *blazarItem {
+	c.mixClass(class...)
+	return c
+}
+
+func (c *blazarItem) DataSet(name string, value any) *blazarItem {
+	c.mixDataSet(name, value)
+	return c
+}
+
+func (c *blazarItem) Style(name, value string) *blazarItem {
+	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarItem) Title(title string) *blazarItem {
+	c.mixTitle(title)
+	return c
+}
+
+// END: mixHTML methods
 
 func (c *blazarItem) Icon(icon string) *blazarItem {
 	c.IIcon = icon
@@ -39,21 +70,25 @@ func (c *blazarItem) On(event string, function func(ctx app.Context, e app.Event
 }
 
 func (c *blazarItem) Render() app.UI {
-	return c.UseEvents.Wrap(
-		app.A().
-			Class("blazar-item").
-			Href(c.ITo).
-			Body(
-				app.Span().
-					Class("blazar-item__icon").
-					Body(
-						app.If(c.IIcon != "", func() app.UI {
-							return Icon().Icon(c.IIcon)
-						}),
-					),
-				app.Span().
-					Class("blazar-item__name").
-					Text(c.ILabel),
-			),
-	)
+	var finalItem app.UI
+	finalItem = app.A().
+		Class("blazar-item").
+		Href(c.ITo).
+		Body(
+			app.Span().
+				Class("blazar-item__icon").
+				Body(
+					app.If(c.IIcon != "", func() app.UI {
+						return Icon().Icon(c.IIcon)
+					}),
+				),
+			app.Span().
+				Class("blazar-item__name").
+				Text(c.ILabel),
+		)
+
+	finalItem = c.mixHTML.Wrap(finalItem)
+	finalItem = c.UseEvents.Wrap(finalItem)
+
+	return finalItem
 }
