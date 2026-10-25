@@ -10,7 +10,7 @@ func StatusBar() *blazarStatusBar {
 
 type blazarStatusBar struct {
 	app.Compo
-	mixHTML
+	MixHTML
 
 	TextValue string
 	GoodValue *bool
@@ -95,7 +95,7 @@ func (c *blazarStatusBar) Render() app.UI {
 				Text(c.TextValue),
 		)
 
-	finalElement = c.mixHTML.Wrap(finalElement)
+	finalElement = c.MixHTML.Wrap(finalElement)
 
 	return finalElement
 }

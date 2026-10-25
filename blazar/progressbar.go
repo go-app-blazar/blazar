@@ -16,7 +16,7 @@ func ProgressBar() *blazarProgressBar {
 // blazarProgressBar is the component that renders a progress bar.
 type blazarProgressBar struct {
 	app.Compo
-	mixHTML
+	MixHTML
 
 	IAnimated      bool   // If true, the progress bar will be animated.
 	IHeight        string // The height of the progress bar.
@@ -100,7 +100,7 @@ func (c *blazarProgressBar) Render() app.UI {
 				Class("blazar-progress-bar__bar", extraClass),
 		)
 
-	finalElement = c.mixHTML.Wrap(finalElement)
+	finalElement = c.MixHTML.Wrap(finalElement)
 
 	return finalElement
 }

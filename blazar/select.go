@@ -14,7 +14,7 @@ func Select() *blazarSelect {
 type blazarSelect struct {
 	app.Compo
 	UseEvents
-	mixHTML
+	MixHTML
 
 	IName             string
 	ILabel            string
@@ -143,7 +143,7 @@ func (c *blazarSelect) Render() app.UI {
 			),
 		)
 
-	finalElement = c.mixHTML.Wrap(finalElement)
+	finalElement = c.MixHTML.Wrap(finalElement)
 
 	return finalElement
 }

@@ -14,7 +14,7 @@ func Collapse() *blazarCollapse {
 
 type blazarCollapse struct {
 	app.Compo
-	mixHTML
+	MixHTML
 
 	ILabel        string
 	IDisabled     bool
@@ -195,7 +195,7 @@ func (c *blazarCollapse) Render() app.UI {
 		)
 
 	var finalElement app.UI
-	finalElement = c.mixHTML.Wrap(element)
+	finalElement = c.MixHTML.Wrap(element)
 
 	return finalElement
 }

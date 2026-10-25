@@ -12,7 +12,7 @@ func Page() *blazarPage {
 type blazarPage struct {
 	app.Compo
 	slot.Slotted
-	mixHTML
+	MixHTML
 }
 
 var _ app.Composer = (*blazarPage)(nil)
@@ -52,7 +52,7 @@ func (c *blazarPage) Render() app.UI {
 		Body(c.SlotContents()...)
 
 	var finalElement app.UI
-	finalElement = c.mixHTML.Wrap(element)
+	finalElement = c.MixHTML.Wrap(element)
 
 	return finalElement
 }

@@ -12,7 +12,7 @@ import (
 type blazarMainLayout struct {
 	app.Compo
 	router.RouterViewComponent
-	mixHTML
+	MixHTML
 
 	IHeadline         string
 	IHeadlineFunction func() app.UI
@@ -180,7 +180,7 @@ func (c *blazarMainLayout) Render() app.UI {
 				),
 		)
 
-	finalElement = c.mixHTML.Wrap(finalElement)
+	finalElement = c.MixHTML.Wrap(finalElement)
 
 	return finalElement
 }

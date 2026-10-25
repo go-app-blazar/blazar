@@ -13,7 +13,7 @@ func Icon() *blazarIcon {
 type blazarIcon struct {
 	app.Compo
 	UseEvents
-	mixHTML
+	MixHTML
 
 	ISolid    bool
 	IconValue string
@@ -81,7 +81,7 @@ func (c *blazarIcon) Render() app.UI {
 			),
 	)
 
-	finalElement = c.mixHTML.Wrap(finalElement)
+	finalElement = c.MixHTML.Wrap(finalElement)
 
 	return finalElement
 }

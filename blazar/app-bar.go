@@ -9,7 +9,7 @@ import (
 
 type blazarAppBar struct {
 	app.Compo
-	mixHTML
+	MixHTML
 
 	INoIcon       bool
 	IIcon         string
@@ -155,7 +155,7 @@ func (c *blazarAppBar) Render() app.UI {
 			}),
 		)
 
-	finalElement = c.mixHTML.Wrap(finalElement)
+	finalElement = c.MixHTML.Wrap(finalElement)
 
 	return finalElement
 }

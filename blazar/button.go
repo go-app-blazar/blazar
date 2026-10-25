@@ -11,7 +11,7 @@ func Button() *blazarButton {
 type blazarButton struct {
 	app.Compo
 	UseEvents
-	mixHTML
+	MixHTML
 	IFlat     bool
 	IOutline  bool
 	IIcon     string
@@ -168,7 +168,7 @@ func (c *blazarButton) Render() app.UI {
 	}
 
 	var finalElement app.UI
-	finalElement = c.mixHTML.Wrap(element)
+	finalElement = c.MixHTML.Wrap(element)
 	if !c.IDisabled {
 		finalElement = c.UseEvents.Wrap(finalElement)
 	}
