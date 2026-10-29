@@ -10,18 +10,12 @@ import (
 
 type AppBarPage struct {
 	app.Compo
-
-	defaultOpen   bool
-	defaultClosed bool
 }
 
 var _ app.Initializer = (*AppBarPage)(nil)
 
 func (c *AppBarPage) OnInit() {
 	slog.DebugContext(context.TODO(), "AppBarPage: OnInit")
-
-	c.defaultOpen = true
-	c.defaultClosed = false
 }
 
 func (c *AppBarPage) OnNav(ctx app.Context) {

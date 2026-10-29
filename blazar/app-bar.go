@@ -104,7 +104,7 @@ func (c *blazarAppBar) Render() app.UI {
 
 	var finalElement app.UI
 	finalElement = app.Div().
-		Class(append([]string{"blazar-app-bar"}, c.IClasses...)...).
+		Class("blazar-app-bar").
 		Style("width", "100%").
 		Body(
 			app.If(!c.INoIcon && c.IIcon != "" && c.IIconFunction != nil, func() app.UI {

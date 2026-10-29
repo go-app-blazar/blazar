@@ -96,6 +96,9 @@ func main() {
 									Label("Button").
 									To("/button"),
 								blazar.Item().
+									Label("Card").
+									To("/card"),
+								blazar.Item().
 									Label("Collapse").
 									To("/collapse"),
 								blazar.Item().
@@ -139,6 +142,12 @@ func main() {
 					Path: "/button",
 					Component: func() app.Composer {
 						return &demo.ButtonPage{}
+					},
+				},
+				{
+					Path: "/card",
+					Component: func() app.Composer {
+						return &demo.CardPage{}
 					},
 				},
 				{

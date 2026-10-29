@@ -80,38 +80,40 @@ body {
     background-color: var(--blazar-theme-primary);
     color: var(--blazar-theme-on-primary);
     font-size: 1.5em;
-}
 
-.blazar-app-bar__icon {
-    display: flex;
-    justify-content: center;
-}
+    .blazar-app-bar__icon {
+        display: flex;
+        justify-content: center;
+    }
 
-.blazar-app-bar__icon .blazar-icon {
-    cursor: pointer;
-}
+    .blazar-app-bar__icon {
+        .blazar-icon {
+            cursor: pointer;
+        }
+    }
 
-.blazar-app-bar__content {
-    flex: 1;
-}
+    .blazar-app-bar__content {
+        flex: 1;
+    }
 
-.blazar-app-bar__headline {
-    font-weight: bold;
-}
+    .blazar-app-bar__headline {
+        font-weight: bold;
+    }
 
-.blazar-app-bar__headline-text {
-}
+    .blazar-app-bar__headline-text {
+    }
 
-.blazar-app-bar__subtitle {
-    font-size: 0.8em;
-}
+    .blazar-app-bar__subtitle {
+        font-size: 0.8em;
+    }
 
-.blazar-app-bar__subtitle-text {
-    font-size: 1em;
-    font-weight: normal;
-}
+    .blazar-app-bar__subtitle-text {
+        font-size: 1em;
+        font-weight: normal;
+    }
 
-.blazar-app-bar__trailer {
+    .blazar-app-bar__trailer {
+    }
 }
 
 .blazar-button {
@@ -188,6 +190,53 @@ body {
         flex-direction: row;
         padding: 0.5em 0.5em;
         gap: 0.5em;
+    }
+}
+
+.blazar-card {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    .blazar-card__icon {
+        display: flex;
+        justify-content: center;
+    }
+
+    .blazar-card__icon {
+    }
+
+    .blazar-card__content {
+        flex: 1;
+
+        gap: 0.5em;
+    }
+
+    .blazar-card__header {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5em;
+        font-size: 1.1em;
+    }
+
+    .blazar-card__headline {
+        font-weight: bold;
+    }
+
+    .blazar-card__headline-text {
+    }
+
+    .blazar-card__subtitle {
+        font-size: 0.8em;
+    }
+
+    .blazar-card__subtitle-text {
+        font-size: 1em;
+        font-weight: normal;
+    }
+
+    .blazar-card__body {
     }
 }
 
@@ -491,6 +540,15 @@ a.blazar-item {
     max-width: 100%;
 }
 
+.blazar-mixin-dropshadow {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08); /* Adds a modern elevation effect */
+    box-sizing: border-box;
+
+    @media print {
+        box-shadow: none;
+    }
+}
+
 .blazar-multiselect {
     display: flex;
     flex-direction: column;
@@ -559,11 +617,6 @@ select.blazar-select__select {
 
 .blazar-table {
     font-family: sans-serif;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); /* Adds a modern elevation effect */
-
-    @media print {
-        box-shadow: none;
-    }
 
     .blazar-table__header {
         display: flex;
