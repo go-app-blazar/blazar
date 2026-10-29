@@ -5,6 +5,7 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/blazar"
+	"github.com/go-app-blazar/blazar/htmlevent"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -23,7 +24,7 @@ func (c *ButtonPage) OnNav(ctx app.Context) {
 }
 
 func (c *ButtonPage) Render() app.UI {
-	clickFunction := func(ctx app.Context, e app.Event) {
+	clickFunction := func(ctx app.Context, e htmlevent.MouseEvent) {
 		slog.DebugContext(ctx.Context, "ButtonPage: Click", "event", e)
 		app.Window().Call("alert", "Button clicked")
 	}
@@ -110,71 +111,71 @@ func (c *ButtonPage) Render() app.UI {
 					app.Div().Body(
 						blazar.Button().
 							Label("Default").
-							On("click", clickFunction),
+							OnClick(clickFunction),
 						blazar.Button().
 							Label("Flat").
 							Flat(true).
-							On("click", clickFunction),
+							OnClick(clickFunction),
 						blazar.Button().
 							Label("Outline").
 							Outline(true).
 							Icon("home").
-							On("click", clickFunction),
+							OnClick(clickFunction),
 						blazar.Button().
 							Label("Round").
 							Round(true).
-							On("click", clickFunction),
+							OnClick(clickFunction),
 						blazar.Button().
 							Label("Disabled").
 							Disabled(true).
-							On("click", clickFunction),
+							OnClick(clickFunction),
 					),
 					app.Div().Body(
 						blazar.Button().
 							Label("Default").
 							Icon("home").
-							On("click", clickFunction),
+							OnClick(clickFunction),
 						blazar.Button().
 							Label("Flat").
 							Flat(true).
 							Icon("home").
-							On("click", clickFunction),
+							OnClick(clickFunction),
 						blazar.Button().
 							Label("Outline").
 							Outline(true).
 							Icon("home").
-							On("click", clickFunction),
+							OnClick(clickFunction),
 						blazar.Button().
 							Label("Round").
 							Round(true).
 							Icon("home").
-							On("click", clickFunction),
+							OnClick(clickFunction),
 						blazar.Button().
 							Label("Disabled").
 							Disabled(true).
 							Icon("home").
-							On("click", clickFunction),
+							OnClick(clickFunction),
 					),
 					app.Div().Body(
 						blazar.Button().
 							Icon("home").
-							On("click", clickFunction),
+							OnClick(clickFunction),
 						blazar.Button().
 							Flat(true).
 							Icon("home").
-							On("click", clickFunction),
+							OnClick(clickFunction),
 						blazar.Button().
 							Outline(true).
 							Icon("home").
-							On("click", clickFunction),
+							OnClick(clickFunction),
 						blazar.Button().
 							Round(true).
 							Icon("home").
-							On("click", clickFunction),
+							OnClick(clickFunction),
 						blazar.Button().
 							Disabled(true).
 							Icon("home").
-							On("click", clickFunction),
+							OnClick(clickFunction),
 					),
 				),
 		)

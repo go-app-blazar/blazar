@@ -3,6 +3,7 @@ package blazar
 import (
 	"log/slog"
 
+	"github.com/go-app-blazar/blazar/htmlevent"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -245,7 +246,7 @@ func (c *blazarForm) Render() app.UI {
 								return "Cancel"
 							}()).
 							Icon(action.Icon).
-							On("click", func(ctx app.Context, e app.Event) {
+							OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 								c.performCancel(ctx)
 							})
 						if action.Color == "" {
@@ -279,7 +280,7 @@ func (c *blazarForm) Render() app.UI {
 							Icon(action.Icon).
 							To(action.To).
 							Target(action.Target).
-							On("click", func(ctx app.Context, e app.Event) {
+							OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 								c.performAction(ctx, action)
 							})
 						if action.Color == "" {
@@ -313,7 +314,7 @@ func (c *blazarForm) Render() app.UI {
 								return "Submit"
 							}()).
 							Icon(action.Icon).
-							On("click", func(ctx app.Context, e app.Event) {
+							OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 								c.performSubmit(ctx)
 							})
 						if action.Color == "" {

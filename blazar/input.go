@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/go-app-blazar/blazar/deref"
+	"github.com/go-app-blazar/blazar/htmlevent"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -314,7 +315,7 @@ func (c *blazarInput[T]) Render() app.UI {
 					Icon("circle-xmark").
 					Flat(true).
 					Disabled(c.IDisabled).
-					On("click", func(ctx app.Context, e app.Event) {
+					OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 						if c.BindValue != nil {
 							*c.BindValue = reflect.Zero(reflect.TypeOf(*c.BindValue)).Interface().(T)
 						}

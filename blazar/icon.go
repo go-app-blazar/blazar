@@ -1,6 +1,7 @@
 package blazar
 
 import (
+	"github.com/go-app-blazar/blazar/htmlevent"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -62,6 +63,11 @@ func (c *blazarIcon) Solid(solid bool) *blazarIcon {
 
 func (c *blazarIcon) On(event string, function func(ctx app.Context, e app.Event)) *blazarIcon {
 	c.UseEvents.On(event, function)
+	return c
+}
+
+func (c *blazarIcon) OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) *blazarIcon {
+	c.UseEvents.OnClick(function)
 	return c
 }
 

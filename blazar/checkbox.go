@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/go-app-blazar/blazar/htmlevent"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -121,7 +122,7 @@ func (c *blazarCheckbox) Render() app.UI {
 		Icon(iconName).
 		Solid(checked)
 	if !c.IDisabled {
-		icon = icon.On("click", func(ctx app.Context, e app.Event) {
+		icon = icon.OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 			if c.bindValue != nil {
 				*c.bindValue = !*c.bindValue
 				if debugCheckbox {
