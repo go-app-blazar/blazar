@@ -1,6 +1,7 @@
 package blazar
 
 import (
+	"github.com/go-app-blazar/blazar/htmlevent"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -95,6 +96,11 @@ func (c *blazarButton) To(to string) *blazarButton {
 
 func (c *blazarButton) On(event string, function func(ctx app.Context, e app.Event)) *blazarButton {
 	c.UseEvents.On(event, function)
+	return c
+}
+
+func (c *blazarButton) OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) *blazarButton {
+	c.UseEvents.OnClick(function)
 	return c
 }
 

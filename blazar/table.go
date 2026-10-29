@@ -8,6 +8,7 @@ import (
 	"slices"
 	"strconv"
 
+	"github.com/go-app-blazar/blazar/htmlevent"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
@@ -489,7 +490,7 @@ func (c *blazarTable[T]) Render() app.UI {
 			Item().
 				Icon("list").
 				Label("Select columns...").
-				On("click", func(ctx app.Context, e app.Event) {
+				OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 					if debugTable {
 						slog.DebugContext(ctx.Context, "blazarTable: Render: item clicked")
 					}
@@ -572,7 +573,7 @@ func (c *blazarTable[T]) Render() app.UI {
 										Round(true).
 										Flat(true).
 										Icon("ellipsis-vertical").
-										On("click", func(ctx app.Context, e app.Event) {
+										OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 											thisElement := ctx.JSSrc()
 											if debugTable {
 												slog.DebugContext(ctx.Context, "blazarTable: Render", "thisElement", thisElement.Get("className").String())
@@ -632,7 +633,7 @@ func (c *blazarTable[T]) Render() app.UI {
 									Bind(&c.popoverSelectedColumnNames),
 								Button().
 									Label("Apply").
-									On("click", func(ctx app.Context, e app.Event) {
+									OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 										if debugTable {
 											slog.DebugContext(ctx.Context, "blazarTable: table-columns-menu: Apply", "popoverSelectedColumnNames", c.popoverSelectedColumnNames)
 										}
@@ -692,7 +693,7 @@ func (c *blazarTable[T]) Render() app.UI {
 								Label(action.Name).
 								Icon(action.Icon).
 								To(action.To).
-								On("click", func(ctx app.Context, e app.Event) {
+								OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 									if action.Function == nil {
 										ctx.PreventUpdate()
 										return
@@ -727,7 +728,7 @@ func (c *blazarTable[T]) Render() app.UI {
 								button = button.To(multiRowAction.To(c.selectedRows))
 							}
 							if multiRowAction.Function != nil {
-								button = button.On("click", func(ctx app.Context, e app.Event) {
+								button = button.OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 									//slog.DebugContext(ctx.Context, "blazarTable: multi-row-actions: click", "selectedRows", t.selectedRows)
 									multiRowAction.Function(ctx, c.selectedRows)
 								})
@@ -884,7 +885,7 @@ func (c *blazarTable[T]) Render() app.UI {
 															button.To(rowAction.To(row))
 														}
 														if rowAction.Function != nil {
-															button.On("click", func(ctx app.Context, e app.Event) {
+															button.OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 																// This function will exist until the row is removed from the table, so we need to reference
 																// the row INDEX, not the row itself.
 																rowAction.Function(ctx, c.rowAtRenderedIndex(rowIndex))
@@ -909,7 +910,7 @@ func (c *blazarTable[T]) Render() app.UI {
 									Icon("angle-left").
 									Title("Previous page").
 									Disabled(c.pageIndex < 1).
-									On("click", func(ctx app.Context, e app.Event) {
+									OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 										c.previousPage()
 										ctx.Update()
 									}),
@@ -948,7 +949,7 @@ func (c *blazarTable[T]) Render() app.UI {
 									Icon("angle-right").
 									Title("Next page").
 									Disabled(c.pageIndex >= totalPages-1).
-									On("click", func(ctx app.Context, e app.Event) {
+									OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 										c.nextPage()
 										ctx.Update()
 									}),

@@ -4,12 +4,9 @@ import (
 	"log/slog"
 	"reflect"
 
+	"github.com/go-app-blazar/blazar/htmlevent"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
-
-type HasEvents[T any] interface {
-	On(name string, eventHandler app.EventHandler, options ...app.EventOption) T
-}
 
 type UseEvents struct {
 	events []eventHandlerEvent
@@ -26,6 +23,42 @@ func (c *UseEvents) On(name string, eventHandler app.EventHandler, options ...ap
 		name:         name,
 		eventHandler: eventHandler,
 		options:      options,
+	})
+	return c
+}
+
+func (c *UseEvents) OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) *UseEvents {
+	c.On("click", func(ctx app.Context, e app.Event) {
+		var mouseEvent htmlevent.MouseEvent
+		htmlevent.MustParse(e, &mouseEvent)
+		function(ctx, mouseEvent)
+	})
+	return c
+}
+
+func (c *UseEvents) OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) *UseEvents {
+	c.On("dblclick", func(ctx app.Context, e app.Event) {
+		var mouseEvent htmlevent.MouseEvent
+		htmlevent.MustParse(e, &mouseEvent)
+		function(ctx, mouseEvent)
+	})
+	return c
+}
+
+func (c *UseEvents) OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) *UseEvents {
+	c.On("mouseup", func(ctx app.Context, e app.Event) {
+		var mouseEvent htmlevent.MouseEvent
+		htmlevent.MustParse(e, &mouseEvent)
+		function(ctx, mouseEvent)
+	})
+	return c
+}
+
+func (c *UseEvents) OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) *UseEvents {
+	c.On("mousedown", func(ctx app.Context, e app.Event) {
+		var mouseEvent htmlevent.MouseEvent
+		htmlevent.MustParse(e, &mouseEvent)
+		function(ctx, mouseEvent)
 	})
 	return c
 }
