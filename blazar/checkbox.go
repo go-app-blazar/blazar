@@ -109,9 +109,9 @@ func (c *blazarCheckbox) Render() app.UI {
 		disabledClass = "blazar-checkbox--disabled"
 	}
 
-	iconName := "square"
+	iconName := "square fa-regular"
 	if checked {
-		iconName = "square-check"
+		iconName = "square-check fa-solid"
 	}
 
 	// TODO: How do we handle autofocus?
@@ -119,8 +119,7 @@ func (c *blazarCheckbox) Render() app.UI {
 
 	icon := Icon().
 		Class("blazar-checkbox__icon").
-		Icon(iconName).
-		Solid(checked)
+		Icon(iconName)
 	if !c.IDisabled {
 		icon = icon.OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 			if c.bindValue != nil {
