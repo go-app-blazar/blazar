@@ -555,7 +555,7 @@ func (c *blazarTable[T]) Render() app.UI {
 
 	var finalElement app.UI
 	finalElement = app.Div().
-		Class("blazar-table").
+		Class("blazar-table", "blazar-mixin-dropshadow").
 		Body(
 			app.If(c.ILabel != "" || len(tableMenuItems) > 0, func() app.UI {
 				return app.Div().

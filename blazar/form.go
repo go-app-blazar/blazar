@@ -199,6 +199,8 @@ func (c *blazarForm) Render() app.UI {
 		}
 	}
 
+	hasActions := len(otherActions) > 0 || submitAction != nil || cancelAction != nil
+
 	element := app.Div().
 		Class("blazar-form").
 		Body(
@@ -230,112 +232,114 @@ func (c *blazarForm) Render() app.UI {
 						c.IBody...,
 					),
 			),
-			app.Div().
-				Class("blazar-form__actions").
-				Body(
-					app.If(cancelAction != nil, func() app.UI {
-						action := cancelAction
+			app.If(hasActions, func() app.UI {
+				return app.Div().
+					Class("blazar-form__actions").
+					Body(
+						app.If(cancelAction != nil, func() app.UI {
+							action := cancelAction
 
-						button := Button().
-							Flat(true).
-							Disabled(c.loading).
-							Label(func() string {
-								if action.Name != "" {
-									return action.Name
+							button := Button().
+								Flat(true).
+								Disabled(c.loading).
+								Label(func() string {
+									if action.Name != "" {
+										return action.Name
+									}
+									return "Cancel"
+								}()).
+								Icon(action.Icon).
+								OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
+									c.performCancel(ctx)
+								})
+							if action.Color == "" {
+								action.Color = "var(--blazar-theme-primary)"
+							}
+							if action.Flat {
+								if action.Color != "" {
+									button = button.Style("--color", action.Color)
 								}
-								return "Cancel"
-							}()).
-							Icon(action.Icon).
-							OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
-								c.performCancel(ctx)
-							})
-						if action.Color == "" {
-							action.Color = "var(--blazar-theme-primary)"
-						}
-						if action.Flat {
-							if action.Color != "" {
-								button = button.Style("--color", action.Color)
+							} else if action.Outline {
+								if action.Color != "" {
+									button = button.Style("--color", action.Color)
+								}
+							} else {
+								if action.Color != "" {
+									button = button.Style("--color", action.Color)
+								}
 							}
-						} else if action.Outline {
-							if action.Color != "" {
-								button = button.Style("--color", action.Color)
+							return button
+						}),
+						app.If(c.ISpacer, func() app.UI {
+							return app.Span().Style("flex", "1")
+						}),
+						app.Range(otherActions).Slice(func(i int) app.UI {
+							action := otherActions[i]
+							button := Button().
+								Flat(action.Flat).
+								Outline(action.Outline).
+								Disabled(c.loading).
+								Label(action.Name).
+								Icon(action.Icon).
+								To(action.To).
+								Target(action.Target).
+								OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
+									c.performAction(ctx, action)
+								})
+							if action.Color == "" {
+								action.Color = "var(--blazar-theme-secondary)"
 							}
-						} else {
-							if action.Color != "" {
-								button = button.Style("--color", action.Color)
+							if action.Flat {
+								if action.Color != "" {
+									button = button.Style("--color", action.Color)
+								}
+							} else if action.Outline {
+								if action.Color != "" {
+									button = button.Style("--color", action.Color)
+								}
+							} else {
+								if action.Color != "" {
+									button = button.Style("--color", action.Color)
+								}
 							}
-						}
-						return button
-					}),
-					app.If(c.ISpacer, func() app.UI {
-						return app.Span().Style("flex", "1")
-					}),
-					app.Range(otherActions).Slice(func(i int) app.UI {
-						action := otherActions[i]
-						button := Button().
-							Flat(action.Flat).
-							Outline(action.Outline).
-							Disabled(c.loading).
-							Label(action.Name).
-							Icon(action.Icon).
-							To(action.To).
-							Target(action.Target).
-							OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
-								c.performAction(ctx, action)
-							})
-						if action.Color == "" {
-							action.Color = "var(--blazar-theme-secondary)"
-						}
-						if action.Flat {
-							if action.Color != "" {
-								button = button.Style("--color", action.Color)
-							}
-						} else if action.Outline {
-							if action.Color != "" {
-								button = button.Style("--color", action.Color)
-							}
-						} else {
-							if action.Color != "" {
-								button = button.Style("--color", action.Color)
-							}
-						}
-						return button
-					}),
-					app.If(submitAction != nil, func() app.UI {
-						action := submitAction
+							return button
+						}),
+						app.If(submitAction != nil, func() app.UI {
+							action := submitAction
 
-						button := Button().
-							Flat(false).
-							Disabled(c.loading).
-							Label(func() string {
-								if action.Name != "" {
-									return action.Name
+							button := Button().
+								Flat(false).
+								Disabled(c.loading).
+								Label(func() string {
+									if action.Name != "" {
+										return action.Name
+									}
+									return "Submit"
+								}()).
+								Icon(action.Icon).
+								OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
+									c.performSubmit(ctx)
+								})
+							if action.Color == "" {
+								action.Color = "var(--blazar-theme-primary)"
+							}
+							if action.Flat {
+								if action.Color != "" {
+									button = button.Style("--color", action.Color)
 								}
-								return "Submit"
-							}()).
-							Icon(action.Icon).
-							OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
-								c.performSubmit(ctx)
-							})
-						if action.Color == "" {
-							action.Color = "var(--blazar-theme-primary)"
-						}
-						if action.Flat {
-							if action.Color != "" {
-								button = button.Style("--color", action.Color)
+							} else if action.Outline {
+								if action.Color != "" {
+									button = button.Style("--color", action.Color)
+								}
+							} else {
+								if action.Color != "" {
+									button = button.Style("--color", action.Color)
+								}
 							}
-						} else if action.Outline {
-							if action.Color != "" {
-								button = button.Style("--color", action.Color)
-							}
-						} else {
-							if action.Color != "" {
-								button = button.Style("--color", action.Color)
-							}
-						}
-						return button
-					}),
-				),
+							return button
+						}),
+					)
+			}),
 		)
 
 	var finalElement app.UI

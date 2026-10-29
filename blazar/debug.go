@@ -4,6 +4,7 @@ package blazar
 func Debug(debug bool) {
 	debugAppBar = debug
 	debugButton = debug
+	debugCard = debug
 	debugCheckbox = debug
 	debugCollapse = debug
 	debugCopy = debug
@@ -33,6 +34,14 @@ var debugButton bool = false
 // DebugButton toggles debug logging for Button.
 func DebugButton(debug bool) {
 	debugButton = debug
+}
+
+// debugCard toggles debug logging for Card.
+var debugCard bool = false
+
+// DebugCard toggles debug logging for Card.
+func DebugCard(debug bool) {
+	debugCard = debug
 }
 
 // debugCheckbox toggles debug logging for Checkbox.
