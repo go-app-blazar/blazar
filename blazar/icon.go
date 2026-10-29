@@ -1,14 +1,14 @@
 package blazar
 
 import (
+	"strings"
+
 	"github.com/go-app-blazar/blazar/htmlevent"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
 func Icon() *blazarIcon {
-	return &blazarIcon{
-		ISolid: true,
-	}
+	return &blazarIcon{}
 }
 
 type blazarIcon struct {
@@ -16,7 +16,6 @@ type blazarIcon struct {
 	UseEvents
 	MixHTML
 
-	ISolid    bool
 	IconValue string
 }
 
@@ -51,13 +50,14 @@ func (c *blazarIcon) Title(title string) *blazarIcon {
 
 // END: mixHTML methods
 
+// Icon sets the name of the icon.
+//
+// If this does not start with "fa-", it will be prefixed with "fa-".
+//
+// If this contains a space, the first part will be the icon class and the
+// second part will be the font class (default is "fa-solid").
 func (c *blazarIcon) Icon(icon string) *blazarIcon {
 	c.IconValue = icon
-	return c
-}
-
-func (c *blazarIcon) Solid(solid bool) *blazarIcon {
-	c.ISolid = solid
 	return c
 }
 
@@ -72,10 +72,25 @@ func (c *blazarIcon) OnClick(function func(ctx app.Context, e htmlevent.MouseEve
 }
 
 func (c *blazarIcon) Render() app.UI {
-	solidClass := "fa-regular"
-	if c.ISolid {
-		solidClass = "fa-solid"
+	fontClass := "fa-solid"
+
+	iconClass := ""
+	parts := strings.Split(c.IconValue, " ")
+	if len(parts) > 0 {
+		iconClass = parts[0]
+		parts = parts[1:]
+
+		if !strings.HasPrefix(iconClass, "fa-") {
+			iconClass = "fa-" + iconClass
+		}
+
+		if len(parts) > 0 {
+			if strings.HasPrefix(parts[0], "fa-") {
+				fontClass = parts[0]
+			}
+		}
 	}
+
 	var finalElement app.UI
 	finalElement = c.UseEvents.Wrap(
 		app.Span().
@@ -83,7 +98,7 @@ func (c *blazarIcon) Render() app.UI {
 			DataSet("icon", c.IconValue).
 			Body(
 				app.I().
-					Class("blazar-icon__icon", solidClass, "fa-"+c.IconValue),
+					Class("blazar-icon__icon", iconClass, fontClass),
 			),
 	)
 

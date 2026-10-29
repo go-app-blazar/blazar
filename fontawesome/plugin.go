@@ -42,7 +42,7 @@ func (p *plugin) Register(handler *app.Handler, mux *http.ServeMux) {
 	mux.Handle(location, http.StripPrefix(location, p.httpHandler()))
 
 	handler.Styles = append(handler.Styles, p.cssFilenames(p.config.Location)...)
-	handler.CacheableResources = append(handler.CacheableResources,
+	handler.Fonts = append(handler.Fonts,
 		filepath.Join(p.config.Location, "webfonts/fa-brands-400.woff2"),
 		filepath.Join(p.config.Location, "webfonts/fa-regular-400.woff2"),
 		filepath.Join(p.config.Location, "webfonts/fa-solid-900.woff2"),
