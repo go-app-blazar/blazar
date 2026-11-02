@@ -81,13 +81,13 @@ func (c *blazarItem) Render() app.UI {
 		Class("blazar-item").
 		Href(c.ITo).
 		Body(
-			app.Span().
-				Class("blazar-item__icon").
-				Body(
-					app.If(c.IIcon != "", func() app.UI {
-						return Icon().Icon(c.IIcon)
-					}),
-				),
+			app.If(c.IIcon != "", func() app.UI {
+				return app.Span().
+					Class("blazar-item__icon").
+					Body(
+						Icon().Icon(c.IIcon),
+					)
+			}),
 			app.Span().
 				Class("blazar-item__name").
 				Text(c.ILabel),

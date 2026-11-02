@@ -190,6 +190,7 @@ body {
         flex-direction: row;
         padding: 0.5em 0.5em;
         gap: 0.5em;
+        /* TODO: Add this back when we create an IconButton component. min-height: 1lh; */
     }
 }
 
@@ -408,7 +409,9 @@ body {
 }
 
 .blazar-item {
-    display: block;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     padding: 0.5em;
     cursor: pointer;
 
@@ -650,6 +653,9 @@ a.blazar-item {
 
     .blazar-table__multi-row-actions {
         padding: 0.5em;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
 
         @media print {
             display: none !important;
@@ -730,6 +736,10 @@ a.blazar-item {
     }
 
     .blazar-table__row-actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
         @media print {
             display: none;
         }
