@@ -5,7 +5,7 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/deref"
-	"github.com/go-app-blazar/lucide-font"
+	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -140,10 +140,10 @@ func (c *blazarCollapse) Render() app.UI {
 		disabledClass = "disabled"
 	}
 
-	closedIcon := lucide.IconChevronDown
+	closedIcon := tabler.IconOutlineChevronDown
 	closedClass := ""
 	if !c.open {
-		closedIcon = lucide.IconChevronRight
+		closedIcon = tabler.IconOutlineChevronRight
 		closedClass = "closed"
 	}
 

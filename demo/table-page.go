@@ -7,7 +7,7 @@ import (
 	"slices"
 
 	"github.com/go-app-blazar/blazar/blazar"
-	"github.com/go-app-blazar/lucide-font"
+	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -210,12 +210,12 @@ func (c *TablePage) Render() app.UI {
 							Action(
 								blazar.TableAction{
 									Name:     "Add character (front)",
-									Icon:     lucide.IconPlus,
+									Icon:     tabler.IconOutlinePlus,
 									Function: addCharacterFrontFunction,
 								},
 								blazar.TableAction{
 									Name:     "Add character (back)",
-									Icon:     lucide.IconPlus,
+									Icon:     tabler.IconOutlinePlus,
 									Function: addCharacterBackFunction,
 								},
 							).
@@ -226,7 +226,7 @@ func (c *TablePage) Render() app.UI {
 								},
 								blazar.RowAction[characterRow]{
 									Name:     "",
-									Icon:     lucide.IconTrash,
+									Icon:     tabler.IconFilledTrash,
 									Color:    "red",
 									Function: removeFunction,
 								},
@@ -234,7 +234,7 @@ func (c *TablePage) Render() app.UI {
 							MultiRowAction(
 								blazar.MultiRowAction[characterRow]{
 									Name:     "Remove Selected",
-									Icon:     lucide.IconTrash,
+									Icon:     tabler.IconFilledTrash,
 									Function: removeCharactersFunction,
 								},
 							),
@@ -254,7 +254,7 @@ func (c *TablePage) Render() app.UI {
 						MultiRowAction(
 							blazar.MultiRowAction[characterRow]{
 								Name:     "Remove Selected",
-								Icon:     lucide.IconTrash,
+								Icon:     tabler.IconFilledTrash,
 								Function: removeCharactersFunction,
 							},
 						),

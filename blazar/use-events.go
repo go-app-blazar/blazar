@@ -63,6 +63,33 @@ func (c *UseEvents) OnMouseDown(function func(ctx app.Context, e htmlevent.Mouse
 	return c
 }
 
+func (c *UseEvents) OnKeydown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *UseEvents {
+	c.On("keydown", func(ctx app.Context, e app.Event) {
+		var keyboardEvent htmlevent.KeyboardEvent
+		htmlevent.MustParse(e, &keyboardEvent)
+		function(ctx, keyboardEvent)
+	})
+	return c
+}
+
+func (c *UseEvents) OnKeypress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *UseEvents {
+	c.On("keypress", func(ctx app.Context, e app.Event) {
+		var keyboardEvent htmlevent.KeyboardEvent
+		htmlevent.MustParse(e, &keyboardEvent)
+		function(ctx, keyboardEvent)
+	})
+	return c
+}
+
+func (c *UseEvents) OnKeyup(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *UseEvents {
+	c.On("keyup", func(ctx app.Context, e app.Event) {
+		var keyboardEvent htmlevent.KeyboardEvent
+		htmlevent.MustParse(e, &keyboardEvent)
+		function(ctx, keyboardEvent)
+	})
+	return c
+}
+
 func WithOn(name string, eventHandler app.EventHandler) eventHandlerEvent {
 	return eventHandlerEvent{
 		name:         name,

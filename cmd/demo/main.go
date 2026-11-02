@@ -12,6 +12,8 @@ import (
 	"github.com/go-app-blazar/blazar/blazar"
 	"github.com/go-app-blazar/blazar/blazarapp"
 	"github.com/go-app-blazar/blazar/demo"
+	"github.com/go-app-blazar/blazar/plugin/heroicons"
+	"github.com/go-app-blazar/blazar/plugin/lucide"
 	"github.com/go-app-blazar/router"
 	"github.com/joho/godotenv"
 	"github.com/lmittmann/tint"
@@ -108,6 +110,9 @@ func main() {
 									Label("Form").
 									To("/form"),
 								blazar.Item().
+									Label("Icon").
+									To("/icon"),
+								blazar.Item().
 									Label("Input").
 									To("/input"),
 								blazar.Item().
@@ -166,6 +171,12 @@ func main() {
 					Path: "/form",
 					Component: func() app.Composer {
 						return &demo.FormPage{}
+					},
+				},
+				{
+					Path: "/icon",
+					Component: func() app.Composer {
+						return &demo.IconPage{}
 					},
 				},
 				{
@@ -231,6 +242,10 @@ func main() {
 		},
 	})
 	blazarApp.AddPlugin(blazarapp.DefaultPlugins()...)
+	//blazarApp.AddPlugin(blazarapp.FontAwesomePlugin())
+	blazarApp.AddPlugin(heroicons.NewPlugin(heroicons.Config{}))
+	//blazarApp.AddPlugin(tabler.NewPlugin(tabler.Config{}))
+	blazarApp.AddPlugin(lucide.NewPlugin(lucide.Config{}))
 
 	slog.InfoContext(ctx, "Disable service worker?", "disableServiceWorker", disableServiceWorker)
 	if disableServiceWorker {

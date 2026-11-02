@@ -5,7 +5,7 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/htmlevent"
-	"github.com/go-app-blazar/lucide-font"
+	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -110,9 +110,9 @@ func (c *blazarCheckbox) Render() app.UI {
 		disabledClass = "blazar-checkbox--disabled"
 	}
 
-	iconName := lucide.IconSquare
+	iconName := tabler.IconOutlineSquare
 	if checked {
-		iconName = lucide.IconSquareCheck
+		iconName = tabler.IconFilledSquareCheck
 	}
 
 	// TODO: How do we handle autofocus?

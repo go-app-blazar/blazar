@@ -116,7 +116,6 @@ func (c *blazarIcon) Render() app.UI {
 			}
 		}
 	}
-	slog.InfoContext(context.TODO(), "Icon", "iconClass", iconClass, "fontClass", fontClass)
 
 	var finalElement app.UI
 	finalElement = c.UseEvents.Wrap(
