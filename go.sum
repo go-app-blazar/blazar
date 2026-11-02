@@ -1,9 +1,11 @@
-github.com/go-app-blazar/heroicons-font v0.1.2 h1:tKURaWsSrlVzqJ9J+0y1AWLhscxuhSF3WScB3OA8IH4=
-github.com/go-app-blazar/heroicons-font v0.1.2/go.mod h1:Ph0RBqzeho96wIoF2dCD9AJ4tKIWcefk47RCF7WBoLE=
-github.com/go-app-blazar/lucide-font v0.1.0 h1:LJ/8Qy3IQWo9Yvo4B3a38/C1Po1Gqv8+RZc4Z2JiYb4=
-github.com/go-app-blazar/lucide-font v0.1.0/go.mod h1:Dg1zJSgSz72VL2OEREHTOrsSf7Cwo1oH2WlEdnO5oYM=
+github.com/go-app-blazar/heroicons-font v0.1.3 h1:pNYvs1dyAS875Mx44tcAmDcqbflkqP71TAB7sfH57OQ=
+github.com/go-app-blazar/heroicons-font v0.1.3/go.mod h1:Ph0RBqzeho96wIoF2dCD9AJ4tKIWcefk47RCF7WBoLE=
+github.com/go-app-blazar/lucide-font v0.1.1 h1:MyUtbUPYStphIRQjVVuBa2ACyuC9Y196NWB3aXwUIOk=
+github.com/go-app-blazar/lucide-font v0.1.1/go.mod h1:Dg1zJSgSz72VL2OEREHTOrsSf7Cwo1oH2WlEdnO5oYM=
 github.com/go-app-blazar/router v0.1.2 h1:dKy+a3MZqKG/GNQ+Dg/3wcEVoIy4x4qwgdph02OvIOU=
 github.com/go-app-blazar/router v0.1.2/go.mod h1:yY7DcUn3ToFdcNAGeyx0v8LjikiTu3WJ1XkQiEIlJRY=
+github.com/go-app-blazar/tabler-font v0.1.2 h1:SFziEEstOuQCsvXmZNS6vRZ3yuOomfY6Kjwq+LsPTP4=
+github.com/go-app-blazar/tabler-font v0.1.2/go.mod h1:flnJCrnT4kVwQDVh2v4OAoYTBopkPrfVFDxfnDFSvOo=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=

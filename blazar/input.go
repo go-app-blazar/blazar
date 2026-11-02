@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-app-blazar/blazar/deref"
 	"github.com/go-app-blazar/blazar/htmlevent"
-	"github.com/go-app-blazar/lucide-font"
+	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -154,6 +154,21 @@ func (c *blazarInput[T]) Bind(valuePointer *T) *blazarInput[T] {
 
 func (c *blazarInput[T]) On(event string, function func(ctx app.Context, e app.Event)) *blazarInput[T] {
 	c.UseEvents.On(event, function)
+	return c
+}
+
+func (c *blazarInput[T]) OnKeydown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarInput[T] {
+	c.UseEvents.OnKeydown(function)
+	return c
+}
+
+func (c *blazarInput[T]) OnKeypress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarInput[T] {
+	c.UseEvents.OnKeypress(function)
+	return c
+}
+
+func (c *blazarInput[T]) OnKeyup(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarInput[T] {
+	c.UseEvents.OnKeyup(function)
 	return c
 }
 
@@ -313,7 +328,7 @@ func (c *blazarInput[T]) Render() app.UI {
 			app.If(c.IClearable && !isZeroValue, func() app.UI {
 				return Button().
 					Class("blazar-input__clear-icon").
-					Icon(lucide.IconCircleX).
+					Icon(tabler.IconFilledCircleX).
 					Flat(true).
 					Disabled(c.IDisabled).
 					OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {

@@ -104,6 +104,11 @@ func (c *blazarButton) OnClick(function func(ctx app.Context, e htmlevent.MouseE
 	return c
 }
 
+func (c *blazarButton) OnKeypress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarButton {
+	c.UseEvents.OnKeypress(function)
+	return c
+}
+
 func (c *blazarButton) Render() app.UI {
 	disabledClass := ""
 	if c.IDisabled {

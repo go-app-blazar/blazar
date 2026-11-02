@@ -4,7 +4,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/go-app-blazar/lucide-font"
+	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -25,7 +25,7 @@ type blazarAppBar struct {
 
 func AppBar() *blazarAppBar {
 	return &blazarAppBar{
-		IIcon: lucide.IconMenu,
+		IIcon: tabler.IconFilledMenu2,
 	}
 }
 
