@@ -5,6 +5,7 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/heroicons-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -109,9 +110,9 @@ func (c *blazarCheckbox) Render() app.UI {
 		disabledClass = "blazar-checkbox--disabled"
 	}
 
-	iconName := "square fa-regular"
+	iconName := heroicons.IconOutlineCheckCircle
 	if checked {
-		iconName = "square-check fa-solid"
+		iconName = heroicons.IconSolidCheckCircle
 	}
 
 	// TODO: How do we handle autofocus?

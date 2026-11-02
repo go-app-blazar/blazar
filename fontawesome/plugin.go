@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"slices"
 
+	"github.com/go-app-blazar/blazar/blazar"
 	"github.com/go-app-blazar/blazar/blazarplugin"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
@@ -51,6 +52,9 @@ func (p *plugin) Register(handler *app.Handler, mux *http.ServeMux) {
 	}
 	handler.Fonts = append(handler.Fonts, fontFiles...)
 	handler.CacheableResources = append(handler.CacheableResources, fontFiles...)
+
+	blazar.SetIconPrefix("fa-")
+	blazar.SetDefaultIconClass("fa-solid")
 }
 
 // cssFilenames returns the CSS filenames for the plugin.

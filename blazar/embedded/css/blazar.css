@@ -315,11 +315,11 @@ body {
 }
 
 .blazar-icon {
+    width: 1em;
+    height: 1em;
 }
 
 .blazar-icon i {
-    width: 1em;
-    height: 1em;
 }
 
 .blazar-input-wrapper {

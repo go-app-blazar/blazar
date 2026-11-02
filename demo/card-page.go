@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/go-app-blazar/blazar/blazar"
+	"github.com/go-app-blazar/heroicons-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -43,22 +44,22 @@ func (c *CardPage) Render() app.UI {
 				HeadlineText("Card with title").
 				Body(app.Text("Card body text")),
 			blazar.Card().
-				Icon("circle-info").
+				Icon(heroicons.IconOutlineInformationCircle).
 				HeadlineText("Card with title and icon").
 				Body(app.Text("Card body text")),
 			blazar.Card().
-				Icon("circle-info").
+				Icon(heroicons.IconOutlineInformationCircle).
 				HeadlineText("Card with title, icon, and subtitle").
 				SubtitleText("Subtitle text").
 				Body(app.Text("Card body text")),
 			blazar.Card().
-				Icon("circle-info").
+				Icon(heroicons.IconOutlineInformationCircle).
 				HeadlineText("Card with title, icon, subtitle, and actions").
 				SubtitleText("Subtitle text").
 				Action(
-					blazar.FormAction{Name: "Action 1", Icon: "person", Function: action1Function},
-					blazar.FormAction{Name: "Action 2", Icon: "gear", Function: action2Function},
-					blazar.FormAction{Name: "Sleep", Icon: "clock", Function: sleepFunction},
+					blazar.FormAction{Name: "Action 1", Icon: heroicons.IconSolidUser, Function: action1Function},
+					blazar.FormAction{Name: "Action 2", Icon: heroicons.IconOutlineCog6Tooth, Function: action2Function},
+					blazar.FormAction{Name: "Sleep", Icon: heroicons.IconOutlineClock, Function: sleepFunction},
 				).
 				Body(app.Text("Card body text")),
 		)

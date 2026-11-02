@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/go-app-blazar/heroicons-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -24,7 +25,7 @@ type blazarAppBar struct {
 
 func AppBar() *blazarAppBar {
 	return &blazarAppBar{
-		IIcon: "bars",
+		IIcon: heroicons.IconSolidBars3,
 	}
 }
 

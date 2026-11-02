@@ -5,6 +5,7 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/deref"
+	"github.com/go-app-blazar/heroicons-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -139,10 +140,10 @@ func (c *blazarCollapse) Render() app.UI {
 		disabledClass = "disabled"
 	}
 
-	closedIcon := "chevron-down"
+	closedIcon := heroicons.IconSolidChevronDown
 	closedClass := ""
 	if !c.open {
-		closedIcon = "chevron-right"
+		closedIcon = heroicons.IconSolidChevronRight
 		closedClass = "closed"
 	}
 
