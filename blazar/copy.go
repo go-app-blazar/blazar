@@ -5,7 +5,7 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/htmlevent"
-	"github.com/go-app-blazar/heroicons-font"
+	"github.com/go-app-blazar/lucide-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -13,7 +13,7 @@ import (
 // The copy component is a button that allows the user to copy text to the clipboard.
 func Copy() *blazarCopy {
 	return &blazarCopy{
-		IIcon: heroicons.IconSolidDocumentDuplicate,
+		IIcon: lucide.IconCopy,
 	}
 }
 

@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/go-app-blazar/blazar/blazar"
-	"github.com/go-app-blazar/heroicons-font"
+	"github.com/go-app-blazar/lucide-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -122,13 +122,13 @@ func (c *FormPage) Render() app.UI {
 						Action(
 							blazar.FormAction{
 								Name:     "Please cancel this",
-								Icon:     heroicons.IconSolidTrash,
+								Icon:     lucide.IconTrash,
 								Function: cancelFunction,
 								Cancel:   true,
 							},
 							blazar.FormAction{
 								Name:     "Please submit this",
-								Icon:     heroicons.IconOutlineInboxArrowDown,
+								Icon:     lucide.IconSave,
 								Function: submitFunction,
 								Submit:   true,
 							},
@@ -144,9 +144,9 @@ func (c *FormPage) Render() app.UI {
 								Bind(&c.name),
 						).
 						Action(
-							blazar.FormAction{Name: "Action 1", Icon: heroicons.IconSolidUser, Function: action1Function},
-							blazar.FormAction{Name: "Action 2", Icon: heroicons.IconOutlineCog6Tooth, Function: action2Function},
-							blazar.FormAction{Name: "Sleep", Icon: heroicons.IconOutlineClock, Function: sleepFunction},
+							blazar.FormAction{Name: "Action 1", Icon: lucide.IconUser, Function: action1Function},
+							blazar.FormAction{Name: "Action 2", Icon: lucide.IconSettings, Function: action2Function},
+							blazar.FormAction{Name: "Sleep", Icon: lucide.IconClock, Function: sleepFunction},
 						),
 				),
 			app.FieldSet().
@@ -160,9 +160,9 @@ func (c *FormPage) Render() app.UI {
 								Bind(&c.name),
 						).
 						Action(
-							blazar.FormAction{Name: "Action 1", Icon: heroicons.IconSolidUser, Function: action1Function},
-							blazar.FormAction{Name: "Action 2", Icon: heroicons.IconOutlineCog6Tooth, Function: action2Function},
-							blazar.FormAction{Name: "Sleep", Icon: heroicons.IconOutlineClock, Function: sleepFunction},
+							blazar.FormAction{Name: "Action 1", Icon: lucide.IconUser, Function: action1Function},
+							blazar.FormAction{Name: "Action 2", Icon: lucide.IconSettings, Function: action2Function},
+							blazar.FormAction{Name: "Sleep", Icon: lucide.IconClock, Function: sleepFunction},
 						),
 				),
 			app.FieldSet().
@@ -175,9 +175,9 @@ func (c *FormPage) Render() app.UI {
 								Bind(&c.name),
 						).
 						Action(
-							blazar.FormAction{Name: "Action 1", Icon: heroicons.IconSolidUser, Function: action1Function, Flat: true},
-							blazar.FormAction{Name: "Action 2", Icon: heroicons.IconOutlineCog6Tooth, Function: action2Function, Color: "red"},
-							blazar.FormAction{Name: "Sleep", Icon: heroicons.IconOutlineClock, Function: sleepFunction, Color: "black"},
+							blazar.FormAction{Name: "Action 1", Icon: lucide.IconUser, Function: action1Function, Flat: true},
+							blazar.FormAction{Name: "Action 2", Icon: lucide.IconSettings, Function: action2Function, Color: "red"},
+							blazar.FormAction{Name: "Sleep", Icon: lucide.IconClock, Function: sleepFunction, Color: "black"},
 						),
 				),
 			app.FieldSet().
@@ -192,19 +192,19 @@ func (c *FormPage) Render() app.UI {
 						Action(
 							blazar.FormAction{
 								Name:     "Please cancel this",
-								Icon:     heroicons.IconSolidTrash,
+								Icon:     lucide.IconTrash,
 								Function: cancelFunction,
 								Cancel:   true,
 							},
 							blazar.FormAction{
 								Name:     "Please submit this",
-								Icon:     heroicons.IconOutlineInboxArrowDown,
+								Icon:     lucide.IconSave,
 								Function: submitFunction,
 								Submit:   true,
 							},
-							blazar.FormAction{Name: "Action 1", Icon: heroicons.IconSolidUser, Function: action1Function},
-							blazar.FormAction{Name: "Action 2", Icon: heroicons.IconOutlineCog6Tooth, Function: action2Function},
-							blazar.FormAction{Name: "Sleep", Icon: heroicons.IconOutlineClock, Function: sleepFunction},
+							blazar.FormAction{Name: "Action 1", Icon: lucide.IconUser, Function: action1Function},
+							blazar.FormAction{Name: "Action 2", Icon: lucide.IconSettings, Function: action2Function},
+							blazar.FormAction{Name: "Sleep", Icon: lucide.IconClock, Function: sleepFunction},
 						),
 				),
 			app.FieldSet().
@@ -219,19 +219,19 @@ func (c *FormPage) Render() app.UI {
 						Action(
 							blazar.FormAction{
 								Name:     "Please cancel this",
-								Icon:     heroicons.IconSolidTrash,
+								Icon:     lucide.IconTrash,
 								Function: cancelFunction,
 								Cancel:   true,
 							},
 							blazar.FormAction{
 								Name:     "Please submit this",
-								Icon:     heroicons.IconOutlineInboxArrowDown,
+								Icon:     lucide.IconSave,
 								Function: submitFunction,
 								Submit:   true,
 							},
-							blazar.FormAction{Name: "Action 1", Icon: heroicons.IconSolidUser, Function: action1Function, Flat: true},
-							blazar.FormAction{Name: "Action 2", Icon: heroicons.IconOutlineCog6Tooth, Function: action2Function, Color: "red"},
-							blazar.FormAction{Name: "Sleep", Icon: heroicons.IconOutlineClock, Function: sleepFunction, Color: "black"},
+							blazar.FormAction{Name: "Action 1", Icon: lucide.IconUser, Function: action1Function, Flat: true},
+							blazar.FormAction{Name: "Action 2", Icon: lucide.IconSettings, Function: action2Function, Color: "red"},
+							blazar.FormAction{Name: "Sleep", Icon: lucide.IconClock, Function: sleepFunction, Color: "black"},
 						),
 				),
 			app.FieldSet().
@@ -246,19 +246,19 @@ func (c *FormPage) Render() app.UI {
 						Action(
 							blazar.FormAction{
 								Name:     "Please cancel this",
-								Icon:     heroicons.IconSolidTrash,
+								Icon:     lucide.IconTrash,
 								Function: cancelFunction,
 								Cancel:   true,
 							},
 							blazar.FormAction{
 								Name:     "Please submit this",
-								Icon:     heroicons.IconOutlineInboxArrowDown,
+								Icon:     lucide.IconSave,
 								Function: submitFunction,
 								Submit:   true,
 							},
-							blazar.FormAction{Name: "Action 1", Icon: heroicons.IconSolidUser, Function: action1Function, Outline: true},
-							blazar.FormAction{Name: "Action 2", Icon: heroicons.IconOutlineCog6Tooth, Function: action2Function, Outline: true, Color: "red"},
-							blazar.FormAction{Name: "Sleep", Icon: heroicons.IconOutlineClock, Function: sleepFunction, Outline: true, Color: "black"},
+							blazar.FormAction{Name: "Action 1", Icon: lucide.IconUser, Function: action1Function, Outline: true},
+							blazar.FormAction{Name: "Action 2", Icon: lucide.IconSettings, Function: action2Function, Outline: true, Color: "red"},
+							blazar.FormAction{Name: "Sleep", Icon: lucide.IconClock, Function: sleepFunction, Outline: true, Color: "black"},
 						),
 				),
 			app.FieldSet().
@@ -274,13 +274,13 @@ func (c *FormPage) Render() app.UI {
 						Action(
 							blazar.FormAction{
 								Name:     "Please submit this",
-								Icon:     heroicons.IconOutlineInboxArrowDown,
+								Icon:     lucide.IconSave,
 								Function: submitFunction,
 								Submit:   true,
 							},
-							blazar.FormAction{Name: "Action 1", Icon: heroicons.IconSolidUser, Function: action1Function, Flat: true},
-							blazar.FormAction{Name: "Action 2", Icon: heroicons.IconOutlineCog6Tooth, Function: action2Function, Color: "red"},
-							blazar.FormAction{Name: "Sleep", Icon: heroicons.IconOutlineClock, Function: sleepFunction, Color: "black"},
+							blazar.FormAction{Name: "Action 1", Icon: lucide.IconUser, Function: action1Function, Flat: true},
+							blazar.FormAction{Name: "Action 2", Icon: lucide.IconSettings, Function: action2Function, Color: "red"},
+							blazar.FormAction{Name: "Sleep", Icon: lucide.IconClock, Function: sleepFunction, Color: "black"},
 						),
 				),
 		)
