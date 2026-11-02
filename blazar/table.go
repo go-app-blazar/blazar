@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/lucide-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
@@ -488,7 +489,7 @@ func (c *blazarTable[T]) Render() app.UI {
 	if c.IInteractive {
 		tableMenuItems = append(tableMenuItems,
 			Item().
-				Icon("list").
+				Icon(lucide.IconList).
 				Label("Select columns...").
 				OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 					if debugTable {
@@ -572,7 +573,7 @@ func (c *blazarTable[T]) Render() app.UI {
 									Button().
 										Round(true).
 										Flat(true).
-										Icon("ellipsis-vertical").
+										Icon(lucide.IconEllipsisVertical).
 										OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 											thisElement := ctx.JSSrc()
 											if debugTable {
@@ -907,7 +908,7 @@ func (c *blazarTable[T]) Render() app.UI {
 							Class("blazar-table__pagination-control").
 							Body(
 								Button().
-									Icon("angle-left").
+									Icon(lucide.IconChevronLeft).
 									Title("Previous page").
 									Disabled(c.pageIndex < 1).
 									OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
@@ -946,7 +947,7 @@ func (c *blazarTable[T]) Render() app.UI {
 									Style("align-items", "center").
 									Text(fmt.Sprintf("/ %d", totalPages)),
 								Button().
-									Icon("angle-right").
+									Icon(lucide.IconChevronRight).
 									Title("Next page").
 									Disabled(c.pageIndex >= totalPages-1).
 									OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {

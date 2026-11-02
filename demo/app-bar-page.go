@@ -5,6 +5,7 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/blazar"
+	"github.com/go-app-blazar/lucide-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -30,13 +31,13 @@ func (c *AppBarPage) Render() app.UI {
 				NoIcon(true).
 				HeadlineText("App Bar with no icon"),
 			blazar.AppBar().
-				Icon("bars").
+				Icon(lucide.IconMenu).
 				IconFunction(func(ctx app.Context, e app.Event) {
 					app.Window().Call("alert", "Icon clicked")
 				}).
 				HeadlineText("App Bar with default icon"),
 			blazar.AppBar().
-				Icon("bars").
+				Icon(lucide.IconMenu).
 				IconFunction(func(ctx app.Context, e app.Event) {
 					app.Window().Call("alert", "Icon clicked")
 				}).
@@ -45,7 +46,7 @@ func (c *AppBarPage) Render() app.UI {
 					return app.Div().Text("Trailer")
 				}),
 			blazar.AppBar().
-				Icon("bars").
+				Icon(lucide.IconMenu).
 				IconFunction(func(ctx app.Context, e app.Event) {
 					app.Window().Call("alert", "Icon clicked")
 				}).

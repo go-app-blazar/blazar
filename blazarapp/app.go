@@ -283,3 +283,8 @@ func (a *App) GenerateStaticFiles(paths ...string) error {
 	}()
 	return app.GenerateStaticWebsiteFromMux(".", a.mux, pages...)
 }
+
+// RunWhenOnBrowser runs the app when on browser.
+func (a *App) RunWhenOnBrowser() {
+	app.RunWhenOnBrowser()
+}

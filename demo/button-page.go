@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-app-blazar/blazar/blazar"
 	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/lucide-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -59,49 +60,49 @@ func (c *ButtonPage) Render() app.UI {
 					app.Div().Body(
 						blazar.Button().
 							Label("Default").
-							Icon("home").
+							Icon(lucide.IconHouse).
 							To("/"),
 						blazar.Button().
 							Label("Flat").
 							Flat(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							To("/"),
 						blazar.Button().
 							Label("Outline").
 							Outline(true).
 							Flat(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							To("/"),
 						blazar.Button().
 							Label("Round").
 							Round(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							To("/"),
 						blazar.Button().
 							Label("Disabled").
 							Disabled(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							To("/"),
 					),
 					app.Div().Body(
 						blazar.Button().
-							Icon("home").
+							Icon(lucide.IconHouse).
 							To("/"),
 						blazar.Button().
 							Flat(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							To("/"),
 						blazar.Button().
 							Outline(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							To("/"),
 						blazar.Button().
 							Round(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							To("/"),
 						blazar.Button().
 							Disabled(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							To("/"),
 					),
 				),
@@ -119,7 +120,7 @@ func (c *ButtonPage) Render() app.UI {
 						blazar.Button().
 							Label("Outline").
 							Outline(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							OnClick(clickFunction),
 						blazar.Button().
 							Label("Round").
@@ -133,48 +134,48 @@ func (c *ButtonPage) Render() app.UI {
 					app.Div().Body(
 						blazar.Button().
 							Label("Default").
-							Icon("home").
+							Icon(lucide.IconHouse).
 							OnClick(clickFunction),
 						blazar.Button().
 							Label("Flat").
 							Flat(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							OnClick(clickFunction),
 						blazar.Button().
 							Label("Outline").
 							Outline(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							OnClick(clickFunction),
 						blazar.Button().
 							Label("Round").
 							Round(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							OnClick(clickFunction),
 						blazar.Button().
 							Label("Disabled").
 							Disabled(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							OnClick(clickFunction),
 					),
 					app.Div().Body(
 						blazar.Button().
-							Icon("home").
+							Icon(lucide.IconHouse).
 							OnClick(clickFunction),
 						blazar.Button().
 							Flat(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							OnClick(clickFunction),
 						blazar.Button().
 							Outline(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							OnClick(clickFunction),
 						blazar.Button().
 							Round(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							OnClick(clickFunction),
 						blazar.Button().
 							Disabled(true).
-							Icon("home").
+							Icon(lucide.IconHouse).
 							OnClick(clickFunction),
 					),
 				),

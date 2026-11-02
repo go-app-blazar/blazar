@@ -5,6 +5,7 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/matchmedia"
+	"github.com/go-app-blazar/lucide-font"
 	"github.com/go-app-blazar/router"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
@@ -153,7 +154,7 @@ func (c *blazarMainLayout) Render() app.UI {
 			AppBar().
 				Class("blazar-main-layout__header").
 				NoIcon(!iconVisible).
-				Icon("bars").
+				Icon(lucide.IconMenu).
 				IconFunction(func(ctx app.Context, e app.Event) {
 					c.toggleDrawer()
 				}).

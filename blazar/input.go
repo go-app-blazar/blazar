@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-app-blazar/blazar/deref"
 	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/lucide-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -312,7 +313,7 @@ func (c *blazarInput[T]) Render() app.UI {
 			app.If(c.IClearable && !isZeroValue, func() app.UI {
 				return Button().
 					Class("blazar-input__clear-icon").
-					Icon("circle-xmark").
+					Icon(lucide.IconCircleX).
 					Flat(true).
 					Disabled(c.IDisabled).
 					OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
