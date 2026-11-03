@@ -8,6 +8,7 @@ import (
 
 	"github.com/go-app-blazar/blazar/blazar"
 	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/fontawesome-font"
 	"github.com/go-app-blazar/heroicons-font"
 	"github.com/go-app-blazar/lucide-font"
 	"github.com/go-app-blazar/tabler-font"
@@ -77,16 +78,16 @@ func (c *IconPage) Render() app.UI {
 							Label("Icon Pack").
 							AllowedValue(
 								blazar.SelectOption{
-									Value: "lucide",
-									Label: "Lucide",
-								},
-								blazar.SelectOption{
 									Value: "fontawesome",
 									Label: "Font Awesome",
 								},
 								blazar.SelectOption{
 									Value: "heroicons",
 									Label: "Heroicons",
+								},
+								blazar.SelectOption{
+									Value: "lucide",
+									Label: "Lucide",
 								},
 								blazar.SelectOption{
 									Value: "tabler",
@@ -99,7 +100,7 @@ func (c *IconPage) Render() app.UI {
 								case "lucide":
 									c.icons = lucide.Icon()
 								case "fontawesome":
-									c.icons = []string{}
+									c.icons = fontawesome.Icon()
 								case "heroicons":
 									c.icons = heroicons.Icon()
 								case "tabler":

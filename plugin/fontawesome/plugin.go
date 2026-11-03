@@ -2,14 +2,13 @@ package fontawesome
 
 import (
 	"context"
-	"io/fs"
 	"log/slog"
 	"net/http"
 	"path/filepath"
 	"slices"
 
-	"github.com/go-app-blazar/blazar/blazar"
 	"github.com/go-app-blazar/blazar/blazarplugin"
+	"github.com/go-app-blazar/fontawesome-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -52,9 +51,6 @@ func (p *plugin) Register(handler *app.Handler, mux *http.ServeMux) {
 	}
 	handler.Fonts = append(handler.Fonts, fontFiles...)
 	handler.CacheableResources = append(handler.CacheableResources, fontFiles...)
-
-	blazar.SetIconPrefix("fa-")
-	blazar.SetDefaultIconClass("fa-solid")
 }
 
 // cssFilenames returns the CSS filenames for the plugin.
@@ -84,9 +80,5 @@ func (p *plugin) cssFilenames(prefix string) []string {
 
 // httpHandler returns the HTTP handler for the plugin.
 func (p *plugin) httpHandler() http.Handler {
-	newFS, err := fs.Sub(embeddedFS, "embedded")
-	if err != nil {
-		return http.NotFoundHandler()
-	}
-	return blazarplugin.MimeTypeHandler(http.FileServerFS(newFS), blazarplugin.DefaultMimeTypeExtensions())
+	return blazarplugin.MimeTypeHandler(http.FileServerFS(fontawesome.FS), blazarplugin.DefaultMimeTypeExtensions())
 }
