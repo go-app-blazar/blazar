@@ -12,6 +12,7 @@ import (
 	"github.com/go-app-blazar/blazar/blazar"
 	"github.com/go-app-blazar/blazar/blazarapp"
 	"github.com/go-app-blazar/blazar/demo"
+	"github.com/go-app-blazar/blazar/plugin/fontawesome"
 	"github.com/go-app-blazar/blazar/plugin/heroicons"
 	"github.com/go-app-blazar/blazar/plugin/lucide"
 	"github.com/go-app-blazar/router"
@@ -242,10 +243,21 @@ func main() {
 		},
 	})
 	blazarApp.AddPlugin(blazarapp.DefaultPlugins()...)
-	//blazarApp.AddPlugin(blazarapp.FontAwesomePlugin())
-	blazarApp.AddPlugin(heroicons.NewPlugin(heroicons.Config{}))
-	//blazarApp.AddPlugin(tabler.NewPlugin(tabler.Config{}))
-	blazarApp.AddPlugin(lucide.NewPlugin(lucide.Config{}))
+	blazarApp.AddPlugin(fontawesome.NewPlugin(fontawesome.Config{
+		Location: "/web/fontawesome/",
+		Minify:   false,
+	}))
+	blazarApp.AddPlugin(heroicons.NewPlugin(heroicons.Config{
+		Location: "/web/heroicons/",
+	}))
+	/*
+		blazarApp.AddPlugin(tabler.NewPlugin(tabler.Config{
+			Location: "/web/tabler/",
+		}))
+	*/
+	blazarApp.AddPlugin(lucide.NewPlugin(lucide.Config{
+		Location: "/web/lucide/",
+	}))
 
 	slog.InfoContext(ctx, "Disable service worker?", "disableServiceWorker", disableServiceWorker)
 	if disableServiceWorker {

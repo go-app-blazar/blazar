@@ -1,31 +1,11 @@
 package blazar
 
 import (
-	"context"
-	"log/slog"
 	"strings"
 
 	"github.com/go-app-blazar/blazar/htmlevent"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
-
-// defaultIconClass will be directly added to the actual icon element.
-var defaultIconClass = ""
-
-// iconPrefix will be prefixed to the icon class if it is not present.
-var iconPrefix = ""
-
-// SetDefaultIconClass sets the default icon class.
-func SetDefaultIconClass(class string) {
-	slog.InfoContext(context.TODO(), "Setting default icon class", "class", class)
-	defaultIconClass = class
-}
-
-// SetIconPrefix sets the icon prefix.
-func SetIconPrefix(prefix string) {
-	slog.InfoContext(context.TODO(), "Setting icon prefix", "prefix", prefix)
-	iconPrefix = prefix
-}
 
 func Icon() *blazarIcon {
 	return &blazarIcon{}
@@ -92,30 +72,7 @@ func (c *blazarIcon) OnClick(function func(ctx app.Context, e htmlevent.MouseEve
 }
 
 func (c *blazarIcon) Render() app.UI {
-	fontClass := defaultIconClass
-
-	iconClass := ""
-	parts := strings.Split(c.IconValue, " ")
-	if len(parts) > 0 {
-		iconClass = parts[0]
-		parts = parts[1:]
-
-		if iconPrefix == "" {
-			if len(parts) > 0 {
-				fontClass = parts[0]
-			}
-		} else {
-			if !strings.HasPrefix(iconClass, iconPrefix) {
-				iconClass = iconPrefix + iconClass
-			}
-
-			if len(parts) > 0 {
-				if strings.HasPrefix(parts[0], iconPrefix) {
-					fontClass = parts[0]
-				}
-			}
-		}
-	}
+	fontClasses := strings.Split(c.IconValue, " ")
 
 	var finalElement app.UI
 	finalElement = c.UseEvents.Wrap(
@@ -124,7 +81,8 @@ func (c *blazarIcon) Render() app.UI {
 			DataSet("icon", c.IconValue).
 			Body(
 				app.I().
-					Class("blazar-icon__icon", iconClass, fontClass),
+					Class("blazar-icon__icon").
+					Class(fontClasses...),
 			),
 	)
 

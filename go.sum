@@ -1,3 +1,5 @@
+github.com/go-app-blazar/fontawesome-font v0.1.0 h1:86ryyOY6fnjXyOy/ZP2oNpHS8X9I0QKrA1K8VpAbbCQ=
+github.com/go-app-blazar/fontawesome-font v0.1.0/go.mod h1:UNk3BZfCtEcdNtpOjNc0WkAPodUSmwfvUJUitvHXyAI=
 github.com/go-app-blazar/heroicons-font v0.1.3 h1:pNYvs1dyAS875Mx44tcAmDcqbflkqP71TAB7sfH57OQ=
 github.com/go-app-blazar/heroicons-font v0.1.3/go.mod h1:Ph0RBqzeho96wIoF2dCD9AJ4tKIWcefk47RCF7WBoLE=
 github.com/go-app-blazar/lucide-font v0.1.1 h1:MyUtbUPYStphIRQjVVuBa2ACyuC9Y196NWB3aXwUIOk=

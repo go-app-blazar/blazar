@@ -3,6 +3,7 @@ module github.com/go-app-blazar/blazar
 go 1.26.2
 
 require (
+	github.com/go-app-blazar/fontawesome-font v0.1.0
 	github.com/go-app-blazar/heroicons-font v0.1.3
 	github.com/go-app-blazar/lucide-font v0.1.1
 	github.com/go-app-blazar/router v0.1.2
