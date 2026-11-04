@@ -1,6 +1,7 @@
 package blazar
 
 import (
+	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -12,8 +13,8 @@ type blazarStatusBar struct {
 	app.Compo
 	MixHTML
 
-	TextValue string
-	GoodValue *bool
+	IText string
+	IGood *bool
 }
 
 var _ app.Composer = (*blazarStatusBar)(nil)
@@ -48,37 +49,37 @@ func (c *blazarStatusBar) Title(title string) *blazarStatusBar {
 // END: mixHTML methods
 
 func (c *blazarStatusBar) Text(text string) *blazarStatusBar {
-	c.TextValue = text
+	c.IText = text
 	return c
 }
 
 func (c *blazarStatusBar) Good() *blazarStatusBar {
-	c.GoodValue = new(bool)
-	*c.GoodValue = true
+	c.IGood = new(bool)
+	*c.IGood = true
 	return c
 }
 
 func (c *blazarStatusBar) Bad() *blazarStatusBar {
-	c.GoodValue = new(bool)
-	*c.GoodValue = false
+	c.IGood = new(bool)
+	*c.IGood = false
 	return c
 }
 
 func (c *blazarStatusBar) Neutral() *blazarStatusBar {
-	c.GoodValue = nil
+	c.IGood = nil
 	return c
 }
 
 func (c *blazarStatusBar) Render() app.UI {
 	goodClass := ""
-	goodIcon := "circle-info"
-	if c.GoodValue != nil {
-		if *c.GoodValue {
-			goodClass = "good"
-			goodIcon = "circle-check"
+	goodIcon := tabler.IconOutlineInfoCircle
+	if c.IGood != nil {
+		if *c.IGood {
+			goodClass = "blazar-statusbar--good"
+			goodIcon = tabler.IconOutlineCircleCheck
 		} else {
-			goodClass = "bad"
-			goodIcon = "circle-exclamation"
+			goodClass = "blazar-statusbar--bad"
+			goodIcon = tabler.IconOutlineAlertCircle
 		}
 	}
 
@@ -88,11 +89,12 @@ func (c *blazarStatusBar) Render() app.UI {
 		Body(
 			app.If(goodIcon != "", func() app.UI {
 				return Icon().
+					Class("blazar-statusbar__icon").
 					Icon(goodIcon)
 			}),
 			app.Span().
-				Class("blazar-button-label").
-				Text(c.TextValue),
+				Class("blazar-statusbar__text").
+				Text(c.IText),
 		)
 
 	finalElement = c.MixHTML.Wrap(finalElement)
