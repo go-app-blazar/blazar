@@ -16,6 +16,7 @@ func Debug(debug bool) {
 	debugMultiselect = debug
 	debugPage = debug
 	debugSelect = debug
+	debugSnackbar = debug
 	debugStatusBar = debug
 	debugTable = debug
 }
@@ -138,6 +139,14 @@ var debugSelect bool = false
 // DebugSelect toggles debug logging for Select.
 func DebugSelect(debug bool) {
 	debugSelect = debug
+}
+
+// debugSnackbar toggles debug logging for Snackbar.
+var debugSnackbar bool = false
+
+// DebugSnackbar toggles debug logging for Snackbar.
+func DebugSnackbar(debug bool) {
+	debugSnackbar = debug
 }
 
 // debugStatusBar toggles debug logging for StatusBar.
