@@ -29,15 +29,21 @@ var _ app.Mounter = (*blazarSnackbar)(nil)
 func (c *blazarSnackbar) OnMount(ctx app.Context) {
 	observer := ctx.ObserveState(c.IObserve, &c.message)
 	observer.OnChange(func() {
-		slog.InfoContext(context.TODO(), "Snackbar: text changed", "text", c.message.text, "good", c.message.good)
+		if debugSnackbar {
+			slog.DebugContext(context.TODO(), "Snackbar: Message changed.", "text", c.message.text, "good", c.message.good)
+		}
 
 		c.JSValue().Get("classList").Call("add", "blazar-snackbar--visible")
 		if c.timer != nil {
-			slog.InfoContext(context.TODO(), "Snackbar: stopping timer")
+			if debugSnackbar {
+				slog.DebugContext(context.TODO(), "Snackbar: Stopping existing timer.")
+			}
 			c.timer.Stop()
 		}
 		c.timer = time.AfterFunc(10*time.Second, func() {
-			slog.InfoContext(context.TODO(), "Snackbar: timer expired")
+			if debugSnackbar {
+				slog.DebugContext(context.TODO(), "Snackbar: Timer expired normally.")
+			}
 			if c == nil || c.JSValue() == nil || c.JSValue().Get("classList").IsUndefined() {
 				return
 			}
@@ -45,6 +51,9 @@ func (c *blazarSnackbar) OnMount(ctx app.Context) {
 		})
 	})
 	c.observer = &observer
+	if debugSnackbar {
+		slog.DebugContext(context.TODO(), "Snackbar: Observer created.", "IObserve", c.IObserve)
+	}
 }
 
 // BEGIN: mixHTML methods
