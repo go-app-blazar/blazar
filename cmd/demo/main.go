@@ -126,6 +126,12 @@ func main() {
 									Label("Select").
 									To("/select"),
 								blazar.Item().
+									Label("Snackbar").
+									To("/snackbar"),
+								blazar.Item().
+									Label("StatusBar").
+									To("/statusbar"),
+								blazar.Item().
 									Label("Table").
 									To("/table"),
 							)
@@ -202,6 +208,18 @@ func main() {
 					Path: "/select",
 					Component: func() app.Composer {
 						return &demo.SelectPage{}
+					},
+				},
+				{
+					Path: "/snackbar",
+					Component: func() app.Composer {
+						return &demo.SnackbarPage{}
+					},
+				},
+				{
+					Path: "/statusbar",
+					Component: func() app.Composer {
+						return &demo.StatusBarPage{}
 					},
 				},
 				{

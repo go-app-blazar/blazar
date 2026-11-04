@@ -600,6 +600,32 @@ a.blazar-item {
     }
 }
 
+.blazar-snackbar {
+    visibility: hidden;
+    min-width: 280px;
+    text-align: left;
+    position: fixed;
+    z-index: 1000;
+    left: 30px;
+    bottom: 30px;
+
+    .blazar-statusbar {
+        box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+        opacity: 0;
+        transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+    }
+
+    &.blazar-snackbar--visible {
+        visibility: visible;
+
+        .blazar-statusbar {
+            opacity: 1;
+            transition: opacity 0.5s ease, visibility 0s linear 0s;
+        }
+    }
+  }
+
+
 .blazar-statusbar {
     display: flex;
     align-items: center;
@@ -611,15 +637,19 @@ a.blazar-item {
     background-color: var(--blazar-theme-info);
     color: var(--blazar-theme-on-info);
 
-    &.good {
+    &.blazar-statusbar--good {
         background-color: var(--blazar-theme-success);
         color: var(--blazar-theme-on-success);
     }
 
-    &.bad {
+    &.blazar-statusbar--bad {
         background-color: var(--blazar-theme-error);
         color: var(--blazar-theme-on-error);
     }
+
+    .blazar-statusbar__icon {}
+
+    .blazar-statusbar__text {}
 }
 
 .blazar-table {
