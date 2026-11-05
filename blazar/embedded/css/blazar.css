@@ -19,6 +19,9 @@ html {
     --blazar-theme-on-warning: #ffffff;
     --blazar-theme-on-info: #ffffff;
     --blazar-theme-on-error: #ffffff;
+
+    --blazar-button-margin: 0.2em;
+    --blazar-button-padding: 0.5em;
 }
 
 body {
@@ -126,10 +129,7 @@ body {
     color: --contrast-color(var(--color));
     cursor: pointer;
 
-    margin-top: 0.2em;
-    margin-bottom: 0.2em;
-    margin-left: 0.2em;
-    margin-right: 0.2em;
+    margin: var(--blazar-button-margin);
 
     user-select: none;
 
@@ -188,7 +188,7 @@ body {
         margin-bottom: auto;
         display: flex;
         flex-direction: row;
-        padding: 0.5em 0.5em;
+        padding: var(--blazar-button-padding);
         gap: 0.5em;
         /* TODO: Add this back when we create an IconButton component. min-height: 1lh; */
     }
@@ -606,8 +606,12 @@ a.blazar-item {
     text-align: left;
     position: fixed;
     z-index: 1000;
-    left: 30px;
-    bottom: 30px;
+    left: 0;
+    bottom: 0;
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    margin-top: 1em;
 
     .blazar-statusbar {
         box-shadow: 0 4px 6px rgba(0,0,0,0.4);
@@ -621,6 +625,13 @@ a.blazar-item {
         .blazar-statusbar {
             opacity: 1;
             transition: opacity 0.5s ease, visibility 0s linear 0s;
+        }
+    }
+
+    .blazar-statusbar {
+        .blazar-button {
+            --blazar-button-margin: 0;
+            --blazar-button-padding: 0;
         }
     }
   }
@@ -650,6 +661,8 @@ a.blazar-item {
     .blazar-statusbar__icon {}
 
     .blazar-statusbar__text {}
+
+    .blazar-statusbar__action {}
 }
 
 .blazar-table {
