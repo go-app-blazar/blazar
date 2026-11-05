@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -26,11 +27,17 @@ type blazarSnackbar struct {
 var _ app.Composer = (*blazarSnackbar)(nil)
 var _ app.Mounter = (*blazarSnackbar)(nil)
 
+type SnackbarAction StatusBarAction
+
 func (c *blazarSnackbar) OnMount(ctx app.Context) {
 	observer := ctx.ObserveState(c.IObserve, &c.message)
 	observer.OnChange(func() {
 		if debugSnackbar {
 			slog.DebugContext(context.TODO(), "Snackbar: Message changed.", "text", c.message.text, "good", c.message.good)
+		}
+
+		if c.message.duration == 0 {
+			c.message.duration = 10 * time.Second
 		}
 
 		c.JSValue().Get("classList").Call("add", "blazar-snackbar--visible")
@@ -40,7 +47,7 @@ func (c *blazarSnackbar) OnMount(ctx app.Context) {
 			}
 			c.timer.Stop()
 		}
-		c.timer = time.AfterFunc(10*time.Second, func() {
+		c.timer = time.AfterFunc(c.message.duration, func() {
 			if debugSnackbar {
 				slog.DebugContext(context.TODO(), "Snackbar: Timer expired normally.")
 			}
@@ -102,6 +109,37 @@ func (c *blazarSnackbar) Render() app.UI {
 			statusBar = statusBar.Bad()
 		}
 	}
+	var actions []StatusBarAction
+	if len(c.message.actions) > 0 {
+		for _, action := range c.message.actions {
+			actions = append(actions, StatusBarAction(action))
+		}
+	}
+	if c.message.closable {
+		action := StatusBarAction{
+			Name: "",
+			Icon: tabler.IconFilledX,
+			Function: func(ctx app.Context) {
+				if debugSnackbar {
+					slog.DebugContext(context.TODO(), "Snackbar: Closed by user.")
+				}
+				if c.timer != nil {
+					if debugSnackbar {
+						slog.DebugContext(context.TODO(), "Snackbar: Stopping existing timer.")
+					}
+					c.timer.Stop()
+				}
+				if c == nil || c.JSValue() == nil || c.JSValue().Get("classList").IsUndefined() {
+					return
+				}
+				c.JSValue().Get("classList").Call("remove", "blazar-snackbar--visible")
+			},
+		}
+		actions = append(actions, action)
+	}
+	if len(actions) > 0 {
+		statusBar = statusBar.Action(actions...)
+	}
 
 	body = append(body, statusBar)
 
@@ -120,8 +158,11 @@ func (c *blazarSnackbar) Render() app.UI {
 }
 
 type blazarSnackbarMessage struct {
-	text string
-	good *bool
+	text     string
+	good     *bool
+	duration time.Duration
+	closable bool
+	actions  []SnackbarAction
 }
 
 func SnackbarMessage() *blazarSnackbarMessage {
@@ -130,6 +171,21 @@ func SnackbarMessage() *blazarSnackbarMessage {
 
 func (c *blazarSnackbarMessage) Text(text string) *blazarSnackbarMessage {
 	c.text = text
+	return c
+}
+
+func (c *blazarSnackbarMessage) Action(actions ...SnackbarAction) *blazarSnackbarMessage {
+	c.actions = actions
+	return c
+}
+
+func (c *blazarSnackbarMessage) Closable(closable bool) *blazarSnackbarMessage {
+	c.closable = closable
+	return c
+}
+
+func (c *blazarSnackbarMessage) Duration(duration time.Duration) *blazarSnackbarMessage {
+	c.duration = duration
 	return c
 }
 
