@@ -142,26 +142,26 @@ body {
         opacity: 0.7;
     }
 
-    &.flat {
+    &.blazar-button--flat {
         background-color: transparent;
         color: var(--color);
     }
 
-    &.flat:hover:not(.blazar-button--disabled) {
+    &.blazar-button--flat:hover:not(.blazar-button--disabled) {
         background-color: color-mix(in srgb, var(--color) 10%, transparent);
     }
 
-    &.outline {
+    &.blazar-button--outline {
         background-color: transparent;
         color: var(--color);
         border-color: var(--color);
     }
 
-    &.outline:hover:not(.blazar-button--disabled) {
+    &.blazar-button--outline:hover:not(.blazar-button--disabled) {
         background-color: color-mix(in srgb, var(--color) 10%, transparent);
     }
 
-    &.round {
+    &.blazar-button--round {
         border-radius: 50%;
     }
 
