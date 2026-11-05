@@ -179,5 +179,15 @@ func (c *ButtonPage) Render() app.UI {
 							OnClick(clickFunction),
 					),
 				),
+			app.FieldSet().
+				Body(
+					app.Legend().Text("Auto Focus"),
+					app.Div().Body(
+						blazar.Button().
+							Label("Auto Focus").
+							AutoFocus(true).
+							OnClick(clickFunction),
+					),
+				),
 		)
 }

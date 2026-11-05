@@ -13,17 +13,25 @@ type blazarButton struct {
 	app.Compo
 	UseEvents
 	MixHTML
-	IFlat     bool
-	IOutline  bool
-	IIcon     string
-	ILabel    string
-	ITo       string
-	ITarget   string // When "To" is set, this will be the target of the button.
-	IRound    bool
-	IDisabled bool
+	IAutoFocus bool
+	IFlat      bool
+	IOutline   bool
+	IIcon      string
+	ILabel     string
+	ITo        string
+	ITarget    string // When "To" is set, this will be the target of the button.
+	IRound     bool
+	IDisabled  bool
 }
 
 var _ app.Composer = (*blazarButton)(nil)
+var _ app.Mounter = (*blazarButton)(nil)
+
+func (c *blazarButton) OnMount(ctx app.Context) {
+	if c.IAutoFocus {
+		c.JSValue().Call("focus")
+	}
+}
 
 // BEGIN: mixHTML methods
 
@@ -53,6 +61,11 @@ func (c *blazarButton) Title(title string) *blazarButton {
 }
 
 // END: mixHTML methods
+
+func (c *blazarButton) AutoFocus(autoFocus bool) *blazarButton {
+	c.IAutoFocus = autoFocus
+	return c
+}
 
 func (c *blazarButton) Disabled(disabled bool) *blazarButton {
 	c.IDisabled = disabled
@@ -117,17 +130,17 @@ func (c *blazarButton) Render() app.UI {
 
 	flatClass := ""
 	if c.IFlat {
-		flatClass = "flat"
+		flatClass = "blazar-button--flat"
 	}
 
 	outlineClass := ""
 	if c.IOutline {
-		outlineClass = "outline"
+		outlineClass = "blazar-button--outline"
 	}
 
 	roundClass := ""
 	if c.IRound {
-		roundClass = "round"
+		roundClass = "blazar-button--round"
 	}
 
 	var body []app.UI
@@ -174,8 +187,8 @@ func (c *blazarButton) Render() app.UI {
 				e.Get("target").Call("click")
 			}
 		})
-	for name, value := range c.IStyles {
-		element = element.Style(name, value)
+	if c.IAutoFocus {
+		element = element.Attr("autofocus", "true")
 	}
 
 	var finalElement app.UI
