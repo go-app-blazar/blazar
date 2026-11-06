@@ -394,6 +394,7 @@ body {
         border: 0 !important;
         outline: none !important;
         background: transparent !important;
+        width: 100%;
     }
 
     .blazar-input__clear-icon {
