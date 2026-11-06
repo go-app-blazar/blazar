@@ -167,18 +167,18 @@ func (c *blazarInput[T]) On(event string, function func(ctx app.Context, e app.E
 	return c
 }
 
-func (c *blazarInput[T]) OnKeydown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarInput[T] {
-	c.UseEvents.OnKeydown(function)
+func (c *blazarInput[T]) OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarInput[T] {
+	c.UseEvents.OnKeyDown(function)
 	return c
 }
 
-func (c *blazarInput[T]) OnKeypress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarInput[T] {
-	c.UseEvents.OnKeypress(function)
+func (c *blazarInput[T]) OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarInput[T] {
+	c.UseEvents.OnKeyPress(function)
 	return c
 }
 
-func (c *blazarInput[T]) OnKeyup(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarInput[T] {
-	c.UseEvents.OnKeyup(function)
+func (c *blazarInput[T]) OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarInput[T] {
+	c.UseEvents.OnKeyUp(function)
 	return c
 }
 

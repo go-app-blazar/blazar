@@ -127,8 +127,17 @@ func (c *blazarButton) OnClick(function func(ctx app.Context, e htmlevent.MouseE
 	return c
 }
 
-func (c *blazarButton) OnKeypress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarButton {
-	c.UseEvents.OnKeypress(function)
+func (c *blazarButton) OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarButton {
+	c.UseEvents.OnKeyPress(function)
+	return c
+}
+
+func (c *blazarButton) OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarButton {
+	c.UseEvents.OnKeyDown(function)
+	return c
+}
+func (c *blazarButton) OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarButton {
+	c.UseEvents.OnKeyUp(function)
 	return c
 }
 
@@ -195,6 +204,8 @@ func (c *blazarButton) Render() app.UI {
 		OnKeyPress(func(ctx app.Context, e app.Event) {
 			if e.Get("key").String() == "Enter" || e.Get("key").String() == " " {
 				e.Get("target").Call("click")
+
+				e.PreventDefault()
 			}
 		})
 	if c.IAutoFocus {
