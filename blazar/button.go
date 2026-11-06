@@ -201,13 +201,13 @@ func (c *blazarButton) Render() app.UI {
 		Role("button").
 		Body(innerElement).
 		Title(c.ITitle).
-		OnKeyPress(func(ctx app.Context, e app.Event) {
-			if e.Get("key").String() == "Enter" || e.Get("key").String() == " " {
-				e.Get("target").Call("click")
+		OnKeyPress(htmlevent.WrapKeyboardEvent(func(ctx app.Context, e htmlevent.KeyboardEvent) {
+			if e.Key == "Enter" || e.Key == " " {
+				e.Target.Call("click")
 
 				e.PreventDefault()
 			}
-		})
+		}))
 	if c.IAutoFocus {
 		element = element.Attr("autofocus", "true")
 	}
