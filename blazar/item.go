@@ -38,8 +38,18 @@ func (c *blazarItem) DataSet(name string, value any) *blazarItem {
 	return c
 }
 
+func (c *blazarItem) DataSets(dataSets map[string]any) *blazarItem {
+	c.mixDataSets(dataSets)
+	return c
+}
+
 func (c *blazarItem) Style(name, value string) *blazarItem {
 	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarItem) Styles(styles map[string]string) *blazarItem {
+	c.mixStyles(styles)
 	return c
 }
 

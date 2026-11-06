@@ -59,8 +59,18 @@ func (c *blazarForm) DataSet(name string, value any) *blazarForm {
 	return c
 }
 
+func (c *blazarForm) DataSets(dataSets map[string]any) *blazarForm {
+	c.mixDataSets(dataSets)
+	return c
+}
+
 func (c *blazarForm) Style(name, value string) *blazarForm {
 	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarForm) Styles(styles map[string]string) *blazarForm {
+	c.mixStyles(styles)
 	return c
 }
 

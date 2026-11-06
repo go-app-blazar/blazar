@@ -44,8 +44,18 @@ func (c *blazarCheckbox) DataSet(name string, value any) *blazarCheckbox {
 	return c
 }
 
+func (c *blazarCheckbox) DataSets(dataSets map[string]any) *blazarCheckbox {
+	c.mixDataSets(dataSets)
+	return c
+}
+
 func (c *blazarCheckbox) Style(name, value string) *blazarCheckbox {
 	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarCheckbox) Styles(styles map[string]string) *blazarCheckbox {
+	c.mixStyles(styles)
 	return c
 }
 

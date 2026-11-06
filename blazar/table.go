@@ -129,8 +129,18 @@ func (c *blazarTable[T]) DataSet(name string, value any) *blazarTable[T] {
 	return c
 }
 
+func (c *blazarTable[T]) DataSets(dataSets map[string]any) *blazarTable[T] {
+	c.mixDataSets(dataSets)
+	return c
+}
+
 func (c *blazarTable[T]) Style(name, value string) *blazarTable[T] {
 	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarTable[T]) Styles(styles map[string]string) *blazarTable[T] {
+	c.mixStyles(styles)
 	return c
 }
 

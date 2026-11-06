@@ -48,8 +48,18 @@ func (c *blazarCollapse) DataSet(name string, value any) *blazarCollapse {
 	return c
 }
 
+func (c *blazarCollapse) DataSets(dataSets map[string]any) *blazarCollapse {
+	c.mixDataSets(dataSets)
+	return c
+}
+
 func (c *blazarCollapse) Style(name, value string) *blazarCollapse {
 	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarCollapse) Styles(styles map[string]string) *blazarCollapse {
+	c.mixStyles(styles)
 	return c
 }
 

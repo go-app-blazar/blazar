@@ -61,8 +61,18 @@ func (c *blazarInput[T]) DataSet(name string, value any) *blazarInput[T] {
 	return c
 }
 
+func (c *blazarInput[T]) DataSets(dataSets map[string]any) *blazarInput[T] {
+	c.mixDataSets(dataSets)
+	return c
+}
+
 func (c *blazarInput[T]) Style(name, value string) *blazarInput[T] {
 	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarInput[T]) Styles(styles map[string]string) *blazarInput[T] {
+	c.mixStyles(styles)
 	return c
 }
 

@@ -37,11 +37,25 @@ func (c *MixHTML) mixDataSet(name string, value any) *MixHTML {
 	return c
 }
 
+func (c *MixHTML) mixDataSets(dataSets map[string]any) *MixHTML {
+	for name, value := range dataSets {
+		c.mixDataSet(name, value)
+	}
+	return c
+}
+
 func (c *MixHTML) mixStyle(name, value string) *MixHTML {
 	if c.IStyles == nil {
 		c.IStyles = map[string]string{}
 	}
 	c.IStyles[name] = value
+	return c
+}
+
+func (c *MixHTML) mixStyles(styles map[string]string) *MixHTML {
+	for name, value := range styles {
+		c.mixStyle(name, value)
+	}
 	return c
 }
 
