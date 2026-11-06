@@ -49,8 +49,18 @@ func (c *blazarCopy) DataSet(name string, value any) *blazarCopy {
 	return c
 }
 
+func (c *blazarCopy) DataSets(dataSets map[string]any) *blazarCopy {
+	c.mixDataSets(dataSets)
+	return c
+}
+
 func (c *blazarCopy) Style(name, value string) *blazarCopy {
 	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarCopy) Styles(styles map[string]string) *blazarCopy {
+	c.mixStyles(styles)
 	return c
 }
 

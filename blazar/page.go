@@ -34,8 +34,18 @@ func (c *blazarPage) DataSet(name string, value any) *blazarPage {
 	return c
 }
 
+func (c *blazarPage) DataSets(dataSets map[string]any) *blazarPage {
+	c.mixDataSets(dataSets)
+	return c
+}
+
 func (c *blazarPage) Style(name, value string) *blazarPage {
 	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarPage) Styles(styles map[string]string) *blazarPage {
+	c.mixStyles(styles)
 	return c
 }
 

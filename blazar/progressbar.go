@@ -43,8 +43,18 @@ func (c *blazarProgressBar) DataSet(name string, value any) *blazarProgressBar {
 	return c
 }
 
+func (c *blazarProgressBar) DataSets(dataSets map[string]any) *blazarProgressBar {
+	c.mixDataSets(dataSets)
+	return c
+}
+
 func (c *blazarProgressBar) Style(name, value string) *blazarProgressBar {
 	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarProgressBar) Styles(styles map[string]string) *blazarProgressBar {
+	c.mixStyles(styles)
 	return c
 }
 

@@ -46,8 +46,18 @@ func (c *blazarStatusBar) DataSet(name string, value any) *blazarStatusBar {
 	return c
 }
 
+func (c *blazarStatusBar) DataSets(dataSets map[string]any) *blazarStatusBar {
+	c.mixDataSets(dataSets)
+	return c
+}
+
 func (c *blazarStatusBar) Style(name, value string) *blazarStatusBar {
 	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarStatusBar) Styles(styles map[string]string) *blazarStatusBar {
+	c.mixStyles(styles)
 	return c
 }
 

@@ -54,8 +54,18 @@ func (c *blazarMainLayout) DataSet(name string, value any) *blazarMainLayout {
 	return c
 }
 
+func (c *blazarMainLayout) DataSets(dataSets map[string]any) *blazarMainLayout {
+	c.mixDataSets(dataSets)
+	return c
+}
+
 func (c *blazarMainLayout) Style(name, value string) *blazarMainLayout {
 	c.mixStyle(name, value)
+	return c
+}
+
+func (c *blazarMainLayout) Styles(styles map[string]string) *blazarMainLayout {
+	c.mixStyles(styles)
 	return c
 }
 
