@@ -14,9 +14,34 @@ const (
 	EventToggle      = "toggle"
 )
 
+// JSEvent is the base event type for all JavaScript events.
+type JSEvent struct {
+	jsEvent app.Event // This is the original event object.
+}
+
+// Event returns the original event object.
+func (e JSEvent) Event() app.Event {
+	return e.jsEvent
+}
+
+// PreventDefault cancels the event if it is cancelable. The default action that
+// belongs to the event will not occur.
+func (e JSEvent) PreventDefault() {
+	e.jsEvent.Call("preventDefault")
+}
+
+// If several listeners are attached to the same element for the same event type,
+// they are called in the order in which they were added. If
+// StopImmediatePropagation() is invoked during one such call, no remaining
+// listeners will be called, either on that element or any other element.
+func (e JSEvent) StopImmediatePropagation() {
+	e.jsEvent.Call("stopImmediatePropagation")
+}
+
 // Event is the base event type.
 // See: https://developer.mozilla.org/en-US/docs/Web/API/Event
 type Event struct {
+	JSEvent
 	Bubbles          bool      `javascript:"bubbles"`
 	Cancelable       bool      `javascript:"cancelable"`
 	Composed         bool      `javascript:"composed"`

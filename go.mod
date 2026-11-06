@@ -12,12 +12,14 @@ require (
 	github.com/lmittmann/tint v1.1.3
 	github.com/mattn/go-isatty v0.0.22
 	github.com/maxence-charriere/go-app/v11 v11.0.4
+	github.com/stretchr/testify v1.12.1
 	github.com/tekkamanendless/httprequest v0.1.1
 	golang.org/x/text v0.43.0
 )
 
 require (
 	github.com/google/uuid v1.6.0 // indirect
+	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 )
 

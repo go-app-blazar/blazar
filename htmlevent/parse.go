@@ -26,8 +26,24 @@ func Parse(appEvent app.Event, target any) error {
 		return fmt.Errorf("target must be a pointer to a struct: %s", targetValue.Kind())
 	}
 
-	// This is the type of the app.Value interface.
-	appValueType := reflect.TypeOf((*app.Value)(nil)).Elem()
+	{
+		jsEventField, present := targetValue.Type().FieldByName("JSEvent")
+		if !present {
+			// This event did not inherit from JSEvent.
+		} else {
+			if jsEventField.Type != reflect.TypeFor[JSEvent]() {
+				// This event did not inherit from JSEvent.
+			} else {
+				jsEventValue := targetValue.FieldByName(jsEventField.Name)
+				if jsEventValue.IsValid() && jsEventValue.CanSet() {
+					newValue := JSEvent{
+						jsEvent: appEvent,
+					}
+					jsEventValue.Set(reflect.ValueOf(newValue))
+				}
+			}
+		}
+	}
 
 	targetType := targetValue.Type()
 	for _, field := range reflect.VisibleFields(targetType) {
@@ -47,7 +63,7 @@ func Parse(appEvent app.Event, target any) error {
 		}
 
 		// If the field is an app.Value, we can just set it directly.
-		if fieldValue.Type().Implements(appValueType) {
+		if fieldValue.Type().Implements(reflect.TypeFor[app.Value]()) {
 			fieldValue.Set(reflect.ValueOf(javascriptValue))
 			continue
 		}
