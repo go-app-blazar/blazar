@@ -120,7 +120,7 @@ func (c *IconPage) Render() app.UI {
 							On("change", func(ctx app.Context, e app.Event) {
 								c.filter = c.filterPlaceholder
 							}).
-							OnKeyup(func(ctx app.Context, e htmlevent.KeyboardEvent) {
+							OnKeyUp(func(ctx app.Context, e htmlevent.KeyboardEvent) {
 								c.filter = e.Target.Get("value").String()
 							}),
 					),
