@@ -63,45 +63,6 @@ func (c *blazarSnackbar) OnMount(ctx app.Context) {
 	}
 }
 
-// BEGIN: mixHTML methods
-
-func (c *blazarSnackbar) Attr(name string, value any) *blazarSnackbar {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarSnackbar) Class(class ...string) *blazarSnackbar {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarSnackbar) DataSet(name string, value any) *blazarSnackbar {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarSnackbar) DataSets(dataSets map[string]any) *blazarSnackbar {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarSnackbar) Style(name, value string) *blazarSnackbar {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarSnackbar) Styles(styles map[string]string) *blazarSnackbar {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarSnackbar) Title(title string) *blazarSnackbar {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarSnackbar) Observe(id string) *blazarSnackbar {
 	c.IObserve = id
 	return c

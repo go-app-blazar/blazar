@@ -27,45 +27,6 @@ type blazarSelect struct {
 var _ app.Composer = (*blazarSelect)(nil)
 var _ app.Updater = (*blazarSelect)(nil)
 
-// BEGIN: mixHTML methods
-
-func (c *blazarSelect) Attr(name string, value any) *blazarSelect {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarSelect) Class(class ...string) *blazarSelect {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarSelect) DataSet(name string, value any) *blazarSelect {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarSelect) DataSets(dataSets map[string]any) *blazarSelect {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarSelect) Style(name, value string) *blazarSelect {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarSelect) Styles(styles map[string]string) *blazarSelect {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarSelect) Title(title string) *blazarSelect {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarSelect) OnUpdate(ctx app.Context) {
 	if debugSelect {
 		slog.DebugContext(ctx.Context, "blazarSelect: OnUpdate")

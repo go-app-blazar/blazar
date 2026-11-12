@@ -22,45 +22,6 @@ type blazarInputWrapper struct {
 
 var _ app.Composer = (*blazarInputWrapper)(nil)
 
-// BEGIN: mixHTML methods
-
-func (c *blazarInputWrapper) Attr(name string, value any) *blazarInputWrapper {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarInputWrapper) Class(class ...string) *blazarInputWrapper {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarInputWrapper) DataSet(name string, value any) *blazarInputWrapper {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarInputWrapper) DataSets(dataSets map[string]any) *blazarInputWrapper {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarInputWrapper) Style(name, value string) *blazarInputWrapper {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarInputWrapper) Styles(styles map[string]string) *blazarInputWrapper {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarInputWrapper) Title(title string) *blazarInputWrapper {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarInputWrapper) Label(label string) *blazarInputWrapper {
 	c.ILabel = label
 	return c

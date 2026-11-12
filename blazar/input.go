@@ -44,45 +44,6 @@ type blazarInput[T any] struct {
 
 var _ app.Composer = (*blazarInput[any])(nil)
 
-// BEGIN: mixHTML methods
-
-func (c *blazarInput[T]) Attr(name string, value any) *blazarInput[T] {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarInput[T]) Class(class ...string) *blazarInput[T] {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarInput[T]) DataSet(name string, value any) *blazarInput[T] {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarInput[T]) DataSets(dataSets map[string]any) *blazarInput[T] {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarInput[T]) Style(name, value string) *blazarInput[T] {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarInput[T]) Styles(styles map[string]string) *blazarInput[T] {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarInput[T]) Title(title string) *blazarInput[T] {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarInput[T]) AutoFocus(autoFocus bool) *blazarInput[T] {
 	c.IAutoFocus = autoFocus
 	return c

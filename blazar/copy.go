@@ -32,45 +32,6 @@ type blazarCopy struct {
 
 var _ app.Composer = (*blazarCopy)(nil)
 
-// BEGIN: mixHTML methods
-
-func (c *blazarCopy) Attr(name string, value any) *blazarCopy {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarCopy) Class(class ...string) *blazarCopy {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarCopy) DataSet(name string, value any) *blazarCopy {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarCopy) DataSets(dataSets map[string]any) *blazarCopy {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarCopy) Style(name, value string) *blazarCopy {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarCopy) Styles(styles map[string]string) *blazarCopy {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarCopy) Title(title string) *blazarCopy {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarCopy) Disabled(disabled bool) *blazarCopy {
 	c.IDisabled = disabled
 	return c

@@ -26,45 +26,6 @@ type blazarProgressBar struct {
 
 var _ app.Composer = (*blazarProgressBar)(nil)
 
-// BEGIN: mixHTML methods
-
-func (c *blazarProgressBar) Attr(name string, value any) *blazarProgressBar {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarProgressBar) Class(class ...string) *blazarProgressBar {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarProgressBar) DataSet(name string, value any) *blazarProgressBar {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarProgressBar) DataSets(dataSets map[string]any) *blazarProgressBar {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarProgressBar) Style(name, value string) *blazarProgressBar {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarProgressBar) Styles(styles map[string]string) *blazarProgressBar {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarProgressBar) Title(title string) *blazarProgressBar {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 // Animated enables or disables the animated mode of the progress bar.
 func (c *blazarProgressBar) Animated(animated bool) *blazarProgressBar {
 	c.IAnimated = animated

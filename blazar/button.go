@@ -33,45 +33,6 @@ func (c *blazarButton) OnMount(ctx app.Context) {
 	}
 }
 
-// BEGIN: mixHTML methods
-
-func (c *blazarButton) Attr(name string, value any) *blazarButton {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarButton) Class(class ...string) *blazarButton {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarButton) DataSet(name string, value any) *blazarButton {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarButton) DataSets(dataSets map[string]any) *blazarButton {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarButton) Style(name, value string) *blazarButton {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarButton) Styles(styles map[string]string) *blazarButton {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarButton) Title(title string) *blazarButton {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarButton) AutoFocus(autoFocus bool) *blazarButton {
 	c.IAutoFocus = autoFocus
 	return c

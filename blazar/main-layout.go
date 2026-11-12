@@ -37,45 +37,6 @@ func MainLayout() *blazarMainLayout {
 	}
 }
 
-// BEGIN: mixHTML methods
-
-func (c *blazarMainLayout) Attr(name string, value any) *blazarMainLayout {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarMainLayout) Class(class ...string) *blazarMainLayout {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarMainLayout) DataSet(name string, value any) *blazarMainLayout {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarMainLayout) DataSets(dataSets map[string]any) *blazarMainLayout {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarMainLayout) Style(name, value string) *blazarMainLayout {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarMainLayout) Styles(styles map[string]string) *blazarMainLayout {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarMainLayout) Title(title string) *blazarMainLayout {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarMainLayout) ResponsiveWidth(width string) *blazarMainLayout {
 	c.IResponsiveWidth = width
 	if c.matchMedia != nil {

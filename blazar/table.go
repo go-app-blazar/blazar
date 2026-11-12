@@ -112,45 +112,6 @@ func Table[T any]() *blazarTable[T] {
 	return &table
 }
 
-// BEGIN: mixHTML methods
-
-func (c *blazarTable[T]) Attr(name string, value any) *blazarTable[T] {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarTable[T]) Class(class ...string) *blazarTable[T] {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarTable[T]) DataSet(name string, value any) *blazarTable[T] {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarTable[T]) DataSets(dataSets map[string]any) *blazarTable[T] {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarTable[T]) Style(name, value string) *blazarTable[T] {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarTable[T]) Styles(styles map[string]string) *blazarTable[T] {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarTable[T]) Title(title string) *blazarTable[T] {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarTable[T]) Label(title string) *blazarTable[T] {
 	c.ILabel = title
 	return c

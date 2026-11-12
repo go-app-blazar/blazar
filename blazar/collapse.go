@@ -31,45 +31,6 @@ type blazarCollapse struct {
 var _ app.Composer = (*blazarCollapse)(nil)
 var _ app.Updater = (*blazarCollapse)(nil)
 
-// BEGIN: mixHTML methods
-
-func (c *blazarCollapse) Attr(name string, value any) *blazarCollapse {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarCollapse) Class(class ...string) *blazarCollapse {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarCollapse) DataSet(name string, value any) *blazarCollapse {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarCollapse) DataSets(dataSets map[string]any) *blazarCollapse {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarCollapse) Style(name, value string) *blazarCollapse {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarCollapse) Styles(styles map[string]string) *blazarCollapse {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarCollapse) Title(title string) *blazarCollapse {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarCollapse) OnUpdate(ctx app.Context) {
 	if debugCollapse {
 		slog.DebugContext(ctx.Context, "blazarCollapse: OnUpdate")

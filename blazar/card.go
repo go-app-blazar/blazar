@@ -24,45 +24,6 @@ func Card() *blazarCard {
 	return &blazarCard{}
 }
 
-// BEGIN: mixHTML methods
-
-func (c *blazarCard) Attr(name string, value any) *blazarCard {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarCard) Class(class ...string) *blazarCard {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarCard) DataSet(name string, value any) *blazarCard {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarCard) DataSets(dataSets map[string]any) *blazarCard {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarCard) Style(name, value string) *blazarCard {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarCard) Styles(styles map[string]string) *blazarCard {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarCard) Title(title string) *blazarCard {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarCard) Icon(icon string) *blazarCard {
 	c.IIcon = icon
 	return c

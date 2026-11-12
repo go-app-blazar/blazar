@@ -42,45 +42,6 @@ type FormAction struct {
 
 var _ app.Composer = (*blazarForm)(nil)
 
-// BEGIN: mixHTML methods
-
-func (c *blazarForm) Attr(name string, value any) *blazarForm {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarForm) Class(class ...string) *blazarForm {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarForm) DataSet(name string, value any) *blazarForm {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarForm) DataSets(dataSets map[string]any) *blazarForm {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarForm) Style(name, value string) *blazarForm {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarForm) Styles(styles map[string]string) *blazarForm {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarForm) Title(title string) *blazarForm {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarForm) AutoSubmit(autoSubmit bool) *blazarForm {
 	c.IAutoSubmit = autoSubmit
 	return c
