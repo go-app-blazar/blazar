@@ -1,3 +1,5 @@
 package blazar
 
-//go:generate go run ../internal/tool/generate-mixin.go
+//go:generate go run ../internal/tool/generate-mixin/...
+
+//go:generate go run ../internal/tool/generate-interface/...
