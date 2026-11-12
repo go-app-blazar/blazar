@@ -29,45 +29,6 @@ type StatusBarAction struct {
 	Disabled bool
 }
 
-// BEGIN: mixHTML methods
-
-func (c *blazarStatusBar) Attr(name string, value any) *blazarStatusBar {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarStatusBar) Class(class ...string) *blazarStatusBar {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarStatusBar) DataSet(name string, value any) *blazarStatusBar {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarStatusBar) DataSets(dataSets map[string]any) *blazarStatusBar {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarStatusBar) Style(name, value string) *blazarStatusBar {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarStatusBar) Styles(styles map[string]string) *blazarStatusBar {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarStatusBar) Title(title string) *blazarStatusBar {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarStatusBar) Action(actions ...StatusBarAction) *blazarStatusBar {
 	c.IActions = actions
 	return c

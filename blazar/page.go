@@ -17,45 +17,6 @@ type blazarPage struct {
 
 var _ app.Composer = (*blazarPage)(nil)
 
-// BEGIN: mixHTML methods
-
-func (c *blazarPage) Attr(name string, value any) *blazarPage {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarPage) Class(class ...string) *blazarPage {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarPage) DataSet(name string, value any) *blazarPage {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarPage) DataSets(dataSets map[string]any) *blazarPage {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarPage) Style(name, value string) *blazarPage {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarPage) Styles(styles map[string]string) *blazarPage {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarPage) Title(title string) *blazarPage {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarPage) Render() app.UI {
 	element := app.Div().
 		Class("blazar-page").

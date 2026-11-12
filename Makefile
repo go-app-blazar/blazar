@@ -1,4 +1,4 @@
-all: build test
+all: generate build test
 
 RACE ?= 0
 export CGO_ENABLED ?= 0
@@ -20,7 +20,13 @@ build: binaries build-static-demo
 .PHONY: clean
 clean:
 	go clean
+	rm -f blazar/*-generated.go
+	rm -f blazar/*_generated.go
 	rm -rf bin
+
+.PHONY: generate
+generate:
+	go generate ./...
 
 .PHONY: test
 test:

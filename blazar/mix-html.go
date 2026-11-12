@@ -12,56 +12,54 @@ type MixHTML struct {
 	IAttributes map[string]any
 	IClasses    []string
 	IData       map[string]any
+	IID         string
 	IStyles     map[string]string
 	ITitle      string
 }
 
-func (c *MixHTML) mixAttr(name string, value any) *MixHTML {
+func (c *MixHTML) mixAttr(name string, value any) {
 	if c.IAttributes == nil {
 		c.IAttributes = map[string]any{}
 	}
 	c.IAttributes[name] = value
-	return c
 }
 
-func (c *MixHTML) mixClass(class ...string) *MixHTML {
+func (c *MixHTML) mixClass(class ...string) {
 	c.IClasses = append(c.IClasses, class...)
-	return c
 }
 
-func (c *MixHTML) mixDataSet(name string, value any) *MixHTML {
+func (c *MixHTML) mixDataSet(name string, value any) {
 	if c.IData == nil {
 		c.IData = map[string]any{}
 	}
 	c.IData[name] = value
-	return c
 }
 
-func (c *MixHTML) mixDataSets(dataSets map[string]any) *MixHTML {
+func (c *MixHTML) mixDataSets(dataSets map[string]any) {
 	for name, value := range dataSets {
 		c.mixDataSet(name, value)
 	}
-	return c
 }
 
-func (c *MixHTML) mixStyle(name, value string) *MixHTML {
+func (c *MixHTML) mixID(id string) {
+	c.IID = id
+}
+
+func (c *MixHTML) mixStyle(name, value string) {
 	if c.IStyles == nil {
 		c.IStyles = map[string]string{}
 	}
 	c.IStyles[name] = value
-	return c
 }
 
-func (c *MixHTML) mixStyles(styles map[string]string) *MixHTML {
+func (c *MixHTML) mixStyles(styles map[string]string) {
 	for name, value := range styles {
 		c.mixStyle(name, value)
 	}
-	return c
 }
 
-func (c *MixHTML) mixTitle(title string) *MixHTML {
+func (c *MixHTML) mixTitle(title string) {
 	c.ITitle = title
-	return c
 }
 
 func (c *MixHTML) Wrap(element app.UI) app.UI {
@@ -186,6 +184,35 @@ func (c *MixHTML) Wrap(element app.UI) app.UI {
 			}
 			methodValue.Call(reflectOptions)
 		}
+	}()
+
+	// ID
+	func() {
+		methodValue := elementValue.MethodByName("ID")
+		if !methodValue.IsValid() {
+			slog.WarnContext(context.TODO(), "mixHTML: Wrap: Method 'ID' is not valid", "element", element)
+			return
+		}
+		if methodValue.IsZero() {
+			slog.WarnContext(context.TODO(), "mixHTML: Wrap: Method 'ID' not found", "element", element)
+			return
+		}
+		//slog.Debug("Wrap", "methodValue", methodValue)
+		methodType := methodValue.Type()
+		if methodType.NumIn() != 1 {
+			slog.WarnContext(context.TODO(), "mixHTML: Wrap: Method 'ID' has wrong number of arguments", "element", element, "methodType", methodType)
+			return
+		}
+		in1 := methodType.In(0)
+		if in1 != reflect.TypeFor[string]() {
+			slog.WarnContext(context.TODO(), "mixHTML: Wrap: Method 'ID' has wrong type for first argument", "element", element, "in1", in1.String())
+			return
+		}
+
+		reflectOptions := []reflect.Value{
+			reflect.ValueOf(c.IID),
+		}
+		methodValue.Call(reflectOptions)
 	}()
 
 	// Style

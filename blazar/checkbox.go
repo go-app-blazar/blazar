@@ -27,45 +27,6 @@ type blazarCheckbox struct {
 
 var _ app.Composer = (*blazarCheckbox)(nil)
 
-// BEGIN: mixHTML methods
-
-func (c *blazarCheckbox) Attr(name string, value any) *blazarCheckbox {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarCheckbox) Class(class ...string) *blazarCheckbox {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarCheckbox) DataSet(name string, value any) *blazarCheckbox {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarCheckbox) DataSets(dataSets map[string]any) *blazarCheckbox {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarCheckbox) Style(name, value string) *blazarCheckbox {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarCheckbox) Styles(styles map[string]string) *blazarCheckbox {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarCheckbox) Title(title string) *blazarCheckbox {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarCheckbox) AutoFocus(autoFocus bool) *blazarCheckbox {
 	c.IAutoFocus = autoFocus
 	return c

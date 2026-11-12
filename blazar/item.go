@@ -21,45 +21,6 @@ type blazarItem struct {
 
 var _ app.Composer = (*blazarItem)(nil)
 
-// BEGIN: mixHTML methods
-
-func (c *blazarItem) Attr(name string, value any) *blazarItem {
-	c.mixAttr(name, value)
-	return c
-}
-
-func (c *blazarItem) Class(class ...string) *blazarItem {
-	c.mixClass(class...)
-	return c
-}
-
-func (c *blazarItem) DataSet(name string, value any) *blazarItem {
-	c.mixDataSet(name, value)
-	return c
-}
-
-func (c *blazarItem) DataSets(dataSets map[string]any) *blazarItem {
-	c.mixDataSets(dataSets)
-	return c
-}
-
-func (c *blazarItem) Style(name, value string) *blazarItem {
-	c.mixStyle(name, value)
-	return c
-}
-
-func (c *blazarItem) Styles(styles map[string]string) *blazarItem {
-	c.mixStyles(styles)
-	return c
-}
-
-func (c *blazarItem) Title(title string) *blazarItem {
-	c.mixTitle(title)
-	return c
-}
-
-// END: mixHTML methods
-
 func (c *blazarItem) Icon(icon string) *blazarItem {
 	c.IIcon = icon
 	return c
