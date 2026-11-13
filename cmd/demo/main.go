@@ -84,13 +84,13 @@ func main() {
 			Path: "/",
 			Component: func() app.Composer {
 				return blazar.MainLayout().
-					HeadlineFunction(func() app.UI {
-						return app.A().
+					HeadlineBody(
+						app.A().
 							Href("/").
-							Text("Blazar Demo")
-					}).
-					DrawerFunction(func() app.UI {
-						return app.Div().
+							Text("Blazar Demo"),
+					).
+					DrawerBody(
+						app.Div().
 							Body(
 								blazar.Item().
 									Label("App Bar").
@@ -134,8 +134,8 @@ func main() {
 								blazar.Item().
 									Label("Table").
 									To("/table"),
-							)
-					})
+							),
+					)
 			},
 			Children: []router.Route{
 				{

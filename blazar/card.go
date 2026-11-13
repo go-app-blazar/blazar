@@ -11,13 +11,13 @@ type blazarCard struct {
 	app.Compo
 	MixHTML
 
-	IIcon             string
-	IHeadline         string
-	IHeadlineFunction func() app.UI
-	ISubtitle         string
-	ISubtitleFunction func() app.UI
-	IBody             []app.UI
-	IActions          []FormAction
+	IIcon         string
+	IHeadlineText string
+	IHeadlineBody []app.UI
+	ISubtitleText string
+	ISubtitleBody []app.UI
+	IBody         []app.UI
+	IActions      []FormAction
 }
 
 func Card() *blazarCard {
@@ -30,22 +30,22 @@ func (c *blazarCard) Icon(icon string) *blazarCard {
 }
 
 func (c *blazarCard) HeadlineText(text string) *blazarCard {
-	c.IHeadline = text
+	c.IHeadlineText = text
 	return c
 }
 
-func (c *blazarCard) HeadlineFunction(function func() app.UI) *blazarCard {
-	c.IHeadlineFunction = function
+func (c *blazarCard) HeadlineBody(body ...app.UI) *blazarCard {
+	c.IHeadlineBody = body
 	return c
 }
 
 func (c *blazarCard) SubtitleText(text string) *blazarCard {
-	c.ISubtitle = text
+	c.ISubtitleText = text
 	return c
 }
 
-func (c *blazarCard) SubtitleFunction(function func() app.UI) *blazarCard {
-	c.ISubtitleFunction = function
+func (c *blazarCard) SubtitleBody(body ...app.UI) *blazarCard {
+	c.ISubtitleBody = body
 	return c
 }
 
@@ -69,7 +69,7 @@ func (c *blazarCard) Render() app.UI {
 		Class("blazar-card", "blazar-mixin-dropshadow").
 		Style("width", "100%").
 		Body(
-			app.If(c.IHeadline != "" || c.IHeadlineFunction != nil || c.ISubtitle != "" || c.ISubtitleFunction != nil, func() app.UI {
+			app.If(c.IHeadlineText != "" || len(c.IHeadlineBody) > 0 || c.ISubtitleText != "" || len(c.ISubtitleBody) > 0, func() app.UI {
 				return app.Div().
 					Class("blazar-card__header").
 					Body(
@@ -83,29 +83,29 @@ func (c *blazarCard) Render() app.UI {
 						}),
 						app.Div().
 							Body(
-								app.If(c.IHeadline != "" || c.IHeadlineFunction != nil, func() app.UI {
+								app.If(c.IHeadlineText != "" || len(c.IHeadlineBody) > 0, func() app.UI {
 									return app.Div().
 										Class("blazar-card__headline").
 										Body(
-											app.If(c.IHeadlineFunction != nil, func() app.UI {
-												return c.IHeadlineFunction()
+											app.IfSlice(len(c.IHeadlineBody) > 0, func() []app.UI {
+												return c.IHeadlineBody
 											}).Else(func() app.UI {
 												return app.Div().
 													Class("blazar-card__headline-text").
-													Text(c.IHeadline)
+													Text(c.IHeadlineText)
 											}),
 										)
 								}),
-								app.If(c.ISubtitle != "" || c.ISubtitleFunction != nil, func() app.UI {
+								app.If(c.ISubtitleText != "" || len(c.ISubtitleBody) > 0, func() app.UI {
 									return app.Div().
 										Class("blazar-card__subtitle").
 										Body(
-											app.If(c.ISubtitleFunction != nil, func() app.UI {
-												return c.ISubtitleFunction()
+											app.IfSlice(len(c.ISubtitleBody) > 0, func() []app.UI {
+												return c.ISubtitleBody
 											}).Else(func() app.UI {
 												return app.Div().
 													Class("blazar-card__subtitle-text").
-													Text(c.ISubtitle)
+													Text(c.ISubtitleText)
 											}),
 										)
 								}),
