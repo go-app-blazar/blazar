@@ -126,7 +126,7 @@ func (c *blazarMainLayout) Render() app.UI {
 				Class("blazar-main-layout__header").
 				NoIcon(!iconVisible).
 				Icon(tabler.IconFilledMenu2).
-				IconFunction(func(ctx app.Context, e app.Event) {
+				IconFunction(func(ctx app.Context) {
 					c.toggleDrawer()
 				}).
 				HeadlineText(c.IHeadlineText).

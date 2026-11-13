@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/go-app-blazar/blazar/htmlevent"
 	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
@@ -14,7 +15,7 @@ type blazarAppBar struct {
 
 	INoIcon       bool
 	IIcon         string
-	IIconFunction func(ctx app.Context, e app.Event)
+	IIconFunction func(ctx app.Context)
 
 	IHeadlineText string
 	IHeadlineBody []app.UI
@@ -39,7 +40,7 @@ func (c *blazarAppBar) Icon(icon string) *blazarAppBar {
 	return c
 }
 
-func (c *blazarAppBar) IconFunction(function func(ctx app.Context, e app.Event)) *blazarAppBar {
+func (c *blazarAppBar) IconFunction(function func(ctx app.Context)) *blazarAppBar {
 	c.IIconFunction = function
 	return c
 }
@@ -85,9 +86,9 @@ func (c *blazarAppBar) Render() app.UI {
 					Body(
 						Icon().
 							Icon(c.IIcon).
-							On("click", func(ctx app.Context, e app.Event) {
+							OnClick(func(ctx app.Context, e htmlevent.MouseEvent) {
 								if c.IIconFunction != nil {
-									c.IIconFunction(ctx, e)
+									c.IIconFunction(ctx)
 								}
 							}),
 					)
