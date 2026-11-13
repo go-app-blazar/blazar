@@ -130,10 +130,28 @@ func (c *blazarMainLayout) Render() app.UI {
 					c.toggleDrawer()
 				}).
 				HeadlineText(c.IHeadline).
-				HeadlineFunction(c.IHeadlineFunction).
+				HeadlineBody(func() []app.UI {
+					if c.IHeadlineFunction != nil {
+						return []app.UI{c.IHeadlineFunction()}
+					} else {
+						return nil
+					}
+				}()...).
 				SubtitleText(c.ISubtitle).
-				SubtitleFunction(c.ISubtitleFunction).
-				TrailerFunction(c.ITrailerFunction),
+				SubtitleBody(func() []app.UI {
+					if c.ISubtitleFunction != nil {
+						return []app.UI{c.ISubtitleFunction()}
+					} else {
+						return nil
+					}
+				}()...).
+				TrailerBody(func() []app.UI {
+					if c.ITrailerFunction != nil {
+						return []app.UI{c.ITrailerFunction()}
+					} else {
+						return nil
+					}
+				}()...),
 			app.Div().
 				Class("blazar-main-layout__body").
 				Body(
