@@ -32,28 +32,28 @@ func (c *AppBarPage) Render() app.UI {
 				HeadlineText("App Bar with no icon"),
 			blazar.AppBar().
 				Icon(tabler.IconFilledMenu2).
-				IconFunction(func(ctx app.Context, e app.Event) {
+				IconFunction(func(ctx app.Context) {
 					app.Window().Call("alert", "Icon clicked")
 				}).
 				HeadlineText("App Bar with default icon"),
 			blazar.AppBar().
 				Icon(tabler.IconFilledMenu2).
-				IconFunction(func(ctx app.Context, e app.Event) {
+				IconFunction(func(ctx app.Context) {
 					app.Window().Call("alert", "Icon clicked")
 				}).
 				HeadlineText("App Bar with default icon and trailer").
-				TrailerFunction(func() app.UI {
-					return app.Div().Text("Trailer")
-				}),
+				TrailerBody(
+					app.Div().Text("Trailer"),
+				),
 			blazar.AppBar().
 				Icon(tabler.IconFilledMenu2).
-				IconFunction(func(ctx app.Context, e app.Event) {
+				IconFunction(func(ctx app.Context) {
 					app.Window().Call("alert", "Icon clicked")
 				}).
 				HeadlineText("App Bar with default icon, subtitle, and trailer").
 				SubtitleText("Subtitle text").
-				TrailerFunction(func() app.UI {
-					return app.Div().Text("Trailer")
-				}),
+				TrailerBody(
+					app.Div().Text("Trailer"),
+				),
 		)
 }
