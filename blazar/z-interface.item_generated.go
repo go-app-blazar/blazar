@@ -10,7 +10,6 @@ import (
 )
 
 type BlazarItem interface {
-
 	// Attr sets an attribute with its associated value, allowing for flexible HTML customization.
 	//
 	// This is for compatibility with go-app HTML components.
