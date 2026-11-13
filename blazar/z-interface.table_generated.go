@@ -11,21 +11,55 @@ import (
 
 type BlazarTable[T any] interface {
 	
+	// Attr sets an attribute with its associated value, allowing for flexible HTML customization.
+// 
+// This is for compatibility with go-app HTML components.
+Attr(name string, value any) BlazarTable[T]
+	
+	// Class assigns one or more classnames to an element, linking it to styles defined in a stylesheet.
+// This can be called multiple times to assign multiple classnames.
+// 
+// This is for compatibility with go-app HTML components.
+Class(class ...string) BlazarTable[T]
+	
+	// DataSet allows for storage of custom data specific to individual elements.
+// This can be called multiple times to store multiple sets of data, often used for scripting purposes.
+// 
+// This is for compatibility with go-app HTML components.
+DataSet(name string, value any) BlazarTable[T]
+	
+	// DataSets denotes datasets linked to an element and can store multiple sets of data.
+// 
+// This is for compatibility with go-app HTML components.
+DataSets(dataSets map[string]any) BlazarTable[T]
+	
+	// ID assigns a unique identifier to an element.
+// 
+// This is for compatibility with go-app HTML components.
+ID(id string) BlazarTable[T]
+	
+	// Style assigns inline CSS styling to an element.
+// This can be called multiple times to set multiple CSS styles.
+// 
+// This is for compatibility with go-app HTML components.
+Style(name, value string) BlazarTable[T]
+	
+	// Styles allocates multiple CSS styles to an element.
+// This accepts multiple styling definitions.
+// 
+// This is for compatibility with go-app HTML components.
+Styles(styles map[string]string) BlazarTable[T]
+	
+	// Title provides additional information about an element, typically displayed as a tooltip.
+// 
+// This is for compatibility with go-app HTML components.
+Title(title string) BlazarTable[T]
+	
 	Action(actions ...TableAction) BlazarTable[T]
-	
-	Attr(name string, value any) BlazarTable[T]
-	
-	Class(class ...string) BlazarTable[T]
 	
 	Columns(columns []TableColumn[T]) BlazarTable[T]
 	
-	DataSet(name string, value any) BlazarTable[T]
-	
-	DataSets(dataSets map[string]any) BlazarTable[T]
-	
 	EmptyMessage(emptyMessage string) BlazarTable[T]
-	
-	ID(id string) BlazarTable[T]
 	
 	Interactive(interactive bool) BlazarTable[T]
 	
@@ -44,12 +78,6 @@ type BlazarTable[T any] interface {
 	RowIDFunction(rowIDFunction func(row T) string) BlazarTable[T]
 	
 	Rows(rows []T) BlazarTable[T]
-	
-	Style(name, value string) BlazarTable[T]
-	
-	Styles(styles map[string]string) BlazarTable[T]
-	
-	Title(title string) BlazarTable[T]
 	
 	VisibleColumns(visibleColumnNames []string) BlazarTable[T]
 	

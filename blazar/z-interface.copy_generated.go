@@ -13,33 +13,64 @@ import (
 
 type BlazarCopy interface {
 	
-	Attr(name string, value any) BlazarCopy
+	// Attr sets an attribute with its associated value, allowing for flexible HTML customization.
+// 
+// This is for compatibility with go-app HTML components.
+Attr(name string, value any) BlazarCopy
+	
+	// Class assigns one or more classnames to an element, linking it to styles defined in a stylesheet.
+// This can be called multiple times to assign multiple classnames.
+// 
+// This is for compatibility with go-app HTML components.
+Class(class ...string) BlazarCopy
+	
+	// DataSet allows for storage of custom data specific to individual elements.
+// This can be called multiple times to store multiple sets of data, often used for scripting purposes.
+// 
+// This is for compatibility with go-app HTML components.
+DataSet(name string, value any) BlazarCopy
+	
+	// DataSets denotes datasets linked to an element and can store multiple sets of data.
+// 
+// This is for compatibility with go-app HTML components.
+DataSets(dataSets map[string]any) BlazarCopy
+	
+	// ID assigns a unique identifier to an element.
+// 
+// This is for compatibility with go-app HTML components.
+ID(id string) BlazarCopy
+	
+	// OnClick is called when the copy is clicked.
+OnClick(function func(ctx app.Context, event htmlevent.PointerEvent)) BlazarCopy
+	
+	// OnCopy is called when the text has been copied.
+// The text value is passed to the function.
+OnCopy(function func(ctx app.Context, value string)) BlazarCopy
+	
+	// Style assigns inline CSS styling to an element.
+// This can be called multiple times to set multiple CSS styles.
+// 
+// This is for compatibility with go-app HTML components.
+Style(name, value string) BlazarCopy
+	
+	// Styles allocates multiple CSS styles to an element.
+// This accepts multiple styling definitions.
+// 
+// This is for compatibility with go-app HTML components.
+Styles(styles map[string]string) BlazarCopy
+	
+	// Title provides additional information about an element, typically displayed as a tooltip.
+// 
+// This is for compatibility with go-app HTML components.
+Title(title string) BlazarCopy
 	
 	Body(body ...app.UI) BlazarCopy
 	
-	Class(class ...string) BlazarCopy
-	
-	DataSet(name string, value any) BlazarCopy
-	
-	DataSets(dataSets map[string]any) BlazarCopy
-	
 	Disabled(disabled bool) BlazarCopy
-	
-	ID(id string) BlazarCopy
 	
 	Icon(icon string) BlazarCopy
 	
-	OnClick(function func(ctx app.Context, event htmlevent.PointerEvent)) BlazarCopy
-	
-	OnCopy(function func(ctx app.Context, value string)) BlazarCopy
-	
-	Style(name, value string) BlazarCopy
-	
-	Styles(styles map[string]string) BlazarCopy
-	
 	Text(text string) BlazarCopy
-	
-	Title(title string) BlazarCopy
 	
 	Value(value string) BlazarCopy
 	

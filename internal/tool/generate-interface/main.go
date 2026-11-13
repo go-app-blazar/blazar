@@ -136,6 +136,19 @@ func main() {
 			}
 			functionDeclaration = strings.Replace(functionDeclaration, "*"+receiverTypeName, "%%TYPE%%", 1)
 
+			comment := strings.TrimSpace(fn.Doc.Text())
+			if len(comment) > 0 {
+				newComment := ""
+				lines := strings.Split(comment, "\n")
+				for _, line := range lines {
+					line = strings.TrimSpace(line)
+
+					newComment = newComment + "// " + line + "\n"
+				}
+
+				functionDeclaration = strings.TrimSpace(newComment) + "\n" + functionDeclaration
+			}
+
 			structMethods[receiverTypeName] = append(structMethods[receiverTypeName], functionDeclaration)
 
 			return true

@@ -9,28 +9,60 @@ import (
 
 type BlazarProgressBar interface {
 	
-	Animated(animated bool) BlazarProgressBar
+	// Animated enables or disables the animated mode of the progress bar.
+Animated(animated bool) BlazarProgressBar
 	
-	Attr(name string, value any) BlazarProgressBar
+	// Attr sets an attribute with its associated value, allowing for flexible HTML customization.
+// 
+// This is for compatibility with go-app HTML components.
+Attr(name string, value any) BlazarProgressBar
 	
-	Class(class ...string) BlazarProgressBar
+	// Class assigns one or more classnames to an element, linking it to styles defined in a stylesheet.
+// This can be called multiple times to assign multiple classnames.
+// 
+// This is for compatibility with go-app HTML components.
+Class(class ...string) BlazarProgressBar
 	
-	DataSet(name string, value any) BlazarProgressBar
+	// DataSet allows for storage of custom data specific to individual elements.
+// This can be called multiple times to store multiple sets of data, often used for scripting purposes.
+// 
+// This is for compatibility with go-app HTML components.
+DataSet(name string, value any) BlazarProgressBar
 	
-	DataSets(dataSets map[string]any) BlazarProgressBar
+	// DataSets denotes datasets linked to an element and can store multiple sets of data.
+// 
+// This is for compatibility with go-app HTML components.
+DataSets(dataSets map[string]any) BlazarProgressBar
 	
-	Height(height string) BlazarProgressBar
+	// Height sets the height of the progress bar.
+Height(height string) BlazarProgressBar
 	
-	ID(id string) BlazarProgressBar
+	// ID assigns a unique identifier to an element.
+// 
+// This is for compatibility with go-app HTML components.
+ID(id string) BlazarProgressBar
 	
-	Indeterminate(indeterminate bool) BlazarProgressBar
+	// Indeterminate sets the indeterminate mode of the progress bar.
+Indeterminate(indeterminate bool) BlazarProgressBar
 	
-	Percentage(percentage uint) BlazarProgressBar
+	// Percentage sets the percentage of the progress bar.
+Percentage(percentage uint) BlazarProgressBar
 	
-	Style(name, value string) BlazarProgressBar
+	// Style assigns inline CSS styling to an element.
+// This can be called multiple times to set multiple CSS styles.
+// 
+// This is for compatibility with go-app HTML components.
+Style(name, value string) BlazarProgressBar
 	
-	Styles(styles map[string]string) BlazarProgressBar
+	// Styles allocates multiple CSS styles to an element.
+// This accepts multiple styling definitions.
+// 
+// This is for compatibility with go-app HTML components.
+Styles(styles map[string]string) BlazarProgressBar
 	
-	Title(title string) BlazarProgressBar
+	// Title provides additional information about an element, typically displayed as a tooltip.
+// 
+// This is for compatibility with go-app HTML components.
+Title(title string) BlazarProgressBar
 	
 }

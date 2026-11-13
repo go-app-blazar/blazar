@@ -11,21 +11,55 @@ import (
 
 type BlazarMultiselect interface {
 	
-	AllowedValue(allowedValue ...SelectOption) BlazarMultiselect
+	// Attr sets an attribute with its associated value, allowing for flexible HTML customization.
+// 
+// This is for compatibility with go-app HTML components.
+Attr(name string, value any) BlazarMultiselect
 	
-	Attr(name string, value any) BlazarMultiselect
+	// Class assigns one or more classnames to an element, linking it to styles defined in a stylesheet.
+// This can be called multiple times to assign multiple classnames.
+// 
+// This is for compatibility with go-app HTML components.
+Class(class ...string) BlazarMultiselect
+	
+	// DataSet allows for storage of custom data specific to individual elements.
+// This can be called multiple times to store multiple sets of data, often used for scripting purposes.
+// 
+// This is for compatibility with go-app HTML components.
+DataSet(name string, value any) BlazarMultiselect
+	
+	// DataSets denotes datasets linked to an element and can store multiple sets of data.
+// 
+// This is for compatibility with go-app HTML components.
+DataSets(dataSets map[string]any) BlazarMultiselect
+	
+	// ID assigns a unique identifier to an element.
+// 
+// This is for compatibility with go-app HTML components.
+ID(id string) BlazarMultiselect
+	
+	// Style assigns inline CSS styling to an element.
+// This can be called multiple times to set multiple CSS styles.
+// 
+// This is for compatibility with go-app HTML components.
+Style(name, value string) BlazarMultiselect
+	
+	// Styles allocates multiple CSS styles to an element.
+// This accepts multiple styling definitions.
+// 
+// This is for compatibility with go-app HTML components.
+Styles(styles map[string]string) BlazarMultiselect
+	
+	// Title provides additional information about an element, typically displayed as a tooltip.
+// 
+// This is for compatibility with go-app HTML components.
+Title(title string) BlazarMultiselect
+	
+	AllowedValue(allowedValue ...SelectOption) BlazarMultiselect
 	
 	Bind(bindSelectedValues *[]string) BlazarMultiselect
 	
-	Class(class ...string) BlazarMultiselect
-	
-	DataSet(name string, value any) BlazarMultiselect
-	
-	DataSets(dataSets map[string]any) BlazarMultiselect
-	
 	Disabled(disabled bool) BlazarMultiselect
-	
-	ID(id string) BlazarMultiselect
 	
 	Label(label string) BlazarMultiselect
 	
@@ -34,11 +68,5 @@ type BlazarMultiselect interface {
 	On(event string, function func(ctx app.Context, e app.Event)) BlazarMultiselect
 	
 	SelectedValue(selectedValue ...string) BlazarMultiselect
-	
-	Style(name, value string) BlazarMultiselect
-	
-	Styles(styles map[string]string) BlazarMultiselect
-	
-	Title(title string) BlazarMultiselect
 	
 }

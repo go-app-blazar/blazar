@@ -11,13 +11,49 @@ import (
 
 type BlazarMainLayout interface {
 	
-	Attr(name string, value any) BlazarMainLayout
+	// Attr sets an attribute with its associated value, allowing for flexible HTML customization.
+// 
+// This is for compatibility with go-app HTML components.
+Attr(name string, value any) BlazarMainLayout
 	
-	Class(class ...string) BlazarMainLayout
+	// Class assigns one or more classnames to an element, linking it to styles defined in a stylesheet.
+// This can be called multiple times to assign multiple classnames.
+// 
+// This is for compatibility with go-app HTML components.
+Class(class ...string) BlazarMainLayout
 	
-	DataSet(name string, value any) BlazarMainLayout
+	// DataSet allows for storage of custom data specific to individual elements.
+// This can be called multiple times to store multiple sets of data, often used for scripting purposes.
+// 
+// This is for compatibility with go-app HTML components.
+DataSet(name string, value any) BlazarMainLayout
 	
-	DataSets(dataSets map[string]any) BlazarMainLayout
+	// DataSets denotes datasets linked to an element and can store multiple sets of data.
+// 
+// This is for compatibility with go-app HTML components.
+DataSets(dataSets map[string]any) BlazarMainLayout
+	
+	// ID assigns a unique identifier to an element.
+// 
+// This is for compatibility with go-app HTML components.
+ID(id string) BlazarMainLayout
+	
+	// Style assigns inline CSS styling to an element.
+// This can be called multiple times to set multiple CSS styles.
+// 
+// This is for compatibility with go-app HTML components.
+Style(name, value string) BlazarMainLayout
+	
+	// Styles allocates multiple CSS styles to an element.
+// This accepts multiple styling definitions.
+// 
+// This is for compatibility with go-app HTML components.
+Styles(styles map[string]string) BlazarMainLayout
+	
+	// Title provides additional information about an element, typically displayed as a tooltip.
+// 
+// This is for compatibility with go-app HTML components.
+Title(title string) BlazarMainLayout
 	
 	DrawerFunction(function func() app.UI) BlazarMainLayout
 	
@@ -25,19 +61,11 @@ type BlazarMainLayout interface {
 	
 	HeadlineText(text string) BlazarMainLayout
 	
-	ID(id string) BlazarMainLayout
-	
 	ResponsiveWidth(width string) BlazarMainLayout
-	
-	Style(name, value string) BlazarMainLayout
-	
-	Styles(styles map[string]string) BlazarMainLayout
 	
 	SubtitleFunction(function func() app.UI) BlazarMainLayout
 	
 	SubtitleText(text string) BlazarMainLayout
-	
-	Title(title string) BlazarMainLayout
 	
 	TrailerFunction(function func() app.UI) BlazarMainLayout
 	

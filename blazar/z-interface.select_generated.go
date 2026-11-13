@@ -11,21 +11,55 @@ import (
 
 type BlazarSelect interface {
 	
-	AllowedValue(allowedValue ...SelectOption) BlazarSelect
+	// Attr sets an attribute with its associated value, allowing for flexible HTML customization.
+// 
+// This is for compatibility with go-app HTML components.
+Attr(name string, value any) BlazarSelect
 	
-	Attr(name string, value any) BlazarSelect
+	// Class assigns one or more classnames to an element, linking it to styles defined in a stylesheet.
+// This can be called multiple times to assign multiple classnames.
+// 
+// This is for compatibility with go-app HTML components.
+Class(class ...string) BlazarSelect
+	
+	// DataSet allows for storage of custom data specific to individual elements.
+// This can be called multiple times to store multiple sets of data, often used for scripting purposes.
+// 
+// This is for compatibility with go-app HTML components.
+DataSet(name string, value any) BlazarSelect
+	
+	// DataSets denotes datasets linked to an element and can store multiple sets of data.
+// 
+// This is for compatibility with go-app HTML components.
+DataSets(dataSets map[string]any) BlazarSelect
+	
+	// ID assigns a unique identifier to an element.
+// 
+// This is for compatibility with go-app HTML components.
+ID(id string) BlazarSelect
+	
+	// Style assigns inline CSS styling to an element.
+// This can be called multiple times to set multiple CSS styles.
+// 
+// This is for compatibility with go-app HTML components.
+Style(name, value string) BlazarSelect
+	
+	// Styles allocates multiple CSS styles to an element.
+// This accepts multiple styling definitions.
+// 
+// This is for compatibility with go-app HTML components.
+Styles(styles map[string]string) BlazarSelect
+	
+	// Title provides additional information about an element, typically displayed as a tooltip.
+// 
+// This is for compatibility with go-app HTML components.
+Title(title string) BlazarSelect
+	
+	AllowedValue(allowedValue ...SelectOption) BlazarSelect
 	
 	Bind(bindSelectedValue *string) BlazarSelect
 	
-	Class(class ...string) BlazarSelect
-	
-	DataSet(name string, value any) BlazarSelect
-	
-	DataSets(dataSets map[string]any) BlazarSelect
-	
 	Disabled(disabled bool) BlazarSelect
-	
-	ID(id string) BlazarSelect
 	
 	Label(label string) BlazarSelect
 	
@@ -34,11 +68,5 @@ type BlazarSelect interface {
 	On(event string, function func(ctx app.Context, e app.Event)) BlazarSelect
 	
 	SelectedValue(selectedValue string) BlazarSelect
-	
-	Style(name, value string) BlazarSelect
-	
-	Styles(styles map[string]string) BlazarSelect
-	
-	Title(title string) BlazarSelect
 	
 }

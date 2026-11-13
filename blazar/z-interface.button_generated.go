@@ -13,21 +13,55 @@ import (
 
 type BlazarButton interface {
 	
-	Attr(name string, value any) BlazarButton
+	// Attr sets an attribute with its associated value, allowing for flexible HTML customization.
+// 
+// This is for compatibility with go-app HTML components.
+Attr(name string, value any) BlazarButton
+	
+	// Class assigns one or more classnames to an element, linking it to styles defined in a stylesheet.
+// This can be called multiple times to assign multiple classnames.
+// 
+// This is for compatibility with go-app HTML components.
+Class(class ...string) BlazarButton
+	
+	// DataSet allows for storage of custom data specific to individual elements.
+// This can be called multiple times to store multiple sets of data, often used for scripting purposes.
+// 
+// This is for compatibility with go-app HTML components.
+DataSet(name string, value any) BlazarButton
+	
+	// DataSets denotes datasets linked to an element and can store multiple sets of data.
+// 
+// This is for compatibility with go-app HTML components.
+DataSets(dataSets map[string]any) BlazarButton
+	
+	// ID assigns a unique identifier to an element.
+// 
+// This is for compatibility with go-app HTML components.
+ID(id string) BlazarButton
+	
+	// Style assigns inline CSS styling to an element.
+// This can be called multiple times to set multiple CSS styles.
+// 
+// This is for compatibility with go-app HTML components.
+Style(name, value string) BlazarButton
+	
+	// Styles allocates multiple CSS styles to an element.
+// This accepts multiple styling definitions.
+// 
+// This is for compatibility with go-app HTML components.
+Styles(styles map[string]string) BlazarButton
+	
+	// Title provides additional information about an element, typically displayed as a tooltip.
+// 
+// This is for compatibility with go-app HTML components.
+Title(title string) BlazarButton
 	
 	AutoFocus(autoFocus bool) BlazarButton
-	
-	Class(class ...string) BlazarButton
-	
-	DataSet(name string, value any) BlazarButton
-	
-	DataSets(dataSets map[string]any) BlazarButton
 	
 	Disabled(disabled bool) BlazarButton
 	
 	Flat(flat bool) BlazarButton
-	
-	ID(id string) BlazarButton
 	
 	Icon(icon string) BlazarButton
 	
@@ -47,13 +81,7 @@ type BlazarButton interface {
 	
 	Round(round bool) BlazarButton
 	
-	Style(name, value string) BlazarButton
-	
-	Styles(styles map[string]string) BlazarButton
-	
 	Target(target string) BlazarButton
-	
-	Title(title string) BlazarButton
 	
 	To(to string) BlazarButton
 	

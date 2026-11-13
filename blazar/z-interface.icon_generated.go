@@ -13,26 +13,60 @@ import (
 
 type BlazarIcon interface {
 	
-	Attr(name string, value any) BlazarIcon
+	// Attr sets an attribute with its associated value, allowing for flexible HTML customization.
+// 
+// This is for compatibility with go-app HTML components.
+Attr(name string, value any) BlazarIcon
 	
-	Class(class ...string) BlazarIcon
+	// Class assigns one or more classnames to an element, linking it to styles defined in a stylesheet.
+// This can be called multiple times to assign multiple classnames.
+// 
+// This is for compatibility with go-app HTML components.
+Class(class ...string) BlazarIcon
 	
-	DataSet(name string, value any) BlazarIcon
+	// DataSet allows for storage of custom data specific to individual elements.
+// This can be called multiple times to store multiple sets of data, often used for scripting purposes.
+// 
+// This is for compatibility with go-app HTML components.
+DataSet(name string, value any) BlazarIcon
 	
-	DataSets(dataSets map[string]any) BlazarIcon
+	// DataSets denotes datasets linked to an element and can store multiple sets of data.
+// 
+// This is for compatibility with go-app HTML components.
+DataSets(dataSets map[string]any) BlazarIcon
 	
-	ID(id string) BlazarIcon
+	// ID assigns a unique identifier to an element.
+// 
+// This is for compatibility with go-app HTML components.
+ID(id string) BlazarIcon
 	
-	Icon(icon string) BlazarIcon
+	// Icon sets the name of the icon.
+// 
+// If this does not start with &#34;fa-&#34;, it will be prefixed with &#34;fa-&#34;.
+// 
+// If this contains a space, the first part will be the icon class and the
+// second part will be the font class (default is &#34;fa-solid&#34;).
+Icon(icon string) BlazarIcon
+	
+	// Style assigns inline CSS styling to an element.
+// This can be called multiple times to set multiple CSS styles.
+// 
+// This is for compatibility with go-app HTML components.
+Style(name, value string) BlazarIcon
+	
+	// Styles allocates multiple CSS styles to an element.
+// This accepts multiple styling definitions.
+// 
+// This is for compatibility with go-app HTML components.
+Styles(styles map[string]string) BlazarIcon
+	
+	// Title provides additional information about an element, typically displayed as a tooltip.
+// 
+// This is for compatibility with go-app HTML components.
+Title(title string) BlazarIcon
 	
 	On(event string, function func(ctx app.Context, e app.Event)) BlazarIcon
 	
 	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
-	
-	Style(name, value string) BlazarIcon
-	
-	Styles(styles map[string]string) BlazarIcon
-	
-	Title(title string) BlazarIcon
 	
 }

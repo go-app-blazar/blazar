@@ -11,24 +11,52 @@ import (
 
 type BlazarInputWrapper interface {
 	
-	Attr(name string, value any) BlazarInputWrapper
+	// Attr sets an attribute with its associated value, allowing for flexible HTML customization.
+// 
+// This is for compatibility with go-app HTML components.
+Attr(name string, value any) BlazarInputWrapper
+	
+	// Class assigns one or more classnames to an element, linking it to styles defined in a stylesheet.
+// This can be called multiple times to assign multiple classnames.
+// 
+// This is for compatibility with go-app HTML components.
+Class(class ...string) BlazarInputWrapper
+	
+	// DataSet allows for storage of custom data specific to individual elements.
+// This can be called multiple times to store multiple sets of data, often used for scripting purposes.
+// 
+// This is for compatibility with go-app HTML components.
+DataSet(name string, value any) BlazarInputWrapper
+	
+	// DataSets denotes datasets linked to an element and can store multiple sets of data.
+// 
+// This is for compatibility with go-app HTML components.
+DataSets(dataSets map[string]any) BlazarInputWrapper
+	
+	// ID assigns a unique identifier to an element.
+// 
+// This is for compatibility with go-app HTML components.
+ID(id string) BlazarInputWrapper
+	
+	// Style assigns inline CSS styling to an element.
+// This can be called multiple times to set multiple CSS styles.
+// 
+// This is for compatibility with go-app HTML components.
+Style(name, value string) BlazarInputWrapper
+	
+	// Styles allocates multiple CSS styles to an element.
+// This accepts multiple styling definitions.
+// 
+// This is for compatibility with go-app HTML components.
+Styles(styles map[string]string) BlazarInputWrapper
+	
+	// Title provides additional information about an element, typically displayed as a tooltip.
+// 
+// This is for compatibility with go-app HTML components.
+Title(title string) BlazarInputWrapper
 	
 	Body(body ...app.UI) BlazarInputWrapper
 	
-	Class(class ...string) BlazarInputWrapper
-	
-	DataSet(name string, value any) BlazarInputWrapper
-	
-	DataSets(dataSets map[string]any) BlazarInputWrapper
-	
-	ID(id string) BlazarInputWrapper
-	
 	Label(label string) BlazarInputWrapper
-	
-	Style(name, value string) BlazarInputWrapper
-	
-	Styles(styles map[string]string) BlazarInputWrapper
-	
-	Title(title string) BlazarInputWrapper
 	
 }
