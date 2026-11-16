@@ -15,7 +15,7 @@ ALL_GO_FILES := $(shell find ./ -name '*.go') $(shell find ./ -type f -wholename
 current_dir = $(shell pwd)
 
 .PHONY: build
-build: binaries build-static-demo
+build: generate binaries build-static-demo
 
 .PHONY: clean
 clean:
