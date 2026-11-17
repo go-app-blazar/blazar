@@ -13,12 +13,27 @@ import (
 )
 
 func main() {
-	directory, err := os.Getwd()
-	if err != nil {
-		slog.Error("Failed to get CWD.", "err", err)
+	{
+		currentDirectory, err := os.Getwd()
+		if err != nil {
+			slog.Error("Failed to get CWD.", "err", err)
+			os.Exit(1)
+		}
+		fmt.Printf("CWD: %s\n", currentDirectory)
+	}
+
+	args := os.Args[1:]
+	if len(args) != 1 {
+		slog.Error("Expected 1 argument.", "args", args)
 		os.Exit(1)
 	}
-	fmt.Printf("CWD: %s\n", directory)
+	sourceDirectory := args[0]
+	err := os.Chdir(sourceDirectory)
+	if err != nil {
+		slog.Error("Failed to change to directory.", "directory", sourceDirectory, "err", err)
+		os.Exit(1)
+	}
+	fmt.Printf("Changed to: %s\n", sourceDirectory)
 
 	t, err := template.ParseFiles("mix-html-template.gotmpl")
 	if err != nil {
