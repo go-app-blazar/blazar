@@ -18,7 +18,7 @@ type eventHandlerEvent struct {
 	options      []app.EventOption
 }
 
-func (c *MixEvents) On(name string, eventHandler app.EventHandler, options ...app.EventOption) {
+func (c *MixEvents) MixOn(name string, eventHandler app.EventHandler, options ...app.EventOption) {
 	c.events = append(c.events, eventHandlerEvent{
 		name:         name,
 		eventHandler: eventHandler,
@@ -26,56 +26,56 @@ func (c *MixEvents) On(name string, eventHandler app.EventHandler, options ...ap
 	})
 }
 
-func (c *MixEvents) OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) {
-	c.On("click", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) {
+	c.MixOn("click", func(ctx app.Context, e app.Event) {
 		var mouseEvent htmlevent.MouseEvent
 		htmlevent.MustParse(e, &mouseEvent)
 		function(ctx, mouseEvent)
 	})
 }
 
-func (c *MixEvents) OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) {
-	c.On("dblclick", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) {
+	c.MixOn("dblclick", func(ctx app.Context, e app.Event) {
 		var mouseEvent htmlevent.MouseEvent
 		htmlevent.MustParse(e, &mouseEvent)
 		function(ctx, mouseEvent)
 	})
 }
 
-func (c *MixEvents) OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) {
-	c.On("mouseup", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) {
+	c.MixOn("mouseup", func(ctx app.Context, e app.Event) {
 		var mouseEvent htmlevent.MouseEvent
 		htmlevent.MustParse(e, &mouseEvent)
 		function(ctx, mouseEvent)
 	})
 }
 
-func (c *MixEvents) OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) {
-	c.On("mousedown", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) {
+	c.MixOn("mousedown", func(ctx app.Context, e app.Event) {
 		var mouseEvent htmlevent.MouseEvent
 		htmlevent.MustParse(e, &mouseEvent)
 		function(ctx, mouseEvent)
 	})
 }
 
-func (c *MixEvents) OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) {
-	c.On("keydown", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) {
+	c.MixOn("keydown", func(ctx app.Context, e app.Event) {
 		var keyboardEvent htmlevent.KeyboardEvent
 		htmlevent.MustParse(e, &keyboardEvent)
 		function(ctx, keyboardEvent)
 	})
 }
 
-func (c *MixEvents) OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) {
-	c.On("keypress", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) {
+	c.MixOn("keypress", func(ctx app.Context, e app.Event) {
 		var keyboardEvent htmlevent.KeyboardEvent
 		htmlevent.MustParse(e, &keyboardEvent)
 		function(ctx, keyboardEvent)
 	})
 }
 
-func (c *MixEvents) OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) {
-	c.On("keyup", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) {
+	c.MixOn("keyup", func(ctx app.Context, e app.Event) {
 		var keyboardEvent htmlevent.KeyboardEvent
 		htmlevent.MustParse(e, &keyboardEvent)
 		function(ctx, keyboardEvent)

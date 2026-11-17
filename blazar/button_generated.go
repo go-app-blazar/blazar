@@ -83,30 +83,6 @@ func (c *blazarButton) To(to string) BlazarButton {
 	return c
 }
 
-func (c *blazarButton) On(event string, function func(ctx app.Context, e app.Event)) BlazarButton {
-	c.MixEvents.On(event, function)
-	return c
-}
-
-func (c *blazarButton) OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton {
-	c.MixEvents.OnClick(function)
-	return c
-}
-
-func (c *blazarButton) OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton {
-	c.MixEvents.OnKeyPress(function)
-	return c
-}
-
-func (c *blazarButton) OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton {
-	c.MixEvents.OnKeyDown(function)
-	return c
-}
-func (c *blazarButton) OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton {
-	c.MixEvents.OnKeyUp(function)
-	return c
-}
-
 func (c *blazarButton) Render() app.UI {
 	disabledClass := ""
 	if c.IDisabled {

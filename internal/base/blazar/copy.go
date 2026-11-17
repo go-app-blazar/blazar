@@ -4,7 +4,6 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/go-app-blazar/blazar/htmlevent"
 	"github.com/go-app-blazar/blazar/mix"
 	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
@@ -21,14 +20,14 @@ func Copy() *blazarCopy {
 type blazarCopy struct {
 	app.Compo
 	mix.MixHTML
+	mix.MixEvents
 
-	IDisabled bool                                                // If true, copying will be disabled.
-	IIcon     string                                              // The icon to display next to the content.
-	IText     string                                              // The text to display.
-	IBody     []app.UI                                            // The body to display inside the copy component (optional).
-	IValue    string                                              // This is the value that will be copied to the clipboard.
-	IOnCopy   func(ctx app.Context, value string)                 // The function to call when the text has been copied.
-	IOnClick  func(ctx app.Context, event htmlevent.PointerEvent) // The function to call when the copy is clicked.
+	IDisabled bool                                // If true, copying will be disabled.
+	IIcon     string                              // The icon to display next to the content.
+	IText     string                              // The text to display.
+	IBody     []app.UI                            // The body to display inside the copy component (optional).
+	IValue    string                              // This is the value that will be copied to the clipboard.
+	IOnCopy   func(ctx app.Context, value string) // The function to call when the text has been copied.
 }
 
 var _ app.Composer = (*blazarCopy)(nil)
@@ -58,12 +57,6 @@ func (c *blazarCopy) Body(body ...app.UI) *blazarCopy {
 	return c
 }
 
-// OnClick is called when the copy is clicked.
-func (c *blazarCopy) OnClick(function func(ctx app.Context, event htmlevent.PointerEvent)) *blazarCopy {
-	c.IOnClick = function
-	return c
-}
-
 // OnCopy is called when the text has been copied.
 // The text value is passed to the function.
 func (c *blazarCopy) OnCopy(function func(ctx app.Context, value string)) *blazarCopy {
@@ -83,25 +76,6 @@ func (c *blazarCopy) Render() app.UI {
 
 	element := app.Div().
 		Class("blazar-copy", disabledClass).
-		On("click", func(ctx app.Context, e app.Event) {
-			if debugCopy {
-				slog.DebugContext(ctx.Context, "Collapse: OnClick", "disabled", c.IDisabled, "value", c.IValue)
-			}
-			if c.IDisabled {
-				return
-			}
-			if c.IOnClick != nil {
-				var pointerEvent htmlevent.PointerEvent
-				htmlevent.MustParse(e, &pointerEvent)
-				c.IOnClick(ctx, pointerEvent)
-			}
-			app.Window().Get("navigator").Get("clipboard").Call("writeText", c.IValue).Then(func(result app.Value) {
-				if c.IOnCopy != nil {
-					c.IOnCopy(ctx, c.IValue)
-				}
-			})
-			ctx.Update()
-		}).
 		Body(
 			app.Div().
 				Class("blazar-copy__wrapper").
@@ -127,6 +101,22 @@ func (c *blazarCopy) Render() app.UI {
 
 	var finalElement app.UI
 	finalElement = c.MixHTML.Wrap(element)
+	if !c.IDisabled {
+		finalElement = c.MixEvents.Wrap(finalElement, mix.WithOn("click", func(ctx app.Context, e app.Event) {
+			if debugCopy {
+				slog.DebugContext(ctx.Context, "Copy: OnClick", "disabled", c.IDisabled, "value", c.IValue)
+			}
+			if c.IDisabled {
+				return
+			}
+			app.Window().Get("navigator").Get("clipboard").Call("writeText", c.IValue).Then(func(result app.Value) {
+				if c.IOnCopy != nil {
+					c.IOnCopy(ctx, c.IValue)
+				}
+			})
+			ctx.Update()
+		}))
+	}
 
 	return finalElement
 }

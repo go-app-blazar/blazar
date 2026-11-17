@@ -1,0 +1,46 @@
+package {{ .Package }}
+
+import (
+	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/maxence-charriere/go-app/v11/pkg/app"
+)
+
+func (c *{{ .Type }}) On(name string, eventHandler app.EventHandler, options ...app.EventOption) *{{ .Type }} {
+	c.MixOn(name, eventHandler, options...)
+	return c
+}
+
+func (c *{{ .Type }}) OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) *{{ .Type }} {
+	c.MixOnClick(function)
+	return c
+}
+
+func (c *{{ .Type }}) OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) *{{ .Type }} {
+	c.MixOnDoubleClick(function)
+	return c
+}
+
+func (c *{{ .Type }}) OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) *{{ .Type }} {
+	c.MixOnMouseUp(function)
+	return c
+}
+
+func (c *{{ .Type }}) OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) *{{ .Type }} {
+	c.MixOnMouseDown(function)
+	return c
+}
+
+func (c *{{ .Type }}) OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *{{ .Type }} {
+	c.MixOnKeyDown(function)
+	return c
+}
+
+func (c *{{ .Type }}) OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *{{ .Type }} {
+	c.MixOnKeyPress(function)
+	return c
+}
+
+func (c *{{ .Type }}) OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *{{ .Type }} {
+	c.MixOnKeyUp(function)
+	return c
+}

@@ -4,6 +4,8 @@
 package blazar
 
 import (
+	"github.com/go-app-blazar/blazar/htmlevent"
+
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -64,7 +66,21 @@ type BlazarSelect interface {
 
 	Name(name string) BlazarSelect
 
-	On(event string, function func(ctx app.Context, e app.Event)) BlazarSelect
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarSelect
+
+	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarSelect
+
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarSelect
+
+	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarSelect
+
+	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarSelect
+
+	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarSelect
+
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarSelect
+
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarSelect
 
 	OnUpdate(ctx app.Context)
 

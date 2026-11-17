@@ -4,6 +4,8 @@
 package blazar
 
 import (
+	"github.com/go-app-blazar/blazar/htmlevent"
+
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -57,6 +59,22 @@ type BlazarInputWrapper interface {
 	Body(body ...app.UI) BlazarInputWrapper
 
 	Label(label string) BlazarInputWrapper
+
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarInputWrapper
+
+	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInputWrapper
+
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInputWrapper
+
+	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInputWrapper
+
+	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInputWrapper
+
+	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInputWrapper
+
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInputWrapper
+
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInputWrapper
 
 	Render() app.UI
 }

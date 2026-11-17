@@ -66,11 +66,6 @@ func (c *blazarForm) Body(body ...app.UI) BlazarForm {
 	return c
 }
 
-func (c *blazarForm) On(event string, function func(ctx app.Context, e app.Event)) BlazarForm {
-	c.MixEvents.On(event, function)
-	return c
-}
-
 // performCancel performs the cancel function.
 //
 // If there is no cancel function, then nothing will be done.

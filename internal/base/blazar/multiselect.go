@@ -72,11 +72,6 @@ func (c *blazarMultiselect) Bind(bindSelectedValues *[]string) *blazarMultiselec
 	return c
 }
 
-func (c *blazarMultiselect) On(event string, function func(ctx app.Context, e app.Event)) *blazarMultiselect {
-	c.MixEvents.On(event, function)
-	return c
-}
-
 func (c *blazarMultiselect) Render() app.UI {
 	if debugMultiselect {
 		slog.DebugContext(context.TODO(), "blazarMultiselect: Render", "label", c.ILabel, "allowedValues", c.IAllowedValues, "selectedValues", c.ISelectedValues, "bindSelectedValues", c.BindSelectedValues)

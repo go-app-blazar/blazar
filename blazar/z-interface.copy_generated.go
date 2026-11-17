@@ -39,9 +39,6 @@ type BlazarCopy interface {
 	// This is for compatibility with go-app HTML components.
 	ID(id string) BlazarCopy
 
-	// OnClick is called when the copy is clicked.
-	OnClick(function func(ctx app.Context, event htmlevent.PointerEvent)) BlazarCopy
-
 	// OnCopy is called when the text has been copied.
 	// The text value is passed to the function.
 	OnCopy(function func(ctx app.Context, value string)) BlazarCopy
@@ -68,6 +65,22 @@ type BlazarCopy interface {
 	Disabled(disabled bool) BlazarCopy
 
 	Icon(icon string) BlazarCopy
+
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarCopy
+
+	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarCopy
+
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarCopy
+
+	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarCopy
+
+	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarCopy
+
+	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarCopy
+
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarCopy
+
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarCopy
 
 	Render() app.UI
 

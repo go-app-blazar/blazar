@@ -60,9 +60,21 @@ type BlazarItem interface {
 
 	Label(name string) BlazarItem
 
-	On(event string, function func(ctx app.Context, e app.Event)) BlazarItem
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarItem
 
 	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarItem
+
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarItem
+
+	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarItem
+
+	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarItem
+
+	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarItem
+
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarItem
+
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarItem
 
 	Render() app.UI
 

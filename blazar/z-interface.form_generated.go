@@ -4,6 +4,8 @@
 package blazar
 
 import (
+	"github.com/go-app-blazar/blazar/htmlevent"
+
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -60,7 +62,21 @@ type BlazarForm interface {
 
 	Body(body ...app.UI) BlazarForm
 
-	On(event string, function func(ctx app.Context, e app.Event)) BlazarForm
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarForm
+
+	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarForm
+
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarForm
+
+	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarForm
+
+	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarForm
+
+	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarForm
+
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarForm
+
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarForm
 
 	Render() app.UI
 

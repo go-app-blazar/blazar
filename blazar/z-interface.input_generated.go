@@ -72,13 +72,21 @@ type BlazarInput[T any] interface {
 
 	Name(name string) BlazarInput[T]
 
-	On(event string, function func(ctx app.Context, e app.Event)) BlazarInput[T]
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarInput[T]
+
+	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInput[T]
+
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInput[T]
 
 	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInput[T]
 
 	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInput[T]
 
 	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInput[T]
+
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInput[T]
+
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInput[T]
 
 	Outline(outline bool) BlazarInput[T]
 

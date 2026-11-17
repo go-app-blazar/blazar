@@ -1,7 +1,6 @@
 package blazar
 
 import (
-	"github.com/go-app-blazar/blazar/htmlevent"
 	"github.com/go-app-blazar/blazar/mix"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
@@ -34,16 +33,6 @@ func (c *blazarItem) Label(name string) *blazarItem {
 
 func (c *blazarItem) To(to string) *blazarItem {
 	c.ITo = to
-	return c
-}
-
-func (c *blazarItem) On(event string, function func(ctx app.Context, e app.Event)) *blazarItem {
-	c.MixEvents.On(event, function)
-	return c
-}
-
-func (c *blazarItem) OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) *blazarItem {
-	c.MixEvents.OnClick(function)
 	return c
 }
 

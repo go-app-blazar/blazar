@@ -70,11 +70,6 @@ func (c *blazarSelect) Bind(bindSelectedValue *string) *blazarSelect {
 	return c
 }
 
-func (c *blazarSelect) On(event string, function func(ctx app.Context, e app.Event)) *blazarSelect {
-	c.MixEvents.On(event, function)
-	return c
-}
-
 func (c *blazarSelect) Render() app.UI {
 	if debugSelect {
 		slog.DebugContext(context.TODO(), "blazarSelect: Render", "label", c.ILabel, "allowedValues", c.IAllowedValues, "selectedValue", c.ISelectedValue, "bindSelectedValue", c.BindSelectedValue)

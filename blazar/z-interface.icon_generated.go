@@ -64,9 +64,21 @@ type BlazarIcon interface {
 	// This is for compatibility with go-app HTML components.
 	Title(title string) BlazarIcon
 
-	On(event string, function func(ctx app.Context, e app.Event)) BlazarIcon
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarIcon
 
 	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
+
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
+
+	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarIcon
+
+	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarIcon
+
+	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarIcon
+
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
+
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
 
 	Render() app.UI
 }

@@ -37,7 +37,12 @@ func main() {
 	}
 	fmt.Printf("Changed to: %s\n", sourceDirectory)
 
-	t, err := template.ParseFS(mix.FS, "mix-html.gotmpl")
+	mixHTMLTemplate, err := template.ParseFS(mix.FS, "mix-html.gotmpl")
+	if err != nil {
+		slog.Error("Failed to parse template", "err", err)
+		os.Exit(1)
+	}
+	mixEventsTemplate, err := template.ParseFS(mix.FS, "mix-events.gotmpl")
 	if err != nil {
 		slog.Error("Failed to parse template", "err", err)
 		os.Exit(1)
@@ -81,6 +86,7 @@ func main() {
 			slog.Info("Found struct.", "struct", typeSpec.Name.Name)
 
 			isMixHTML := false
+			isMixEvents := false
 
 			// Iterate over the fields of the struct.
 			for _, field := range structType.Fields.List {
@@ -88,10 +94,9 @@ func main() {
 				if fieldExprToString(field.Type) == "mix.MixHTML" {
 					isMixHTML = true
 				}
-			}
-
-			if !isMixHTML {
-				return true
+				if fieldExprToString(field.Type) == "mix.MixEvents" {
+					isMixEvents = true
+				}
 			}
 
 			typeName := typeSpec.Name.Name
@@ -103,27 +108,48 @@ func main() {
 				typeName += "[" + strings.Join(typeParts, ", ") + "]"
 			}
 
-			slog.Info("MixHTML found.", "struct", typeName)
-
-			newFilename := "z-mix-html." + strings.TrimSuffix(file, ".go") + "_generated.go"
-			slog.Info("New filename.", "newFilename", newFilename)
-
-			newFile, err := os.Create(newFilename)
-			if err != nil {
-				slog.Error("Failed to create new file.", "err", err)
-				os.Exit(1)
-			}
-			defer newFile.Close()
-
 			data := map[string]any{
 				"Package": packageName,
 				"Type":    typeName,
 			}
 
-			err = t.Execute(newFile, data)
-			if err != nil {
-				slog.Error("Failed to execute template.", "err", err)
-				os.Exit(1)
+			if isMixHTML {
+				slog.Info("MixHTML found.", "struct", typeName)
+
+				newFilename := "z-mix-html." + strings.TrimSuffix(file, ".go") + "_generated.go"
+				slog.Info("New filename.", "newFilename", newFilename)
+
+				newFile, err := os.Create(newFilename)
+				if err != nil {
+					slog.Error("Failed to create new file.", "err", err)
+					os.Exit(1)
+				}
+				defer newFile.Close()
+
+				err = mixHTMLTemplate.Execute(newFile, data)
+				if err != nil {
+					slog.Error("Failed to execute template.", "err", err)
+					os.Exit(1)
+				}
+			}
+			if isMixEvents {
+				slog.Info("MixEvents found.", "struct", typeName)
+
+				newFilename := "z-mix-events." + strings.TrimSuffix(file, ".go") + "_generated.go"
+				slog.Info("New filename.", "newFilename", newFilename)
+
+				newFile, err := os.Create(newFilename)
+				if err != nil {
+					slog.Error("Failed to create new file.", "err", err)
+					os.Exit(1)
+				}
+				defer newFile.Close()
+
+				err = mixEventsTemplate.Execute(newFile, data)
+				if err != nil {
+					slog.Error("Failed to execute template.", "err", err)
+					os.Exit(1)
+				}
 			}
 
 			return true

@@ -124,26 +124,6 @@ func (c *blazarInput[T]) Bind(valuePointer *T) *blazarInput[T] {
 	return c
 }
 
-func (c *blazarInput[T]) On(event string, function func(ctx app.Context, e app.Event)) *blazarInput[T] {
-	c.MixEvents.On(event, function)
-	return c
-}
-
-func (c *blazarInput[T]) OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarInput[T] {
-	c.MixEvents.OnKeyDown(function)
-	return c
-}
-
-func (c *blazarInput[T]) OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarInput[T] {
-	c.MixEvents.OnKeyPress(function)
-	return c
-}
-
-func (c *blazarInput[T]) OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *blazarInput[T] {
-	c.MixEvents.OnKeyUp(function)
-	return c
-}
-
 func (c *blazarInput[T]) Render() app.UI {
 	if debugInput {
 		slog.DebugContext(context.TODO(), "blazarInput: Render", "label", c.ILabel, "type", c.IType, "value", c.IValue, "bindValue", deref.String(c.BindValue), "placeholder", c.IPlaceholder, "disabled", c.IDisabled)

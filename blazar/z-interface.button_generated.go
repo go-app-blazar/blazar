@@ -66,9 +66,11 @@ type BlazarButton interface {
 
 	Label(label string) BlazarButton
 
-	On(event string, function func(ctx app.Context, e app.Event)) BlazarButton
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarButton
 
 	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton
+
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton
 
 	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton
 
@@ -77,6 +79,10 @@ type BlazarButton interface {
 	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton
 
 	OnMount(ctx app.Context)
+
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton
+
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton
 
 	Outline(outline bool) BlazarButton
 

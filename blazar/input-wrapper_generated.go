@@ -57,5 +57,7 @@ func (c *blazarInputWrapper) Render() app.UI {
 		)
 
 	finalElement = c.MixHTML.Wrap(finalElement)
+	finalElement = c.MixEvents.Wrap(finalElement)
+
 	return finalElement
 }
