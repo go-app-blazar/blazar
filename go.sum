@@ -25,12 +25,14 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
 github.com/stretchr/testify v1.12.1 h1:EuwCh5fleGS7H32xRwO3wRGT7DxrDhLAT6FF8MpWDWE=
 github.com/stretchr/testify v1.12.1/go.mod h1:MDEgiDPPsNp5cuIrHPPCyornHKgEVbtFUmoNlxoYthg=
-github.com/tekkamanendless/fork-of-maxence-charriere-go-app/v11 v11.0.0-20260624062618-c2f3e531f36d h1:Dd/ER4ty52bLOcYC+zOK0N6EakLudySILbsHZT+ae88=
-github.com/tekkamanendless/fork-of-maxence-charriere-go-app/v11 v11.0.0-20260624062618-c2f3e531f36d/go.mod h1:03mGNjBIo1LJq9VGPxOcmBFAv/sNL2GIF5LxCV3BRgA=
+github.com/tekkamanendless/fork-of-maxence-charriere-go-app/v11 v11.0.0-20261117190221-c2d33e0d7417 h1:F5ZuKjV1nOwX5FSOHo5cZvlvVVcjWlk4mMWc4o7aqH8=
+github.com/tekkamanendless/fork-of-maxence-charriere-go-app/v11 v11.0.0-20261117190221-c2d33e0d7417/go.mod h1:8Wohj7eR7RseHI1WThlLUp1KUc3C2pLAlExATuN2n3s=
 github.com/tekkamanendless/httprequest v0.1.1 h1:oYgt5Xd96MznUuWxICj10+ROx3z+OJTigb4XFputrmU=
 github.com/tekkamanendless/httprequest v0.1.1/go.mod h1:e2bLq0td5G+oZPSW55rtY9pNPT85j+Fw4tFCbQBaZvc=
 go.yaml.in/yaml/v3 v3.0.5 h1:N6y/pJk8buWs9NY5ERU2HSMfm+IuD/OtfdAnq6kESPw=
 go.yaml.in/yaml/v3 v3.0.5/go.mod h1:HVTZu1O7/Vkt2N+BFy8Zza+lnLsABggaTM2ZpNIGuKg=
+golang.org/x/net v0.61.0 h1:RR+6j/BTBCrggOLugxa+66R8FvoN6MHlzDlZIbN9YFw=
+golang.org/x/net v0.61.0/go.mod h1:WgDCOTH8iwtB66T4/GfI94AHo/hhdb7Hah9NDseQfiI=
 golang.org/x/sys v0.31.0 h1:ioabZlmFYtWhL+TRYpcnNlLwhyxaM9kWTDEmfnprqik=
 golang.org/x/sys v0.31.0/go.mod h1:BJP2sWEmIv4KK5OTEluFJCKSidICx8ciO85XgH3Ak8k=
 golang.org/x/text v0.43.0 h1:1QivrlhwAsnMOcqgOdl9my7s9OyZl8O5/UGUTJVXoWc=

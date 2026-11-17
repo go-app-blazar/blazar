@@ -25,6 +25,6 @@ require (
 	golang.org/x/sys v0.31.0 // indirect
 )
 
-replace github.com/maxence-charriere/go-app/v11 => github.com/tekkamanendless/fork-of-maxence-charriere-go-app/v11 v11.0.0-20260624062618-c2f3e531f36d
+replace github.com/maxence-charriere/go-app/v11 => github.com/tekkamanendless/fork-of-maxence-charriere-go-app/v11 v11.0.0-20261117190221-c2d33e0d7417
 
 //replace github.com/maxence-charriere/go-app/v11 => ../../tekkamanendless/fork-of-maxence-charriere-go-app
