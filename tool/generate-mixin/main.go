@@ -11,8 +11,13 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/alexflint/go-arg"
 	"github.com/go-app-blazar/blazar/mix"
 )
+
+type Args struct {
+	SourceDirectory string `arg:"--source-directory,required"`
+}
 
 func main() {
 	{
@@ -24,12 +29,10 @@ func main() {
 		fmt.Printf("CWD: %s\n", currentDirectory)
 	}
 
-	args := os.Args[1:]
-	if len(args) != 1 {
-		slog.Error("Expected 1 argument.", "args", args)
-		os.Exit(1)
-	}
-	sourceDirectory := args[0]
+	var args Args
+	arg.MustParse(&args)
+
+	sourceDirectory := args.SourceDirectory
 	err := os.Chdir(sourceDirectory)
 	if err != nil {
 		slog.Error("Failed to change to directory.", "directory", sourceDirectory, "err", err)
@@ -54,17 +57,21 @@ func main() {
 		os.Exit(1)
 	}
 
-	for _, file := range files {
-		if strings.HasSuffix(file, "_generated.go") || strings.HasSuffix(file, "-generated.go") {
+	for _, filename := range files {
+		if strings.HasSuffix(filename, "_generated.go") || strings.HasSuffix(filename, "-generated.go") {
 			continue
 		}
 
-		slog.Info("Go file.", "file", file)
+		slog.Info("Go file.", "file", filename)
+
+		if strings.HasSuffix(filename, "_test.go") {
+			continue
+		}
 
 		fset := token.NewFileSet()
-		f, err := parser.ParseFile(fset, file, nil, parser.ParseComments)
+		f, err := parser.ParseFile(fset, filename, nil, parser.ParseComments)
 		if err != nil {
-			slog.Error("Failed to parse file.", "file", file, "err", err)
+			slog.Error("Failed to parse file.", "file", filename, "err", err)
 			os.Exit(1)
 		}
 
@@ -116,7 +123,7 @@ func main() {
 			if isMixHTML {
 				slog.Info("MixHTML found.", "struct", typeName)
 
-				newFilename := "z-mix-html." + strings.TrimSuffix(file, ".go") + "_generated.go"
+				newFilename := "z-mix-html." + strings.TrimSuffix(filename, ".go") + "_generated.go"
 				slog.Info("New filename.", "newFilename", newFilename)
 
 				newFile, err := os.Create(newFilename)
@@ -135,7 +142,7 @@ func main() {
 			if isMixEvents {
 				slog.Info("MixEvents found.", "struct", typeName)
 
-				newFilename := "z-mix-events." + strings.TrimSuffix(file, ".go") + "_generated.go"
+				newFilename := "z-mix-events." + strings.TrimSuffix(filename, ".go") + "_generated.go"
 				slog.Info("New filename.", "newFilename", newFilename)
 
 				newFile, err := os.Create(newFilename)

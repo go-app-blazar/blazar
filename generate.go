@@ -1,5 +1,5 @@
 package blazar
 
-//go:generate go run ./internal/tool/generate-mixin/... ./internal/base/blazar
+//go:generate go run ./tool/generate-mixin/... --source-directory=./internal/base/blazar
 
-//go:generate go run ./internal/tool/generate-interface/... ./internal/base/blazar ./blazar
+//go:generate go run ./tool/generate-interface/... --source-directory=./internal/base/blazar --target-directory=./blazar --private-prefix=blazar --public-prefix=Blazar
