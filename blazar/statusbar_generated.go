@@ -5,6 +5,7 @@ package blazar
 
 import (
 	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
@@ -15,7 +16,7 @@ func StatusBar() BlazarStatusBar {
 
 type blazarStatusBar struct {
 	app.Compo
-	MixHTML
+	mix.MixHTML
 
 	IText    string
 	IGood    *bool

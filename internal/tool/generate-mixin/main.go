@@ -10,6 +10,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/go-app-blazar/blazar/mix"
 )
 
 func main() {
@@ -35,7 +37,7 @@ func main() {
 	}
 	fmt.Printf("Changed to: %s\n", sourceDirectory)
 
-	t, err := template.ParseFiles("mix-html-template.gotmpl")
+	t, err := template.ParseFS(mix.FS, "mix-html.gotmpl")
 	if err != nil {
 		slog.Error("Failed to parse template", "err", err)
 		os.Exit(1)
@@ -82,8 +84,8 @@ func main() {
 
 			// Iterate over the fields of the struct.
 			for _, field := range structType.Fields.List {
-				//slog.Info("  Field.", "field", fieldNames, "type", field.Type)
-				if fieldExprToString(field.Type) == "MixHTML" {
+				slog.Info("  Field.", "field", field.Names, "type", field.Type)
+				if fieldExprToString(field.Type) == "mix.MixHTML" {
 					isMixHTML = true
 				}
 			}

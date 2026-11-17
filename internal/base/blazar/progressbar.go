@@ -3,6 +3,7 @@ package blazar
 import (
 	"fmt"
 
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -16,7 +17,7 @@ func ProgressBar() *blazarProgressBar {
 // blazarProgressBar is the component that renders a progress bar.
 type blazarProgressBar struct {
 	app.Compo
-	MixHTML
+	mix.MixHTML
 
 	IAnimated      bool   // If true, the progress bar will be animated.
 	IHeight        string // The height of the progress bar.

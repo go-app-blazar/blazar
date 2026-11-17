@@ -4,6 +4,7 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -16,8 +17,8 @@ func Form() *blazarForm {
 
 type blazarForm struct {
 	app.Compo
-	UseEvents
-	MixHTML
+	mix.MixEvents
+	mix.MixHTML
 
 	ISpacer     bool
 	IBody       []app.UI
@@ -63,7 +64,7 @@ func (c *blazarForm) Body(body ...app.UI) *blazarForm {
 }
 
 func (c *blazarForm) On(event string, function func(ctx app.Context, e app.Event)) *blazarForm {
-	c.UseEvents.On(event, function)
+	c.MixEvents.On(event, function)
 	return c
 }
 
@@ -175,7 +176,7 @@ func (c *blazarForm) Render() app.UI {
 	element := app.Div().
 		Class("blazar-form").
 		Body(
-			c.UseEvents.Wrap(
+			c.MixEvents.Wrap(
 				app.Div().
 					Class("blazar-form__form").
 					Style("display", formDisplay).

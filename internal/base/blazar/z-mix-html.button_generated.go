@@ -4,7 +4,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarButton) Attr(name string, value any) *blazarButton {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -13,7 +13,7 @@ func (c *blazarButton) Attr(name string, value any) *blazarButton {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarButton) Class(class ...string) *blazarButton {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -22,7 +22,7 @@ func (c *blazarButton) Class(class ...string) *blazarButton {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarButton) DataSet(name string, value any) *blazarButton {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -30,7 +30,7 @@ func (c *blazarButton) DataSet(name string, value any) *blazarButton {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarButton) DataSets(dataSets map[string]any) *blazarButton {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -38,7 +38,7 @@ func (c *blazarButton) DataSets(dataSets map[string]any) *blazarButton {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarButton) ID(id string) *blazarButton {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -47,7 +47,7 @@ func (c *blazarButton) ID(id string) *blazarButton {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarButton) Style(name, value string) *blazarButton {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -56,7 +56,7 @@ func (c *blazarButton) Style(name, value string) *blazarButton {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarButton) Styles(styles map[string]string) *blazarButton {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -64,6 +64,6 @@ func (c *blazarButton) Styles(styles map[string]string) *blazarButton {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarButton) Title(title string) *blazarButton {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }

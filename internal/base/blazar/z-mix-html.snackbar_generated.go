@@ -4,7 +4,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSnackbar) Attr(name string, value any) *blazarSnackbar {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -13,7 +13,7 @@ func (c *blazarSnackbar) Attr(name string, value any) *blazarSnackbar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSnackbar) Class(class ...string) *blazarSnackbar {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -22,7 +22,7 @@ func (c *blazarSnackbar) Class(class ...string) *blazarSnackbar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSnackbar) DataSet(name string, value any) *blazarSnackbar {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -30,7 +30,7 @@ func (c *blazarSnackbar) DataSet(name string, value any) *blazarSnackbar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSnackbar) DataSets(dataSets map[string]any) *blazarSnackbar {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -38,7 +38,7 @@ func (c *blazarSnackbar) DataSets(dataSets map[string]any) *blazarSnackbar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSnackbar) ID(id string) *blazarSnackbar {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -47,7 +47,7 @@ func (c *blazarSnackbar) ID(id string) *blazarSnackbar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSnackbar) Style(name, value string) *blazarSnackbar {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -56,7 +56,7 @@ func (c *blazarSnackbar) Style(name, value string) *blazarSnackbar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSnackbar) Styles(styles map[string]string) *blazarSnackbar {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -64,6 +64,6 @@ func (c *blazarSnackbar) Styles(styles map[string]string) *blazarSnackbar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSnackbar) Title(title string) *blazarSnackbar {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }

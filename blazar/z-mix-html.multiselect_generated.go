@@ -7,7 +7,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMultiselect) Attr(name string, value any) BlazarMultiselect {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -16,7 +16,7 @@ func (c *blazarMultiselect) Attr(name string, value any) BlazarMultiselect {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMultiselect) Class(class ...string) BlazarMultiselect {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -25,7 +25,7 @@ func (c *blazarMultiselect) Class(class ...string) BlazarMultiselect {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMultiselect) DataSet(name string, value any) BlazarMultiselect {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -33,7 +33,7 @@ func (c *blazarMultiselect) DataSet(name string, value any) BlazarMultiselect {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMultiselect) DataSets(dataSets map[string]any) BlazarMultiselect {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -41,7 +41,7 @@ func (c *blazarMultiselect) DataSets(dataSets map[string]any) BlazarMultiselect 
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMultiselect) ID(id string) BlazarMultiselect {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -50,7 +50,7 @@ func (c *blazarMultiselect) ID(id string) BlazarMultiselect {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMultiselect) Style(name, value string) BlazarMultiselect {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -59,7 +59,7 @@ func (c *blazarMultiselect) Style(name, value string) BlazarMultiselect {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMultiselect) Styles(styles map[string]string) BlazarMultiselect {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -67,6 +67,6 @@ func (c *blazarMultiselect) Styles(styles map[string]string) BlazarMultiselect {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMultiselect) Title(title string) BlazarMultiselect {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }

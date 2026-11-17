@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 	"golang.org/x/text/language"
@@ -17,7 +18,7 @@ import (
 
 type blazarTable[T any] struct {
 	app.Compo
-	MixHTML
+	mix.MixHTML
 
 	ILabel            string
 	IColumns          []TableColumn[T]

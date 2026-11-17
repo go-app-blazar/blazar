@@ -4,6 +4,7 @@
 package blazar
 
 import (
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/go-app-blazar/blazar/slot"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
@@ -15,7 +16,7 @@ func Page() BlazarPage {
 type blazarPage struct {
 	app.Compo
 	slot.Slotted
-	MixHTML
+	mix.MixHTML
 }
 
 var _ app.Composer = (*blazarPage)(nil)

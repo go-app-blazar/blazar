@@ -5,6 +5,7 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
@@ -19,7 +20,7 @@ func Copy() *blazarCopy {
 
 type blazarCopy struct {
 	app.Compo
-	MixHTML
+	mix.MixHTML
 
 	IDisabled bool                                                // If true, copying will be disabled.
 	IIcon     string                                              // The icon to display next to the content.

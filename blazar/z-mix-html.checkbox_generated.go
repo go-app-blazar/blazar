@@ -7,7 +7,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCheckbox) Attr(name string, value any) BlazarCheckbox {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -16,7 +16,7 @@ func (c *blazarCheckbox) Attr(name string, value any) BlazarCheckbox {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCheckbox) Class(class ...string) BlazarCheckbox {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -25,7 +25,7 @@ func (c *blazarCheckbox) Class(class ...string) BlazarCheckbox {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCheckbox) DataSet(name string, value any) BlazarCheckbox {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -33,7 +33,7 @@ func (c *blazarCheckbox) DataSet(name string, value any) BlazarCheckbox {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCheckbox) DataSets(dataSets map[string]any) BlazarCheckbox {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -41,7 +41,7 @@ func (c *blazarCheckbox) DataSets(dataSets map[string]any) BlazarCheckbox {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCheckbox) ID(id string) BlazarCheckbox {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -50,7 +50,7 @@ func (c *blazarCheckbox) ID(id string) BlazarCheckbox {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCheckbox) Style(name, value string) BlazarCheckbox {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -59,7 +59,7 @@ func (c *blazarCheckbox) Style(name, value string) BlazarCheckbox {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCheckbox) Styles(styles map[string]string) BlazarCheckbox {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -67,6 +67,6 @@ func (c *blazarCheckbox) Styles(styles map[string]string) BlazarCheckbox {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCheckbox) Title(title string) BlazarCheckbox {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }

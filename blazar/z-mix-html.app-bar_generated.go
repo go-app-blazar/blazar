@@ -7,7 +7,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarAppBar) Attr(name string, value any) BlazarAppBar {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -16,7 +16,7 @@ func (c *blazarAppBar) Attr(name string, value any) BlazarAppBar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarAppBar) Class(class ...string) BlazarAppBar {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -25,7 +25,7 @@ func (c *blazarAppBar) Class(class ...string) BlazarAppBar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarAppBar) DataSet(name string, value any) BlazarAppBar {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -33,7 +33,7 @@ func (c *blazarAppBar) DataSet(name string, value any) BlazarAppBar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarAppBar) DataSets(dataSets map[string]any) BlazarAppBar {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -41,7 +41,7 @@ func (c *blazarAppBar) DataSets(dataSets map[string]any) BlazarAppBar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarAppBar) ID(id string) BlazarAppBar {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -50,7 +50,7 @@ func (c *blazarAppBar) ID(id string) BlazarAppBar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarAppBar) Style(name, value string) BlazarAppBar {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -59,7 +59,7 @@ func (c *blazarAppBar) Style(name, value string) BlazarAppBar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarAppBar) Styles(styles map[string]string) BlazarAppBar {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -67,6 +67,6 @@ func (c *blazarAppBar) Styles(styles map[string]string) BlazarAppBar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarAppBar) Title(title string) BlazarAppBar {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }

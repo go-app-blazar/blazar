@@ -4,12 +4,13 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
 type blazarCard struct {
 	app.Compo
-	MixHTML
+	mix.MixHTML
 
 	IIcon         string
 	IHeadlineText string

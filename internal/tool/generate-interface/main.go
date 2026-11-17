@@ -14,6 +14,8 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
+
+	"github.com/go-app-blazar/blazar/mix"
 )
 
 func main() {
@@ -54,7 +56,7 @@ func main() {
 	}
 	fmt.Printf("Changed to: %s\n", sourceDirectory)
 
-	t, err := template.ParseFiles("interface-template.gotmpl")
+	t, err := template.ParseFS(mix.FS, "interface.gotmpl")
 	if err != nil {
 		slog.Error("Failed to parse template", "err", err)
 		os.Exit(1)
@@ -141,10 +143,10 @@ func main() {
 			// Iterate over the fields of the struct.
 			for _, field := range structType.Fields.List {
 				//slog.Info("  Field.", "field", fieldNames, "type", field.Type)
-				if fieldExprToString(field.Type) == "MixComposer" {
+				if fieldExprToString(field.Type) == "mix.MixComposer" {
 					structInterfaces[typeName] = append(structInterfaces[typeName], "app.Composer")
 				}
-				if fieldExprToString(field.Type) == "MixRouterViewComponent" {
+				if fieldExprToString(field.Type) == "mix.MixRouterViewComponent" {
 					structInterfaces[typeName] = append(structInterfaces[typeName], "router.RouterViewInterface")
 					structImports[typeName] = append(structImports[typeName], "github.com/go-app-blazar/router")
 				}
@@ -353,74 +355,6 @@ func main() {
 	}
 
 	_ = t
-
-	/*
-		packageName := fset.
-		slog.Info("Package.", "package", packageName)
-		ast.Inspect(f, func(n ast.Node) bool {
-			// Look for type specifications (for example, type Name struct { ... }).
-			typeSpec, isTypeSpec := n.(*ast.TypeSpec)
-			if !isTypeSpec {
-				return true
-			}
-
-			// Check if the type specification is a struct.
-			structType, isStructType := typeSpec.Type.(*ast.StructType)
-			if !isStructType {
-				return true
-			}
-
-			slog.Info("Found struct.", "struct", typeSpec.Name.Name)
-
-			isMixHTML := false
-
-			// Iterate over the fields of the struct.
-			for _, field := range structType.Fields.List {
-				//slog.Info("  Field.", "field", fieldNames, "type", field.Type)
-				if fieldExprToString(field.Type) == "MixHTML" {
-					isMixHTML = true
-				}
-			}
-
-			if !isMixHTML {
-				return true
-			}
-
-			typeName := typeSpec.Name.Name
-			if typeSpec.TypeParams != nil && len(typeSpec.TypeParams.List) > 0 {
-				typeParts := []string{}
-				for _, typeParam := range typeSpec.TypeParams.List {
-					typeParts = append(typeParts, typeParam.Names[0].Name)
-				}
-				typeName += "[" + strings.Join(typeParts, ", ") + "]"
-			}
-
-			slog.Info("MixHTML found.", "struct", typeName)
-
-			newFilename := "z-mix-html." + strings.TrimSuffix(file, ".go") + "_generated.go"
-			slog.Info("New filename.", "newFilename", newFilename)
-
-			newFile, err := os.Create(newFilename)
-			if err != nil {
-				slog.Error("Failed to create new file.", "err", err)
-				os.Exit(1)
-			}
-			defer newFile.Close()
-
-			data := map[string]any{
-				"Package": packageName,
-				"Type":    typeName,
-			}
-
-			err = t.Execute(newFile, data)
-			if err != nil {
-				slog.Error("Failed to execute template.", "err", err)
-				os.Exit(1)
-			}
-
-			return true
-		})
-	*/
 }
 
 // Simple helper to convert field type expressions to string representation

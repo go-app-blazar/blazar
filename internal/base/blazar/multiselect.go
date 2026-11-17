@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"slices"
 
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -14,8 +15,8 @@ func Multiselect() *blazarMultiselect {
 
 type blazarMultiselect struct {
 	app.Compo
-	UseEvents
-	MixHTML
+	mix.MixEvents
+	mix.MixHTML
 
 	IName              string
 	ILabel             string
@@ -72,7 +73,7 @@ func (c *blazarMultiselect) Bind(bindSelectedValues *[]string) *blazarMultiselec
 }
 
 func (c *blazarMultiselect) On(event string, function func(ctx app.Context, e app.Event)) *blazarMultiselect {
-	c.UseEvents.On(event, function)
+	c.MixEvents.On(event, function)
 	return c
 }
 
@@ -91,7 +92,7 @@ func (c *blazarMultiselect) Render() app.UI {
 		Class("blazar-multiselect", disabledClass, "blazar-input-wrapper--outline").
 		Label(c.ILabel).
 		Body(
-			c.UseEvents.Wrap(
+			c.MixEvents.Wrap(
 				app.Select().
 					Name(c.IName).
 					Class("blazar-multiselect__select").
@@ -107,7 +108,7 @@ func (c *blazarMultiselect) Render() app.UI {
 								Selected(slices.Contains(c.ISelectedValues, allowedValue.Value))
 						}),
 					),
-				WithOn("change", func(ctx app.Context, e app.Event) {
+				mix.WithOn("change", func(ctx app.Context, e app.Event) {
 					SelectedValuesTo(&c.ISelectedValues)(ctx, e)
 					if c.BindSelectedValues != nil {
 						*c.BindSelectedValues = make([]string, len(c.ISelectedValues))

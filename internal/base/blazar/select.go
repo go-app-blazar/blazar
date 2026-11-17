@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -13,8 +14,8 @@ func Select() *blazarSelect {
 
 type blazarSelect struct {
 	app.Compo
-	UseEvents
-	MixHTML
+	mix.MixEvents
+	mix.MixHTML
 
 	IName             string
 	ILabel            string
@@ -70,7 +71,7 @@ func (c *blazarSelect) Bind(bindSelectedValue *string) *blazarSelect {
 }
 
 func (c *blazarSelect) On(event string, function func(ctx app.Context, e app.Event)) *blazarSelect {
-	c.UseEvents.On(event, function)
+	c.MixEvents.On(event, function)
 	return c
 }
 
@@ -89,7 +90,7 @@ func (c *blazarSelect) Render() app.UI {
 		Class("blazar-select", disabledClass, "blazar-input-wrapper--outline").
 		Label(c.ILabel).
 		Body(
-			c.UseEvents.Wrap(
+			c.MixEvents.Wrap(
 				app.Select().
 					Name(c.IName).
 					Class("blazar-select__select").
@@ -105,7 +106,7 @@ func (c *blazarSelect) Render() app.UI {
 								Selected(c.ISelectedValue == allowedValue.Value)
 						}),
 					),
-				WithOn("change", func(ctx app.Context, e app.Event) {
+				mix.WithOn("change", func(ctx app.Context, e app.Event) {
 					c.ValueTo(&c.ISelectedValue)(ctx, e)
 					if c.BindSelectedValue != nil {
 						*c.BindSelectedValue = c.ISelectedValue

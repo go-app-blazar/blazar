@@ -4,7 +4,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarItem) Attr(name string, value any) *blazarItem {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -13,7 +13,7 @@ func (c *blazarItem) Attr(name string, value any) *blazarItem {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarItem) Class(class ...string) *blazarItem {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -22,7 +22,7 @@ func (c *blazarItem) Class(class ...string) *blazarItem {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarItem) DataSet(name string, value any) *blazarItem {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -30,7 +30,7 @@ func (c *blazarItem) DataSet(name string, value any) *blazarItem {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarItem) DataSets(dataSets map[string]any) *blazarItem {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -38,7 +38,7 @@ func (c *blazarItem) DataSets(dataSets map[string]any) *blazarItem {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarItem) ID(id string) *blazarItem {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -47,7 +47,7 @@ func (c *blazarItem) ID(id string) *blazarItem {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarItem) Style(name, value string) *blazarItem {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -56,7 +56,7 @@ func (c *blazarItem) Style(name, value string) *blazarItem {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarItem) Styles(styles map[string]string) *blazarItem {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -64,6 +64,6 @@ func (c *blazarItem) Styles(styles map[string]string) *blazarItem {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarItem) Title(title string) *blazarItem {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }
