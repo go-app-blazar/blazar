@@ -344,7 +344,6 @@ func main() {
 		}
 		slices.Sort(methodStrings)
 
-		packageName := "blazar"
 		data := map[string]any{
 			"Package":    packageName,
 			"Imports":    imports,
