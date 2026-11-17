@@ -47,6 +47,46 @@ type BlazarIcon interface {
 	// second part will be the font class (default is &#34;fa-solid&#34;).
 	Icon(icon string) BlazarIcon
 
+	// On invokes the specified handler when the corresponding event is triggered.
+	//
+	// This is for compatibility with go-app HTML components.
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarIcon
+
+	// OnClick invokes the specified handler when the element is clicked.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
+
+	// OnDoubleClick invokes the specified handler when the element is double-clicked.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
+
+	// OnKeyDown invokes the specified handler when a key is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarIcon
+
+	// OnKeyPress invokes the specified handler when a key is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarIcon
+
+	// OnKeyUp invokes the specified handler when a key is released.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarIcon
+
+	// OnMouseDown invokes the specified handler when the mouse button is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
+
+	// OnMouseUp invokes the specified handler when the mouse button is released.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
+
 	// Style assigns inline CSS styling to an element.
 	// This can be called multiple times to set multiple CSS styles.
 	//
@@ -63,22 +103,6 @@ type BlazarIcon interface {
 	//
 	// This is for compatibility with go-app HTML components.
 	Title(title string) BlazarIcon
-
-	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarIcon
-
-	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
-
-	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
-
-	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarIcon
-
-	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarIcon
-
-	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarIcon
-
-	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
-
-	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
 
 	Render() app.UI
 }

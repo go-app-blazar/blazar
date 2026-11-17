@@ -39,6 +39,46 @@ type BlazarButton interface {
 	// This is for compatibility with go-app HTML components.
 	ID(id string) BlazarButton
 
+	// On invokes the specified handler when the corresponding event is triggered.
+	//
+	// This is for compatibility with go-app HTML components.
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarButton
+
+	// OnClick invokes the specified handler when the element is clicked.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton
+
+	// OnDoubleClick invokes the specified handler when the element is double-clicked.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton
+
+	// OnKeyDown invokes the specified handler when a key is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton
+
+	// OnKeyPress invokes the specified handler when a key is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton
+
+	// OnKeyUp invokes the specified handler when a key is released.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton
+
+	// OnMouseDown invokes the specified handler when the mouse button is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton
+
+	// OnMouseUp invokes the specified handler when the mouse button is released.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton
+
 	// Style assigns inline CSS styling to an element.
 	// This can be called multiple times to set multiple CSS styles.
 	//
@@ -66,23 +106,7 @@ type BlazarButton interface {
 
 	Label(label string) BlazarButton
 
-	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarButton
-
-	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton
-
-	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton
-
-	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton
-
-	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton
-
-	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton
-
 	OnMount(ctx app.Context)
-
-	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton
-
-	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton
 
 	Outline(outline bool) BlazarButton
 

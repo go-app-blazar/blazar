@@ -39,9 +39,49 @@ type BlazarCopy interface {
 	// This is for compatibility with go-app HTML components.
 	ID(id string) BlazarCopy
 
+	// On invokes the specified handler when the corresponding event is triggered.
+	//
+	// This is for compatibility with go-app HTML components.
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarCopy
+
+	// OnClick invokes the specified handler when the element is clicked.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarCopy
+
 	// OnCopy is called when the text has been copied.
 	// The text value is passed to the function.
 	OnCopy(function func(ctx app.Context, value string)) BlazarCopy
+
+	// OnDoubleClick invokes the specified handler when the element is double-clicked.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarCopy
+
+	// OnKeyDown invokes the specified handler when a key is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarCopy
+
+	// OnKeyPress invokes the specified handler when a key is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarCopy
+
+	// OnKeyUp invokes the specified handler when a key is released.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarCopy
+
+	// OnMouseDown invokes the specified handler when the mouse button is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarCopy
+
+	// OnMouseUp invokes the specified handler when the mouse button is released.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarCopy
 
 	// Style assigns inline CSS styling to an element.
 	// This can be called multiple times to set multiple CSS styles.
@@ -65,22 +105,6 @@ type BlazarCopy interface {
 	Disabled(disabled bool) BlazarCopy
 
 	Icon(icon string) BlazarCopy
-
-	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarCopy
-
-	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarCopy
-
-	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarCopy
-
-	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarCopy
-
-	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarCopy
-
-	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarCopy
-
-	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarCopy
-
-	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarCopy
 
 	Render() app.UI
 
