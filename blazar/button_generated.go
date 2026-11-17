@@ -5,6 +5,7 @@ package blazar
 
 import (
 	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -14,8 +15,9 @@ func Button() BlazarButton {
 
 type blazarButton struct {
 	app.Compo
-	UseEvents
-	MixHTML
+	mix.MixEvents
+	mix.MixHTML
+
 	IAutoFocus bool
 	IFlat      bool
 	IOutline   bool
@@ -78,30 +80,6 @@ func (c *blazarButton) Target(target string) BlazarButton {
 
 func (c *blazarButton) To(to string) BlazarButton {
 	c.ITo = to
-	return c
-}
-
-func (c *blazarButton) On(event string, function func(ctx app.Context, e app.Event)) BlazarButton {
-	c.UseEvents.On(event, function)
-	return c
-}
-
-func (c *blazarButton) OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarButton {
-	c.UseEvents.OnClick(function)
-	return c
-}
-
-func (c *blazarButton) OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton {
-	c.UseEvents.OnKeyPress(function)
-	return c
-}
-
-func (c *blazarButton) OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton {
-	c.UseEvents.OnKeyDown(function)
-	return c
-}
-func (c *blazarButton) OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarButton {
-	c.UseEvents.OnKeyUp(function)
 	return c
 }
 
@@ -179,7 +157,7 @@ func (c *blazarButton) Render() app.UI {
 	var finalElement app.UI
 	finalElement = c.MixHTML.Wrap(element)
 	if !c.IDisabled {
-		finalElement = c.UseEvents.Wrap(finalElement)
+		finalElement = c.MixEvents.Wrap(finalElement)
 	}
 	return finalElement
 }

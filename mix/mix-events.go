@@ -1,4 +1,4 @@
-package blazar
+package mix
 
 import (
 	"log/slog"
@@ -8,7 +8,7 @@ import (
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
-type UseEvents struct {
+type MixEvents struct {
 	events []eventHandlerEvent
 }
 
@@ -18,76 +18,68 @@ type eventHandlerEvent struct {
 	options      []app.EventOption
 }
 
-func (c *UseEvents) On(name string, eventHandler app.EventHandler, options ...app.EventOption) *UseEvents {
+func (c *MixEvents) MixOn(name string, eventHandler app.EventHandler, options ...app.EventOption) {
 	c.events = append(c.events, eventHandlerEvent{
 		name:         name,
 		eventHandler: eventHandler,
 		options:      options,
 	})
-	return c
 }
 
-func (c *UseEvents) OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) *UseEvents {
-	c.On("click", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) {
+	c.MixOn("click", func(ctx app.Context, e app.Event) {
 		var mouseEvent htmlevent.MouseEvent
 		htmlevent.MustParse(e, &mouseEvent)
 		function(ctx, mouseEvent)
 	})
-	return c
 }
 
-func (c *UseEvents) OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) *UseEvents {
-	c.On("dblclick", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) {
+	c.MixOn("dblclick", func(ctx app.Context, e app.Event) {
 		var mouseEvent htmlevent.MouseEvent
 		htmlevent.MustParse(e, &mouseEvent)
 		function(ctx, mouseEvent)
 	})
-	return c
 }
 
-func (c *UseEvents) OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) *UseEvents {
-	c.On("mouseup", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) {
+	c.MixOn("mouseup", func(ctx app.Context, e app.Event) {
 		var mouseEvent htmlevent.MouseEvent
 		htmlevent.MustParse(e, &mouseEvent)
 		function(ctx, mouseEvent)
 	})
-	return c
 }
 
-func (c *UseEvents) OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) *UseEvents {
-	c.On("mousedown", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) {
+	c.MixOn("mousedown", func(ctx app.Context, e app.Event) {
 		var mouseEvent htmlevent.MouseEvent
 		htmlevent.MustParse(e, &mouseEvent)
 		function(ctx, mouseEvent)
 	})
-	return c
 }
 
-func (c *UseEvents) OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *UseEvents {
-	c.On("keydown", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) {
+	c.MixOn("keydown", func(ctx app.Context, e app.Event) {
 		var keyboardEvent htmlevent.KeyboardEvent
 		htmlevent.MustParse(e, &keyboardEvent)
 		function(ctx, keyboardEvent)
 	})
-	return c
 }
 
-func (c *UseEvents) OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *UseEvents {
-	c.On("keypress", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) {
+	c.MixOn("keypress", func(ctx app.Context, e app.Event) {
 		var keyboardEvent htmlevent.KeyboardEvent
 		htmlevent.MustParse(e, &keyboardEvent)
 		function(ctx, keyboardEvent)
 	})
-	return c
 }
 
-func (c *UseEvents) OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) *UseEvents {
-	c.On("keyup", func(ctx app.Context, e app.Event) {
+func (c *MixEvents) MixOnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) {
+	c.MixOn("keyup", func(ctx app.Context, e app.Event) {
 		var keyboardEvent htmlevent.KeyboardEvent
 		htmlevent.MustParse(e, &keyboardEvent)
 		function(ctx, keyboardEvent)
 	})
-	return c
 }
 
 func WithOn(name string, eventHandler app.EventHandler) eventHandlerEvent {
@@ -98,7 +90,7 @@ func WithOn(name string, eventHandler app.EventHandler) eventHandlerEvent {
 	}
 }
 
-func (c *UseEvents) Wrap(element app.UI, firstEvents ...eventHandlerEvent) app.UI {
+func (c *MixEvents) Wrap(element app.UI, firstEvents ...eventHandlerEvent) app.UI {
 	firstEventsByName := map[string]eventHandlerEvent{}
 	for _, event := range firstEvents {
 		if _, exists := firstEventsByName[event.name]; exists {

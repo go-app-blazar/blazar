@@ -4,7 +4,7 @@
 package blazar
 
 import (
-	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -14,8 +14,8 @@ func Item() BlazarItem {
 
 type blazarItem struct {
 	app.Compo
-	UseEvents
-	MixHTML
+	mix.MixEvents
+	mix.MixHTML
 
 	IIcon  string
 	ILabel string
@@ -39,16 +39,6 @@ func (c *blazarItem) To(to string) BlazarItem {
 	return c
 }
 
-func (c *blazarItem) On(event string, function func(ctx app.Context, e app.Event)) BlazarItem {
-	c.UseEvents.On(event, function)
-	return c
-}
-
-func (c *blazarItem) OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarItem {
-	c.UseEvents.OnClick(function)
-	return c
-}
-
 func (c *blazarItem) Render() app.UI {
 	var finalItem app.UI
 	finalItem = app.A().
@@ -68,7 +58,7 @@ func (c *blazarItem) Render() app.UI {
 		)
 
 	finalItem = c.MixHTML.Wrap(finalItem)
-	finalItem = c.UseEvents.Wrap(finalItem)
+	finalItem = c.MixEvents.Wrap(finalItem)
 
 	return finalItem
 }

@@ -7,7 +7,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarTable[T]) Attr(name string, value any) BlazarTable[T] {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -16,7 +16,7 @@ func (c *blazarTable[T]) Attr(name string, value any) BlazarTable[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarTable[T]) Class(class ...string) BlazarTable[T] {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -25,7 +25,7 @@ func (c *blazarTable[T]) Class(class ...string) BlazarTable[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarTable[T]) DataSet(name string, value any) BlazarTable[T] {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -33,7 +33,7 @@ func (c *blazarTable[T]) DataSet(name string, value any) BlazarTable[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarTable[T]) DataSets(dataSets map[string]any) BlazarTable[T] {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -41,7 +41,7 @@ func (c *blazarTable[T]) DataSets(dataSets map[string]any) BlazarTable[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarTable[T]) ID(id string) BlazarTable[T] {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -50,7 +50,7 @@ func (c *blazarTable[T]) ID(id string) BlazarTable[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarTable[T]) Style(name, value string) BlazarTable[T] {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -59,7 +59,7 @@ func (c *blazarTable[T]) Style(name, value string) BlazarTable[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarTable[T]) Styles(styles map[string]string) BlazarTable[T] {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -67,6 +67,6 @@ func (c *blazarTable[T]) Styles(styles map[string]string) BlazarTable[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarTable[T]) Title(title string) BlazarTable[T] {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }

@@ -4,71 +4,81 @@
 package blazar
 
 import (
-	
 	"github.com/go-app-blazar/blazar/htmlevent"
-	
+
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
-	
 )
 
 type BlazarIcon interface {
 	app.UI
-	
+
 	// Attr sets an attribute with its associated value, allowing for flexible HTML customization.
-// 
-// This is for compatibility with go-app HTML components.
-Attr(name string, value any) BlazarIcon
-	
+	//
+	// This is for compatibility with go-app HTML components.
+	Attr(name string, value any) BlazarIcon
+
 	// Class assigns one or more classnames to an element, linking it to styles defined in a stylesheet.
-// This can be called multiple times to assign multiple classnames.
-// 
-// This is for compatibility with go-app HTML components.
-Class(class ...string) BlazarIcon
-	
+	// This can be called multiple times to assign multiple classnames.
+	//
+	// This is for compatibility with go-app HTML components.
+	Class(class ...string) BlazarIcon
+
 	// DataSet allows for storage of custom data specific to individual elements.
-// This can be called multiple times to store multiple sets of data, often used for scripting purposes.
-// 
-// This is for compatibility with go-app HTML components.
-DataSet(name string, value any) BlazarIcon
-	
+	// This can be called multiple times to store multiple sets of data, often used for scripting purposes.
+	//
+	// This is for compatibility with go-app HTML components.
+	DataSet(name string, value any) BlazarIcon
+
 	// DataSets denotes datasets linked to an element and can store multiple sets of data.
-// 
-// This is for compatibility with go-app HTML components.
-DataSets(dataSets map[string]any) BlazarIcon
-	
+	//
+	// This is for compatibility with go-app HTML components.
+	DataSets(dataSets map[string]any) BlazarIcon
+
 	// ID assigns a unique identifier to an element.
-// 
-// This is for compatibility with go-app HTML components.
-ID(id string) BlazarIcon
-	
+	//
+	// This is for compatibility with go-app HTML components.
+	ID(id string) BlazarIcon
+
 	// Icon sets the name of the icon.
-// 
-// If this does not start with &#34;fa-&#34;, it will be prefixed with &#34;fa-&#34;.
-// 
-// If this contains a space, the first part will be the icon class and the
-// second part will be the font class (default is &#34;fa-solid&#34;).
-Icon(icon string) BlazarIcon
-	
+	//
+	// If this does not start with &#34;fa-&#34;, it will be prefixed with &#34;fa-&#34;.
+	//
+	// If this contains a space, the first part will be the icon class and the
+	// second part will be the font class (default is &#34;fa-solid&#34;).
+	Icon(icon string) BlazarIcon
+
 	// Style assigns inline CSS styling to an element.
-// This can be called multiple times to set multiple CSS styles.
-// 
-// This is for compatibility with go-app HTML components.
-Style(name, value string) BlazarIcon
-	
+	// This can be called multiple times to set multiple CSS styles.
+	//
+	// This is for compatibility with go-app HTML components.
+	Style(name, value string) BlazarIcon
+
 	// Styles allocates multiple CSS styles to an element.
-// This accepts multiple styling definitions.
-// 
-// This is for compatibility with go-app HTML components.
-Styles(styles map[string]string) BlazarIcon
-	
+	// This accepts multiple styling definitions.
+	//
+	// This is for compatibility with go-app HTML components.
+	Styles(styles map[string]string) BlazarIcon
+
 	// Title provides additional information about an element, typically displayed as a tooltip.
-// 
-// This is for compatibility with go-app HTML components.
-Title(title string) BlazarIcon
-	
-	On(event string, function func(ctx app.Context, e app.Event)) BlazarIcon
-	
+	//
+	// This is for compatibility with go-app HTML components.
+	Title(title string) BlazarIcon
+
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarIcon
+
 	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
-	
+
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
+
+	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarIcon
+
+	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarIcon
+
+	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarIcon
+
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
+
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon
+
 	Render() app.UI
-	}
+}

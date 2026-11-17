@@ -13,6 +13,7 @@ import (
 
 	"github.com/go-app-blazar/blazar/deref"
 	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
@@ -25,8 +26,8 @@ func Input[T any]() *blazarInput[T] {
 
 type blazarInput[T any] struct {
 	app.Compo
-	UseEvents
-	MixHTML
+	mix.MixEvents
+	mix.MixHTML
 
 	IAutoFocus   bool
 	IClearable   bool
@@ -123,26 +124,6 @@ func (c *blazarInput[T]) Value(value T) BlazarInput[T] {
 func (c *blazarInput[T]) Bind(valuePointer *T) BlazarInput[T] {
 	c.IValue = *valuePointer
 	c.BindValue = valuePointer
-	return c
-}
-
-func (c *blazarInput[T]) On(event string, function func(ctx app.Context, e app.Event)) BlazarInput[T] {
-	c.UseEvents.On(event, function)
-	return c
-}
-
-func (c *blazarInput[T]) OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInput[T] {
-	c.UseEvents.OnKeyDown(function)
-	return c
-}
-
-func (c *blazarInput[T]) OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInput[T] {
-	c.UseEvents.OnKeyPress(function)
-	return c
-}
-
-func (c *blazarInput[T]) OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInput[T] {
-	c.UseEvents.OnKeyUp(function)
 	return c
 }
 
@@ -249,7 +230,7 @@ func (c *blazarInput[T]) Render() app.UI {
 			app.If(c.IPrefix != "", func() app.UI {
 				return app.Span().Class("blazar-input__prefix").Text(c.IPrefix)
 			}),
-			c.UseEvents.Wrap(
+			c.MixEvents.Wrap(
 				app.Input().
 					Class("blazar-input__input").
 					Disabled(c.IDisabled).
@@ -264,7 +245,7 @@ func (c *blazarInput[T]) Render() app.UI {
 					Max(maxValue).
 					Step(stepValue).
 					Placeholder(c.IPlaceholder),
-				WithOn("change", func(ctx app.Context, e app.Event) {
+				mix.WithOn("change", func(ctx app.Context, e app.Event) {
 					/*
 						if debugInput {
 							slog.DebugContext(ctx.Context, "blazarInput: Change", "value", value)
@@ -281,7 +262,7 @@ func (c *blazarInput[T]) Render() app.UI {
 						}
 					}
 				}),
-				WithOn("keypress", func(ctx app.Context, e app.Event) {
+				mix.WithOn("keypress", func(ctx app.Context, e app.Event) {
 					ctx.PreventUpdate()
 
 					if e.Get("key").String() == "Enter" {

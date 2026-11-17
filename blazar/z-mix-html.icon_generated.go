@@ -7,7 +7,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarIcon) Attr(name string, value any) BlazarIcon {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -16,7 +16,7 @@ func (c *blazarIcon) Attr(name string, value any) BlazarIcon {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarIcon) Class(class ...string) BlazarIcon {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -25,7 +25,7 @@ func (c *blazarIcon) Class(class ...string) BlazarIcon {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarIcon) DataSet(name string, value any) BlazarIcon {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -33,7 +33,7 @@ func (c *blazarIcon) DataSet(name string, value any) BlazarIcon {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarIcon) DataSets(dataSets map[string]any) BlazarIcon {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -41,7 +41,7 @@ func (c *blazarIcon) DataSets(dataSets map[string]any) BlazarIcon {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarIcon) ID(id string) BlazarIcon {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -50,7 +50,7 @@ func (c *blazarIcon) ID(id string) BlazarIcon {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarIcon) Style(name, value string) BlazarIcon {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -59,7 +59,7 @@ func (c *blazarIcon) Style(name, value string) BlazarIcon {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarIcon) Styles(styles map[string]string) BlazarIcon {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -67,6 +67,6 @@ func (c *blazarIcon) Styles(styles map[string]string) BlazarIcon {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarIcon) Title(title string) BlazarIcon {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }

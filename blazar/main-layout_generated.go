@@ -8,6 +8,7 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/matchmedia"
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/go-app-blazar/router"
 	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
@@ -15,9 +16,9 @@ import (
 
 type blazarMainLayout struct {
 	app.Compo
-	MixHTML
-	MixComposer
-	MixRouterViewComponent
+	mix.MixHTML
+	mix.MixComposer
+	mix.MixRouterViewComponent
 
 	IHeadlineText    string
 	IHeadlineBody    []app.UI

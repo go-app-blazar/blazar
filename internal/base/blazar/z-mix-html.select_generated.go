@@ -4,7 +4,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSelect) Attr(name string, value any) *blazarSelect {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -13,7 +13,7 @@ func (c *blazarSelect) Attr(name string, value any) *blazarSelect {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSelect) Class(class ...string) *blazarSelect {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -22,7 +22,7 @@ func (c *blazarSelect) Class(class ...string) *blazarSelect {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSelect) DataSet(name string, value any) *blazarSelect {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -30,7 +30,7 @@ func (c *blazarSelect) DataSet(name string, value any) *blazarSelect {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSelect) DataSets(dataSets map[string]any) *blazarSelect {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -38,7 +38,7 @@ func (c *blazarSelect) DataSets(dataSets map[string]any) *blazarSelect {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSelect) ID(id string) *blazarSelect {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -47,7 +47,7 @@ func (c *blazarSelect) ID(id string) *blazarSelect {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSelect) Style(name, value string) *blazarSelect {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -56,7 +56,7 @@ func (c *blazarSelect) Style(name, value string) *blazarSelect {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSelect) Styles(styles map[string]string) *blazarSelect {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -64,6 +64,6 @@ func (c *blazarSelect) Styles(styles map[string]string) *blazarSelect {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarSelect) Title(title string) *blazarSelect {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }

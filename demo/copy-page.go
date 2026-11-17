@@ -26,7 +26,7 @@ func (c *CopyPage) OnNav(ctx app.Context) {
 	slog.DebugContext(ctx.Context, "CopyPage: OnNav")
 }
 
-func (c *CopyPage) onClick(ctx app.Context, event htmlevent.PointerEvent) {
+func (c *CopyPage) onClick(ctx app.Context, event htmlevent.MouseEvent) {
 	slog.InfoContext(ctx.Context, fmt.Sprintf("CopyPage: onClick: event: %+v", event))
 }
 

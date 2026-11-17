@@ -7,7 +7,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInput[T]) Attr(name string, value any) BlazarInput[T] {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -16,7 +16,7 @@ func (c *blazarInput[T]) Attr(name string, value any) BlazarInput[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInput[T]) Class(class ...string) BlazarInput[T] {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -25,7 +25,7 @@ func (c *blazarInput[T]) Class(class ...string) BlazarInput[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInput[T]) DataSet(name string, value any) BlazarInput[T] {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -33,7 +33,7 @@ func (c *blazarInput[T]) DataSet(name string, value any) BlazarInput[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInput[T]) DataSets(dataSets map[string]any) BlazarInput[T] {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -41,7 +41,7 @@ func (c *blazarInput[T]) DataSets(dataSets map[string]any) BlazarInput[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInput[T]) ID(id string) BlazarInput[T] {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -50,7 +50,7 @@ func (c *blazarInput[T]) ID(id string) BlazarInput[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInput[T]) Style(name, value string) BlazarInput[T] {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -59,7 +59,7 @@ func (c *blazarInput[T]) Style(name, value string) BlazarInput[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInput[T]) Styles(styles map[string]string) BlazarInput[T] {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -67,6 +67,6 @@ func (c *blazarInput[T]) Styles(styles map[string]string) BlazarInput[T] {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInput[T]) Title(title string) BlazarInput[T] {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }

@@ -8,6 +8,7 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/deref"
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
@@ -18,7 +19,7 @@ func Collapse() BlazarCollapse {
 
 type blazarCollapse struct {
 	app.Compo
-	MixHTML
+	mix.MixHTML
 
 	ILabel        string
 	IDisabled     bool

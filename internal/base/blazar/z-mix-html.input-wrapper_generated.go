@@ -4,7 +4,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInputWrapper) Attr(name string, value any) *blazarInputWrapper {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -13,7 +13,7 @@ func (c *blazarInputWrapper) Attr(name string, value any) *blazarInputWrapper {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInputWrapper) Class(class ...string) *blazarInputWrapper {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -22,7 +22,7 @@ func (c *blazarInputWrapper) Class(class ...string) *blazarInputWrapper {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInputWrapper) DataSet(name string, value any) *blazarInputWrapper {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -30,7 +30,7 @@ func (c *blazarInputWrapper) DataSet(name string, value any) *blazarInputWrapper
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInputWrapper) DataSets(dataSets map[string]any) *blazarInputWrapper {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -38,7 +38,7 @@ func (c *blazarInputWrapper) DataSets(dataSets map[string]any) *blazarInputWrapp
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInputWrapper) ID(id string) *blazarInputWrapper {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -47,7 +47,7 @@ func (c *blazarInputWrapper) ID(id string) *blazarInputWrapper {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInputWrapper) Style(name, value string) *blazarInputWrapper {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -56,7 +56,7 @@ func (c *blazarInputWrapper) Style(name, value string) *blazarInputWrapper {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInputWrapper) Styles(styles map[string]string) *blazarInputWrapper {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -64,6 +64,6 @@ func (c *blazarInputWrapper) Styles(styles map[string]string) *blazarInputWrappe
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarInputWrapper) Title(title string) *blazarInputWrapper {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }

@@ -4,6 +4,7 @@
 package blazar
 
 import (
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -16,8 +17,8 @@ func InputWrapper() BlazarInputWrapper {
 
 type blazarInputWrapper struct {
 	app.Compo
-	UseEvents
-	MixHTML
+	mix.MixEvents
+	mix.MixHTML
 
 	ILabel string
 	IBody  []app.UI
@@ -56,5 +57,7 @@ func (c *blazarInputWrapper) Render() app.UI {
 		)
 
 	finalElement = c.MixHTML.Wrap(finalElement)
+	finalElement = c.MixEvents.Wrap(finalElement)
+
 	return finalElement
 }

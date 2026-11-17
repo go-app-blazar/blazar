@@ -7,7 +7,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMainLayout) Attr(name string, value any) BlazarMainLayout {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -16,7 +16,7 @@ func (c *blazarMainLayout) Attr(name string, value any) BlazarMainLayout {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMainLayout) Class(class ...string) BlazarMainLayout {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -25,7 +25,7 @@ func (c *blazarMainLayout) Class(class ...string) BlazarMainLayout {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMainLayout) DataSet(name string, value any) BlazarMainLayout {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -33,7 +33,7 @@ func (c *blazarMainLayout) DataSet(name string, value any) BlazarMainLayout {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMainLayout) DataSets(dataSets map[string]any) BlazarMainLayout {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -41,7 +41,7 @@ func (c *blazarMainLayout) DataSets(dataSets map[string]any) BlazarMainLayout {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMainLayout) ID(id string) BlazarMainLayout {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -50,7 +50,7 @@ func (c *blazarMainLayout) ID(id string) BlazarMainLayout {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMainLayout) Style(name, value string) BlazarMainLayout {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -59,7 +59,7 @@ func (c *blazarMainLayout) Style(name, value string) BlazarMainLayout {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMainLayout) Styles(styles map[string]string) BlazarMainLayout {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -67,6 +67,6 @@ func (c *blazarMainLayout) Styles(styles map[string]string) BlazarMainLayout {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarMainLayout) Title(title string) BlazarMainLayout {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }

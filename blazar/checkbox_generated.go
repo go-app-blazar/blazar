@@ -8,6 +8,7 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
@@ -18,7 +19,7 @@ func Checkbox() BlazarCheckbox {
 
 type blazarCheckbox struct {
 	app.Compo
-	MixHTML
+	mix.MixHTML
 
 	IOnChange  func(ctx app.Context, checked bool)
 	IAutoFocus bool

@@ -7,7 +7,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCollapse) Attr(name string, value any) BlazarCollapse {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -16,7 +16,7 @@ func (c *blazarCollapse) Attr(name string, value any) BlazarCollapse {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCollapse) Class(class ...string) BlazarCollapse {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -25,7 +25,7 @@ func (c *blazarCollapse) Class(class ...string) BlazarCollapse {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCollapse) DataSet(name string, value any) BlazarCollapse {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -33,7 +33,7 @@ func (c *blazarCollapse) DataSet(name string, value any) BlazarCollapse {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCollapse) DataSets(dataSets map[string]any) BlazarCollapse {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -41,7 +41,7 @@ func (c *blazarCollapse) DataSets(dataSets map[string]any) BlazarCollapse {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCollapse) ID(id string) BlazarCollapse {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -50,7 +50,7 @@ func (c *blazarCollapse) ID(id string) BlazarCollapse {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCollapse) Style(name, value string) BlazarCollapse {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -59,7 +59,7 @@ func (c *blazarCollapse) Style(name, value string) BlazarCollapse {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCollapse) Styles(styles map[string]string) BlazarCollapse {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -67,6 +67,6 @@ func (c *blazarCollapse) Styles(styles map[string]string) BlazarCollapse {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarCollapse) Title(title string) BlazarCollapse {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }

@@ -7,7 +7,7 @@ package blazar
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarProgressBar) Attr(name string, value any) BlazarProgressBar {
-	c.mixAttr(name, value)
+	c.MixAttr(name, value)
 	return c
 }
 
@@ -16,7 +16,7 @@ func (c *blazarProgressBar) Attr(name string, value any) BlazarProgressBar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarProgressBar) Class(class ...string) BlazarProgressBar {
-	c.mixClass(class...)
+	c.MixClass(class...)
 	return c
 }
 
@@ -25,7 +25,7 @@ func (c *blazarProgressBar) Class(class ...string) BlazarProgressBar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarProgressBar) DataSet(name string, value any) BlazarProgressBar {
-	c.mixDataSet(name, value)
+	c.MixDataSet(name, value)
 	return c
 }
 
@@ -33,7 +33,7 @@ func (c *blazarProgressBar) DataSet(name string, value any) BlazarProgressBar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarProgressBar) DataSets(dataSets map[string]any) BlazarProgressBar {
-	c.mixDataSets(dataSets)
+	c.MixDataSets(dataSets)
 	return c
 }
 
@@ -41,7 +41,7 @@ func (c *blazarProgressBar) DataSets(dataSets map[string]any) BlazarProgressBar 
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarProgressBar) ID(id string) BlazarProgressBar {
-	c.mixID(id)
+	c.MixID(id)
 	return c
 }
 
@@ -50,7 +50,7 @@ func (c *blazarProgressBar) ID(id string) BlazarProgressBar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarProgressBar) Style(name, value string) BlazarProgressBar {
-	c.mixStyle(name, value)
+	c.MixStyle(name, value)
 	return c
 }
 
@@ -59,7 +59,7 @@ func (c *blazarProgressBar) Style(name, value string) BlazarProgressBar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarProgressBar) Styles(styles map[string]string) BlazarProgressBar {
-	c.mixStyles(styles)
+	c.MixStyles(styles)
 	return c
 }
 
@@ -67,6 +67,6 @@ func (c *blazarProgressBar) Styles(styles map[string]string) BlazarProgressBar {
 //
 // This is for compatibility with go-app HTML components.
 func (c *blazarProgressBar) Title(title string) BlazarProgressBar {
-	c.mixTitle(title)
+	c.MixTitle(title)
 	return c
 }

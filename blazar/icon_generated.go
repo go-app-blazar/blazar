@@ -6,7 +6,7 @@ package blazar
 import (
 	"strings"
 
-	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
@@ -16,8 +16,8 @@ func Icon() BlazarIcon {
 
 type blazarIcon struct {
 	app.Compo
-	UseEvents
-	MixHTML
+	mix.MixEvents
+	mix.MixHTML
 
 	IconValue string
 }
@@ -35,21 +35,11 @@ func (c *blazarIcon) Icon(icon string) BlazarIcon {
 	return c
 }
 
-func (c *blazarIcon) On(event string, function func(ctx app.Context, e app.Event)) BlazarIcon {
-	c.UseEvents.On(event, function)
-	return c
-}
-
-func (c *blazarIcon) OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarIcon {
-	c.UseEvents.OnClick(function)
-	return c
-}
-
 func (c *blazarIcon) Render() app.UI {
 	fontClasses := strings.Split(c.IconValue, " ")
 
 	var finalElement app.UI
-	finalElement = c.UseEvents.Wrap(
+	finalElement = c.MixEvents.Wrap(
 		app.Span().
 			Class("blazar-icon").
 			DataSet("icon", c.IconValue).

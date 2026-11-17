@@ -5,13 +5,14 @@ import (
 	"log/slog"
 
 	"github.com/go-app-blazar/blazar/htmlevent"
+	"github.com/go-app-blazar/blazar/mix"
 	"github.com/go-app-blazar/tabler-font"
 	"github.com/maxence-charriere/go-app/v11/pkg/app"
 )
 
 type blazarAppBar struct {
 	app.Compo
-	MixHTML
+	mix.MixHTML
 
 	INoIcon       bool
 	IIcon         string
