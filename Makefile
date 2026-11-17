@@ -22,6 +22,8 @@ clean:
 	go clean
 	rm -f blazar/*-generated.go
 	rm -f blazar/*_generated.go
+	rm -f internal/base/blazar/*-generated.go
+	rm -f internal/base/blazar/*_generated.go
 	rm -rf bin
 
 .PHONY: generate

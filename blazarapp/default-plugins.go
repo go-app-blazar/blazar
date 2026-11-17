@@ -1,8 +1,8 @@
 package blazarapp
 
 import (
-	"github.com/go-app-blazar/blazar/blazar"
 	"github.com/go-app-blazar/blazar/blazarplugin"
+	"github.com/go-app-blazar/blazar/plugin/blazar"
 	"github.com/go-app-blazar/blazar/plugin/tabler"
 )
 
