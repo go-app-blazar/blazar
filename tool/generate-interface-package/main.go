@@ -15,8 +15,16 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/alexflint/go-arg"
 	"github.com/go-app-blazar/blazar/mix"
 )
+
+type Args struct {
+	SourceDirectory string `arg:"--source-directory,required"`
+	TargetDirectory string `arg:"--target-directory,required"`
+	PrivatePrefix   string `arg:"--private-prefix,required"`
+	PublicPrefix    string `arg:"--public-prefix,required"`
+}
 
 func main() {
 	{
@@ -28,12 +36,10 @@ func main() {
 		fmt.Printf("CWD: %s\n", currentDirectory)
 	}
 
-	args := os.Args[1:]
-	if len(args) != 2 {
-		slog.Error("Expected 2 arguments.", "args", args)
-		os.Exit(1)
-	}
-	sourceDirectory := args[0]
+	var args Args
+	arg.MustParse(&args)
+
+	sourceDirectory := args.SourceDirectory
 	sourceDirectory, err := filepath.Abs(sourceDirectory)
 	if err != nil {
 		slog.Error("Failed to get absolute path of source directory.", "directory", sourceDirectory, "err", err)
@@ -41,13 +47,16 @@ func main() {
 	}
 	fmt.Printf("Source directory: %s\n", sourceDirectory)
 
-	destinationDirectory := args[1]
+	destinationDirectory := args.TargetDirectory
 	destinationDirectory, err = filepath.Abs(destinationDirectory)
 	if err != nil {
 		slog.Error("Failed to get absolute path of destination directory.", "directory", destinationDirectory, "err", err)
 		os.Exit(1)
 	}
 	fmt.Printf("Destination directory: %s\n", destinationDirectory)
+
+	privatePrefix := args.PrivatePrefix
+	publicPrefix := args.PublicPrefix
 
 	err = os.Chdir(sourceDirectory)
 	if err != nil {
@@ -73,6 +82,10 @@ func main() {
 	for _, filename := range files {
 		slog.Info("Go file.", "file", filename)
 
+		if strings.HasSuffix(filename, "_test.go") {
+			continue
+		}
+
 		contents, err := os.ReadFile(filename)
 		if err != nil {
 			slog.Error("Failed to read file.", "filename", filename, "err", err)
@@ -92,12 +105,16 @@ func main() {
 		filenameToASTMap[filename] = f
 	}
 
+	var packageName string
 	structFileNames := map[string]string{}
 	structImports := map[string][]string{}
 	structInterfaces := map[string][]string{}
 	structMethods := map[string][]string{}
 
 	for _, f := range filenameToASTMap {
+		if packageName == "" {
+			packageName = f.Name.Name
+		}
 		ast.Inspect(f, func(n ast.Node) bool {
 			// Look for type specifications (for example, type Name struct { ... }).
 			typeSpec, isTypeSpec := n.(*ast.TypeSpec)
@@ -191,7 +208,7 @@ func main() {
 					returnType := types.ExprString(fn.Type.Results.List[0].Type)
 					slog.Info("Return type.", "returnType", returnType)
 
-					if !strings.HasPrefix(returnType, "*blazar") {
+					if !strings.HasPrefix(returnType, "*"+privatePrefix) {
 						return true
 					}
 					structName := strings.TrimPrefix(returnType, "*")
@@ -199,8 +216,8 @@ func main() {
 						return true
 					}
 
-					if returnType == "*blazar"+fn.Name.Name {
-						fn.Type.Results.List[0].Type = &ast.Ident{Name: "Blazar" + fn.Name.Name}
+					if returnType == "*"+privatePrefix+fn.Name.Name {
+						fn.Type.Results.List[0].Type = &ast.Ident{Name: publicPrefix + fn.Name.Name}
 					}
 				}
 
@@ -217,7 +234,7 @@ func main() {
 				return true
 			}
 
-			desiredInterfaceName := strings.Replace(receiverTypeName, "blazar", "Blazar", 1)
+			desiredInterfaceName := strings.Replace(receiverTypeName, privatePrefix, publicPrefix, 1)
 
 			slog.Info("Receiver type name.", "receiverTypeName", receiverTypeName)
 			slog.Info("Function type.", "functionType", types.ExprString(fn.Type))
@@ -293,7 +310,7 @@ func main() {
 			slog.Info("   Method.", "method", method)
 		}
 
-		if !strings.HasPrefix(structName, "blazar") {
+		if !strings.HasPrefix(structName, privatePrefix) {
 			continue
 		}
 
@@ -315,7 +332,7 @@ func main() {
 		slices.Sort(imports)
 		imports = slices.Compact(imports)
 
-		interfaceName := strings.Replace(structName, "blazar", "Blazar", 1)
+		interfaceName := strings.Replace(structName, privatePrefix, publicPrefix, 1)
 
 		// TODO: FIGURE OUT THE PROPER "T any" SYNTAX FOR THE INTERFACE GENERIC.
 		fullInterfaceName := strings.Replace(interfaceName, "[T]", "[T any]", 1)
