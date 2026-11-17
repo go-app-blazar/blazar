@@ -12,9 +12,9 @@ import (
 
 type blazarMainLayout struct {
 	app.Compo
-	router.RouterViewComponent
 	MixHTML
 	MixComposer
+	MixRouterViewComponent
 
 	IHeadlineText    string
 	IHeadlineBody    []app.UI

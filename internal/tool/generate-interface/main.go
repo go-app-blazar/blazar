@@ -71,7 +71,17 @@ func main() {
 	for _, filename := range files {
 		slog.Info("Go file.", "file", filename)
 
-		f, err := parser.ParseFile(fset, filename, nil, parser.ParseComments)
+		contents, err := os.ReadFile(filename)
+		if err != nil {
+			slog.Error("Failed to read file.", "filename", filename, "err", err)
+			os.Exit(1)
+		}
+
+		// Prepend two blank lines to the source before parsing.
+		// This gives us real line numbers (lines 1, 2, and 3) in the token.File before the "package" declaration (now on line 4).
+		modifiedFileContents := "\n\n\n" + string(contents)
+
+		f, err := parser.ParseFile(fset, filename, modifiedFileContents, parser.ParseComments)
 		if err != nil {
 			slog.Error("Failed to parse file.", "filename", filename, "err", err)
 			os.Exit(1)
@@ -81,6 +91,7 @@ func main() {
 	}
 
 	structFileNames := map[string]string{}
+	structImports := map[string][]string{}
 	structInterfaces := map[string][]string{}
 	structMethods := map[string][]string{}
 
@@ -132,6 +143,10 @@ func main() {
 				//slog.Info("  Field.", "field", fieldNames, "type", field.Type)
 				if fieldExprToString(field.Type) == "MixComposer" {
 					structInterfaces[typeName] = append(structInterfaces[typeName], "app.Composer")
+				}
+				if fieldExprToString(field.Type) == "MixRouterViewComponent" {
+					structInterfaces[typeName] = append(structInterfaces[typeName], "router.RouterViewInterface")
+					structImports[typeName] = append(structImports[typeName], "github.com/go-app-blazar/router")
 				}
 			}
 
@@ -282,6 +297,9 @@ func main() {
 
 		imports := []string{
 			"github.com/maxence-charriere/go-app/v11/pkg/app", // JSValue returns "app.Value".
+		}
+		for _, include := range structImports[structName] {
+			imports = append(imports, include)
 		}
 		// TODO: FIGURE OUT THE PACKAGES NEEDED BASED ON THE FUNCTION SIGNATURES AND INCLUDE THEM.
 		for _, method := range methods {
