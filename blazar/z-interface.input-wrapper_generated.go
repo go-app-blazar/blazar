@@ -39,6 +39,46 @@ type BlazarInputWrapper interface {
 	// This is for compatibility with go-app HTML components.
 	ID(id string) BlazarInputWrapper
 
+	// On invokes the specified handler when the corresponding event is triggered.
+	//
+	// This is for compatibility with go-app HTML components.
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarInputWrapper
+
+	// OnClick invokes the specified handler when the element is clicked.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInputWrapper
+
+	// OnDoubleClick invokes the specified handler when the element is double-clicked.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInputWrapper
+
+	// OnKeyDown invokes the specified handler when a key is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInputWrapper
+
+	// OnKeyPress invokes the specified handler when a key is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInputWrapper
+
+	// OnKeyUp invokes the specified handler when a key is released.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInputWrapper
+
+	// OnMouseDown invokes the specified handler when the mouse button is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInputWrapper
+
+	// OnMouseUp invokes the specified handler when the mouse button is released.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInputWrapper
+
 	// Style assigns inline CSS styling to an element.
 	// This can be called multiple times to set multiple CSS styles.
 	//
@@ -59,22 +99,6 @@ type BlazarInputWrapper interface {
 	Body(body ...app.UI) BlazarInputWrapper
 
 	Label(label string) BlazarInputWrapper
-
-	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarInputWrapper
-
-	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInputWrapper
-
-	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInputWrapper
-
-	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInputWrapper
-
-	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInputWrapper
-
-	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarInputWrapper
-
-	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInputWrapper
-
-	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarInputWrapper
 
 	Render() app.UI
 }

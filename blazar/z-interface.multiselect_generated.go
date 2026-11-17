@@ -39,6 +39,46 @@ type BlazarMultiselect interface {
 	// This is for compatibility with go-app HTML components.
 	ID(id string) BlazarMultiselect
 
+	// On invokes the specified handler when the corresponding event is triggered.
+	//
+	// This is for compatibility with go-app HTML components.
+	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarMultiselect
+
+	// OnClick invokes the specified handler when the element is clicked.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarMultiselect
+
+	// OnDoubleClick invokes the specified handler when the element is double-clicked.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarMultiselect
+
+	// OnKeyDown invokes the specified handler when a key is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarMultiselect
+
+	// OnKeyPress invokes the specified handler when a key is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarMultiselect
+
+	// OnKeyUp invokes the specified handler when a key is released.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarMultiselect
+
+	// OnMouseDown invokes the specified handler when the mouse button is pressed.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarMultiselect
+
+	// OnMouseUp invokes the specified handler when the mouse button is released.
+	//
+	// This uses the `htmlevent` package to simplify the event handling.
+	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarMultiselect
+
 	// Style assigns inline CSS styling to an element.
 	// This can be called multiple times to set multiple CSS styles.
 	//
@@ -65,22 +105,6 @@ type BlazarMultiselect interface {
 	Label(label string) BlazarMultiselect
 
 	Name(name string) BlazarMultiselect
-
-	On(name string, eventHandler app.EventHandler, options ...app.EventOption) BlazarMultiselect
-
-	OnClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarMultiselect
-
-	OnDoubleClick(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarMultiselect
-
-	OnKeyDown(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarMultiselect
-
-	OnKeyPress(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarMultiselect
-
-	OnKeyUp(function func(ctx app.Context, e htmlevent.KeyboardEvent)) BlazarMultiselect
-
-	OnMouseDown(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarMultiselect
-
-	OnMouseUp(function func(ctx app.Context, e htmlevent.MouseEvent)) BlazarMultiselect
 
 	OnUpdate(ctx app.Context)
 
