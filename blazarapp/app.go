@@ -5,6 +5,7 @@ import (
 	"net"
 	"net/http"
 	"net/http/httputil"
+	"strings"
 
 	"github.com/go-app-blazar/blazar/blazarplugin"
 	"github.com/go-app-blazar/router"
@@ -260,19 +261,34 @@ func (a *App) AutoDisableServiceWorker(disable bool) {
 func (a *App) GenerateStaticFiles(paths ...string) error {
 	var pages []string
 	for _, path := range paths {
+		if strings.HasPrefix(path, "http:") || strings.HasPrefix(path, "https:") {
+			continue
+		}
 		pages = append(pages, path)
 	}
-	for _, page := range a.appHandler.Styles {
-		pages = append(pages, page)
+	for _, path := range a.appHandler.Styles {
+		if strings.HasPrefix(path, "http:") || strings.HasPrefix(path, "https:") {
+			continue
+		}
+		pages = append(pages, path)
 	}
-	for _, page := range a.appHandler.Scripts {
-		pages = append(pages, page)
+	for _, path := range a.appHandler.Scripts {
+		if strings.HasPrefix(path, "http:") || strings.HasPrefix(path, "https:") {
+			continue
+		}
+		pages = append(pages, path)
 	}
-	for _, page := range a.appHandler.CacheableResources {
-		pages = append(pages, page)
+	for _, path := range a.appHandler.CacheableResources {
+		if strings.HasPrefix(path, "http:") || strings.HasPrefix(path, "https:") {
+			continue
+		}
+		pages = append(pages, path)
 	}
 
 	for _, staticRoute := range router.GetStaticRoutes() {
+		if strings.HasPrefix(staticRoute.Path, "http:") || strings.HasPrefix(staticRoute.Path, "https:") {
+			continue
+		}
 		pages = append(pages, staticRoute.Path)
 	}
 
