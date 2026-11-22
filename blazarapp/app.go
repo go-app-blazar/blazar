@@ -302,5 +302,61 @@ func (a *App) GenerateStaticFiles(paths ...string) error {
 
 // RunWhenOnBrowser runs the app when on browser.
 func (a *App) RunWhenOnBrowser() {
+	// Deduplicate the scripts, keeping the original order.
+	{
+		scriptMap := map[string]bool{}
+		var scripts []string
+		for _, script := range a.appHandler.Scripts {
+			if scriptMap[script] {
+				continue
+			}
+			scriptMap[script] = true
+			scripts = append(scripts, script)
+		}
+		a.appHandler.Scripts = scripts
+	}
+
+	// Deduplicate the styles, keeping the original order.
+	{
+		styleMap := map[string]bool{}
+		var styles []string
+		for _, style := range a.appHandler.Styles {
+			if styleMap[style] {
+				continue
+			}
+			styleMap[style] = true
+			styles = append(styles, style)
+		}
+		a.appHandler.Styles = styles
+	}
+
+	// Deduplicate the cacheable resources, keeping the original order.
+	{
+		cacheableResourceMap := map[string]bool{}
+		var cacheableResources []string
+		for _, cacheableResource := range a.appHandler.CacheableResources {
+			if cacheableResourceMap[cacheableResource] {
+				continue
+			}
+			cacheableResourceMap[cacheableResource] = true
+			cacheableResources = append(cacheableResources, cacheableResource)
+		}
+		a.appHandler.CacheableResources = cacheableResources
+	}
+
+	// Deduplicate the fonts, keeping the original order.
+	{
+		fontMap := map[string]bool{}
+		var fonts []string
+		for _, font := range a.appHandler.Fonts {
+			if fontMap[font] {
+				continue
+			}
+			fontMap[font] = true
+			fonts = append(fonts, font)
+		}
+		a.appHandler.Fonts = fonts
+	}
+
 	app.RunWhenOnBrowser()
 }
