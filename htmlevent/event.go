@@ -16,26 +16,26 @@ const (
 
 // JSEvent is the base event type for all JavaScript events.
 type JSEvent struct {
-	jsEvent app.Event // This is the original event object.
+	RawEvent app.Value `javascript:"@this"` // This is the original event object.
 }
 
 // Event returns the original event object.
-func (e JSEvent) Event() app.Event {
-	return e.jsEvent
+func (e *JSEvent) Event() app.Event {
+	return app.Event{Value: e.RawEvent}
 }
 
 // PreventDefault cancels the event if it is cancelable. The default action that
 // belongs to the event will not occur.
-func (e JSEvent) PreventDefault() {
-	e.jsEvent.Call("preventDefault")
+func (e *JSEvent) PreventDefault() {
+	e.RawEvent.Call("preventDefault")
 }
 
 // If several listeners are attached to the same element for the same event type,
 // they are called in the order in which they were added. If
 // StopImmediatePropagation() is invoked during one such call, no remaining
 // listeners will be called, either on that element or any other element.
-func (e JSEvent) StopImmediatePropagation() {
-	e.jsEvent.Call("stopImmediatePropagation")
+func (e *JSEvent) StopImmediatePropagation() {
+	e.RawEvent.Call("stopImmediatePropagation")
 }
 
 // Event is the base event type.

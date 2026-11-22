@@ -4,15 +4,16 @@ go 1.26.2
 
 require (
 	github.com/alexflint/go-arg v1.6.1
+	github.com/go-app-blazar/appvalue v0.1.1
 	github.com/go-app-blazar/fontawesome-font v0.1.0
 	github.com/go-app-blazar/heroicons-font v0.1.3
 	github.com/go-app-blazar/lucide-font v0.1.1
 	github.com/go-app-blazar/router v0.1.2
 	github.com/go-app-blazar/tabler-font v0.1.2
 	github.com/joho/godotenv v1.5.1
-	github.com/lmittmann/tint v1.1.3
-	github.com/mattn/go-isatty v0.0.22
-	github.com/maxence-charriere/go-app/v11 v11.0.4
+	github.com/lmittmann/tint v1.2.1
+	github.com/mattn/go-isatty v0.0.24
+	github.com/maxence-charriere/go-app/v11 v11.1.5
 	github.com/stretchr/testify v1.12.1
 	github.com/tekkamanendless/httprequest v0.1.1
 	golang.org/x/text v0.43.0
